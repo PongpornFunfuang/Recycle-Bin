@@ -1,0 +1,34 @@
+{
+  "name": "YOLOX-Nano",
+  "version": "0.1.1rc0",
+  "source": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_nano.onnx",
+  "license": "Apache-2.0 (upstream YOLOX)",
+  "licenseReference": "https://github.com/Megvii-BaseDetection/YOLOX/blob/main/LICENSE",
+  "sha256": "c789161ed43c8269fcd4e67c67eeeb4e80c622da2eb296a20bc6007bd18a0b7d",
+  "bytes": 3659407,
+  "dataset": "COCO pretrained; no dataset downloaded; general object detection, not waste-specific training",
+  "runtime": "ONNX Runtime CPU",
+  "input": "1x3x416x416 BGR float32 0..255; top-left letterbox 114",
+  "output": "raw YOLOX grid decoded + per-class NMS",
+  "wasteMappedClasses": [
+    "bottle",
+    "cup",
+    "bowl",
+    "banana",
+    "apple",
+    "sandwich",
+    "orange",
+    "broccoli",
+    "carrot",
+    "hot dog",
+    "pizza",
+    "donut",
+    "cake"
+  ],
+  "limitations": [
+    "No plastic/glass/material certainty",
+    "No paper, can or battery classes",
+    "No local bin color inference",
+    "Confidence is not calibrated accuracy"
+  ]
+}

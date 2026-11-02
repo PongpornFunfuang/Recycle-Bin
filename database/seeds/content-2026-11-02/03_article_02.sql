@@ -1,0 +1,3 @@
+begin;insert into public.knowledge_entries(slug,title,body,kind,status,source_id) select 'general-3rs','หลัก 3Rs','General Guidance — ไม่ใช่กฎมหาวิทยาลัย
+ลดการใช้สิ่งของครั้งเดียว ใช้ของเดิมซ้ำอย่างเหมาะสม และแยกวัสดุที่จุดรับนำไปรีไซเคิลได้ การลดขยะก่อนเกิดช่วยลดภาระจัดเก็บ
+ตรวจแหล่งอ้างอิง 2 พฤศจิกายน 2026: https://greener.bangkok.go.th/waste-recycle/community-waste-guide/','article','published',id from public.data_sources where reference='https://greener.bangkok.go.th/waste-recycle/community-waste-guide/' order by id limit 1 on conflict(slug) do nothing;commit;

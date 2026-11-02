@@ -1,0 +1,118 @@
+{
+  "capturedAt": "2026-11-01T19:39:52.5365507+07:00",
+  "authorization": "c85735e2 Full local development M1-M10; no cloud SQL/project/deploy/Git",
+  "files": [
+    {
+      "path": "C:\\Users\\P.12x_\\.codex\\attachments\\6ee755af-8640-4980-bdde-b8d63f349600\\Pasted text.txt",
+      "sha256": "96D7A6E3C56CDF4D1281C6677E0DC7C0C87DCEBA256D6089118157739C13752E"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\Recycle Bin (2).png",
+      "sha256": "ECD3210FCF452DC4E20E4422D1D878B367F109C90493D51EB9BB18E16E0AACC3"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\openapi\\application.openapi.json",
+      "sha256": "85FF1260D3A4E500B181E38EF54B5537DFDA45C125968BEB007A2AF3C8F962F1"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\openapi\\inference.openapi.json",
+      "sha256": "A8EAD1DDAD327FFD4782B6260172857CAE55E1EF247F1AFAFA20103186896158"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\api-error.schema.json",
+      "sha256": "51377F59D594CB8CBF3BF4674A56634E47C916AE73B61064BF6D76E34B05A949"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\detection-result.schema.json",
+      "sha256": "6F6E7E59EB7934DAFD3A73A17E7CB9688D87ED92425A6489CC15B550C84C8A5C"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\disposal-log.schema.json",
+      "sha256": "BA622613144F51E6436A8151BEA8612A364D186DADB645168091FF646C6E9912"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\foundation.schema.json",
+      "sha256": "D8779C668268F5FA824F828732AD7C5F220F6C0EBE65F8042C7E81092054B6D0"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\model-manifest.schema.json",
+      "sha256": "22A1CB1D993A9B8B2B7FC8AA484EFD0987AAAC36228E75BB4013DD5593FDFF8E"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\photo-request.schema.json",
+      "sha256": "B43FBE939B4D78976763C338A20BD96303BE6D07011C0A8A4B7D6BDCC919A01F"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\recommendation.schema.json",
+      "sha256": "E23DC9F2CB9CE2428CF779C3F96A60D217CD60AE695282DB30425A9E14CB06A5"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\contracts\\schemas\\scanner-session.schema.json",
+      "sha256": "5A73C4589D3F44B4FB4B7AC3DA10AAE78690108CC016BC3053F325B4FA081F4F"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\database\\README.md",
+      "sha256": "86A23CA164A7ADDC8522299F80452D91131E9855EE9431DC3DC41DFFC48AFB5B"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\database\\schemas\\ai-predictions.validator.json",
+      "sha256": "9FBCDE8036E6F623516BD59120988E6F47B015CB7DE8C7D0B26CE820EB7C64F1"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\database\\schemas\\verified-rules.validator.json",
+      "sha256": "44B64BFC2D8CD02251213C9503AB331EF32E3556EA668C91EE406B8B67F0FCD6"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\database\\schemas\\waste-logs.validator.json",
+      "sha256": "695E84E44213D6E284F77039879E6A5FCB1109F50A79B65BA34381F749B763EF"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\acceptance.md",
+      "sha256": "A9ED5638B409EEB90961117157FF9B54378E672A80AC4A23EA59C96CCED60451"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\baseline-files.json",
+      "sha256": "E595D2B6068ED4BA2A87848903CE53CF25F4C7F9C01364544B8AF91FAD835E92"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\blocked-status.json",
+      "sha256": "42A9939F9308539395D2B714F0ABF1C02A5315CF1296A8F1853E2503C412413B"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\compatibility.md",
+      "sha256": "CEC85D4C81A3FCEDC6EA1F080CB94F39959A98B1920EF1F3FAA11613621F76CE"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\completion-report.md",
+      "sha256": "9FAF718F5188F923BE2658F0829EA6C83DC08E261D03E737B1863C8BF97F7230"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\file-inventory.json",
+      "sha256": "2BD4F07827CC481D914AF7304F49A1959517FCC8DA8EE672C442BF849B071DAA"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\m1-a-review.json",
+      "sha256": "6AE4C80223F45CB909227FF6D472C3C5A8791AF1C4E4328D8CAAB9A85C4F22D2"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\docs\\milestone-1\\README.md",
+      "sha256": "3DDCC23DAC350D3C72FFB7822BEDFA6E49619652D35E660DA52D1AE2183DD780"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\RECYCLE_BIN_ANALYSIS_AND_PLAN.md",
+      "sha256": "65D236881B57BC3BD691FE25A364830DA67D64725C1D06DA9B4F8213C16B8D07"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\RECYCLE_BIN_FRESH_PLAN_2026-11-01.md",
+      "sha256": "6AA717B18725BABE06ED36F3FEE5986441991420070102270C4E69975A7CF2AA"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RecycleBin_รายงานขั้นตอน1-3 (2).pdf",
+      "sha256": "781E4BA594D2DEC663D1FA27567FF62B3E1673F6FCF27101D6DE229254DA9080"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\แบบประเมินโครงงาน Application วิเคราะห์ปัญหาด้วย AI.pdf",
+      "sha256": "C1150B5225809AC9976100F8A2443BEAD0FCF2608405D89215E31FD70AFB5001"
+    }
+  ]
+}

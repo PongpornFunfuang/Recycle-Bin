@@ -1,0 +1,5430 @@
+{
+  "scope": "Generated from local PGlite after SQL 0001–0005; not hosted Supabase introspection",
+  "triggers": [
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.areas FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.bin_types FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.data_sources FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "trigger_name": "preserve_rule_history",
+      "definition": "CREATE TRIGGER preserve_rule_history BEFORE UPDATE ON public.disposal_rules FOR EACH ROW EXECUTE FUNCTION private.protect_rule_version()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.disposal_rules FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "trigger_name": "validate_rule_fact",
+      "definition": "CREATE TRIGGER validate_rule_fact BEFORE INSERT OR UPDATE ON public.disposal_rules FOR EACH ROW EXECUTE FUNCTION private.validate_verified_fact()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.knowledge_entries FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.locations FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "trigger_name": "validate_location_fact",
+      "definition": "CREATE TRIGGER validate_location_fact BEFORE INSERT OR UPDATE ON public.locations FOR EACH ROW EXECUTE FUNCTION private.validate_verified_fact()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.material_categories FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.quizzes FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "trigger_name": "validate_quiz_publish",
+      "definition": "CREATE TRIGGER validate_quiz_publish BEFORE INSERT OR UPDATE ON public.quizzes FOR EACH ROW EXECUTE FUNCTION private.validate_quiz_publication()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "trigger_name": "audit_rule_bin_links",
+      "definition": "CREATE TRIGGER audit_rule_bin_links AFTER INSERT OR DELETE OR UPDATE ON public.rule_bins FOR EACH ROW EXECUTE FUNCTION private.audit_rule_relationship()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "trigger_name": "preserve_rule_bin_links",
+      "definition": "CREATE TRIGGER preserve_rule_bin_links BEFORE INSERT OR DELETE OR UPDATE ON public.rule_bins FOR EACH ROW EXECUTE FUNCTION private.protect_rule_relationship()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "trigger_name": "audit_rule_source_links",
+      "definition": "CREATE TRIGGER audit_rule_source_links AFTER INSERT OR DELETE OR UPDATE ON public.rule_sources FOR EACH ROW EXECUTE FUNCTION private.audit_rule_relationship()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "trigger_name": "preserve_rule_source_links",
+      "definition": "CREATE TRIGGER preserve_rule_source_links BEFORE INSERT OR DELETE OR UPDATE ON public.rule_sources FOR EACH ROW EXECUTE FUNCTION private.protect_rule_relationship()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.waste_bins FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "trigger_name": "validate_bin_fact",
+      "definition": "CREATE TRIGGER validate_bin_fact BEFORE INSERT OR UPDATE ON public.waste_bins FOR EACH ROW EXECUTE FUNCTION private.validate_verified_fact()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.waste_categories FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "trigger_name": "record_catalog_audit",
+      "definition": "CREATE TRIGGER record_catalog_audit AFTER INSERT OR UPDATE ON public.waste_items FOR EACH ROW EXECUTE FUNCTION private.audit_catalog_change()"
+    }
+  ],
+  "functions": [
+    {
+      "schema_name": "private",
+      "function_name": "audit_catalog_change",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "audit_rule_relationship",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "is_active",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "is_admin",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "on_user_created",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "protect_rule_relationship",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "protect_rule_version",
+      "arguments": "",
+      "security_definer": false,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "validate_quiz_publication",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "private",
+      "function_name": "validate_verified_fact",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_archive_entity",
+      "arguments": "p_table text, p_id uuid, p_archive boolean",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_audit_log",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_link_record",
+      "arguments": "p_kind text, p_left uuid, p_right uuid, p_link boolean",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_member_list",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_overview",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_quiz_questions",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_review_submission",
+      "arguments": "p_kind text, p_id uuid, p_status text",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_save_question",
+      "arguments": "p_id uuid, p_quiz uuid, p_position integer, p_prompt text, p_choices jsonb, p_answer integer, p_explanation text",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_set_member_access",
+      "arguments": "p_user uuid, p_status text",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_set_role",
+      "arguments": "p_user uuid, p_admin boolean",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_submissions",
+      "arguments": "p_kind text",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "admin_user_permissions",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "confirm_disposal",
+      "arguments": "p_event uuid, p_item uuid, p_rule uuid, p_quantity integer, p_disposed_at timestamp with time zone, p_prediction uuid, p_detection uuid",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "confirm_disposal_v2",
+      "arguments": "p_event uuid, p_item uuid, p_rule uuid, p_quantity integer, p_disposed_at timestamp with time zone, p_confirmed boolean, p_prediction uuid, p_detection uuid, p_material uuid",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "current_user_is_admin",
+      "arguments": "",
+      "security_definer": false,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "grade_quiz",
+      "arguments": "p_quiz uuid, p_event uuid, p_answers jsonb",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "member_access_status",
+      "arguments": "",
+      "security_definer": false,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "member_summary",
+      "arguments": "",
+      "security_definer": false,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "persist_verified_scan",
+      "arguments": "p_user uuid, p_result jsonb",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "product_health",
+      "arguments": "",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "anon=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "save_scan",
+      "arguments": "p_result jsonb",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema_name": "public",
+      "function_name": "submit_quiz",
+      "arguments": "p_quiz uuid, p_event uuid, p_answers jsonb",
+      "security_definer": true,
+      "configuration": [
+        "search_path=\"\""
+      ],
+      "privileges": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "actor_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "event",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "entity_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "entity_table",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "audit_logs",
+      "column_name": "changed_fields",
+      "data_type": "ARRAY",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "quiz_answer_keys",
+      "column_name": "question_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "quiz_answer_keys",
+      "column_name": "answer",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "quiz_answer_keys",
+      "column_name": "explanation",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "roles",
+      "column_name": "code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "user_access",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "user_access",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'active'::text"
+    },
+    {
+      "table_schema": "private",
+      "table_name": "user_roles",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "private",
+      "table_name": "user_roles",
+      "column_name": "role_code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "prediction_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "class_key",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "label",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "item_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "confidence",
+      "data_type": "double precision",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "decision",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "x_min",
+      "data_type": "double precision",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "y_min",
+      "data_type": "double precision",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "x_max",
+      "data_type": "double precision",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_detections",
+      "column_name": "y_max",
+      "data_type": "double precision",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_feedback",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_feedback",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_feedback",
+      "column_name": "detection_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_feedback",
+      "column_name": "verdict",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_feedback",
+      "column_name": "comment",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_feedback",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "session_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "asset_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "model_version_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "request_key",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "mode",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "provenance",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'client_reported'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "quality",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_predictions",
+      "column_name": "result_snapshot",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "areas",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "areas",
+      "column_name": "code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "areas",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "areas",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "bin_accepted_categories",
+      "column_name": "bin_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "bin_accepted_categories",
+      "column_name": "category_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "bin_types",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "bin_types",
+      "column_name": "code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "bin_types",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "bin_types",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "item_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "rule_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "prediction_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "detection_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "client_event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "quantity",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "confirmed",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "disposed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "material_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "confirmed_disposals",
+      "column_name": "rule_snapshot",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "subject",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "message",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "review_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'new'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contact_messages",
+      "column_name": "reviewed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "data_sources",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "data_sources",
+      "column_name": "title",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "data_sources",
+      "column_name": "reference",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "data_sources",
+      "column_name": "verification_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "data_sources",
+      "column_name": "verified_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "data_sources",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "rule_key",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "version",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "item_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "area_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "category_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "conditions",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": "'{}'::jsonb"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "steps",
+      "data_type": "ARRAY",
+      "is_nullable": "NO",
+      "column_default": "'{}'::text[]"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "warnings",
+      "data_type": "ARRAY",
+      "is_nullable": "NO",
+      "column_default": "'{}'::text[]"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "source_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "verified_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "disposal_rules",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "message",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "kind",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'feedback'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "review_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'new'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "feedback",
+      "column_name": "reviewed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "provider",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "object_key",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "mime",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "bytes",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "image_assets",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "item_materials",
+      "column_name": "item_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "item_materials",
+      "column_name": "material_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "slug",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "title",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "body",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "kind",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "source_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "knowledge_entries",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "location_bins",
+      "column_name": "location_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "location_bins",
+      "column_name": "bin_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "location_bins",
+      "column_name": "area_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "area_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "latitude",
+      "data_type": "double precision",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "longitude",
+      "data_type": "double precision",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "source_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "verification_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "locations",
+      "column_name": "verified_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "m1_health",
+      "column_name": "id",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "material_categories",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "material_categories",
+      "column_name": "slug",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "material_categories",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "material_categories",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "model_versions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "model_versions",
+      "column_name": "version",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "model_versions",
+      "column_name": "artifact_sha256",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "model_versions",
+      "column_name": "manifest",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "detection_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "rule_version_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "area_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "snapshot",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "prediction_recommendations",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profiles",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profiles",
+      "column_name": "display_name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "''::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profiles",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_answers",
+      "column_name": "attempt_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_answers",
+      "column_name": "question_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_answers",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_answers",
+      "column_name": "quiz_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_answers",
+      "column_name": "selected_choice",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "quiz_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "client_attempt_key",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "score",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "max_score",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_attempts",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_questions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_questions",
+      "column_name": "quiz_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_questions",
+      "column_name": "position",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_questions",
+      "column_name": "prompt",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quiz_questions",
+      "column_name": "choices",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quizzes",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quizzes",
+      "column_name": "slug",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quizzes",
+      "column_name": "version",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quizzes",
+      "column_name": "title",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quizzes",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "quizzes",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recyclebin_schema_version",
+      "column_name": "version",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recyclebin_schema_version",
+      "column_name": "applied_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rule_bins",
+      "column_name": "rule_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rule_bins",
+      "column_name": "bin_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rule_bins",
+      "column_name": "area_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rule_sources",
+      "column_name": "rule_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rule_sources",
+      "column_name": "source_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_history",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_history",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_history",
+      "column_name": "mode",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_history",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_history",
+      "column_name": "quality",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_history",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_sessions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_sessions",
+      "column_name": "user_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_sessions",
+      "column_name": "mode",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_sessions",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scan_sessions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "area_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "bin_type_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "color",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "source_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "verification_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "verified_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_bins",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_categories",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_categories",
+      "column_name": "slug",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_categories",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_categories",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "slug",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "synonyms",
+      "data_type": "ARRAY",
+      "is_nullable": "NO",
+      "column_default": "'{}'::text[]"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "waste_items",
+      "column_name": "category_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "private",
+      "table_name": "audit_logs",
+      "constraint_name": "audit_logs_actor_id_fkey",
+      "definition": "FOREIGN KEY (actor_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "audit_logs",
+      "constraint_name": "audit_logs_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "audit_logs",
+      "constraint_name": "audit_logs_event_not_null",
+      "definition": "NOT NULL event"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "audit_logs",
+      "constraint_name": "audit_logs_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "audit_logs",
+      "constraint_name": "audit_logs_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "constraint_name": "quiz_answer_keys_answer_check",
+      "definition": "CHECK ((answer >= 0))"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "constraint_name": "quiz_answer_keys_answer_not_null",
+      "definition": "NOT NULL answer"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "constraint_name": "quiz_answer_keys_explanation_not_null",
+      "definition": "NOT NULL explanation"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "constraint_name": "quiz_answer_keys_pkey",
+      "definition": "PRIMARY KEY (question_id)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "constraint_name": "quiz_answer_keys_question_id_fkey",
+      "definition": "FOREIGN KEY (question_id) REFERENCES quiz_questions(id)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "constraint_name": "quiz_answer_keys_question_id_not_null",
+      "definition": "NOT NULL question_id"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "roles",
+      "constraint_name": "roles_code_check",
+      "definition": "CHECK ((code = ANY (ARRAY['member'::text, 'admin'::text])))"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "roles",
+      "constraint_name": "roles_code_not_null",
+      "definition": "NOT NULL code"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "roles",
+      "constraint_name": "roles_pkey",
+      "definition": "PRIMARY KEY (code)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_access",
+      "constraint_name": "user_access_pkey",
+      "definition": "PRIMARY KEY (user_id)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_access",
+      "constraint_name": "user_access_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['active'::text, 'suspended'::text])))"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_access",
+      "constraint_name": "user_access_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_access",
+      "constraint_name": "user_access_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_access",
+      "constraint_name": "user_access_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_roles",
+      "constraint_name": "user_roles_pkey",
+      "definition": "PRIMARY KEY (user_id, role_code)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_roles",
+      "constraint_name": "user_roles_role_code_fkey",
+      "definition": "FOREIGN KEY (role_code) REFERENCES private.roles(code)"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_roles",
+      "constraint_name": "user_roles_role_code_not_null",
+      "definition": "NOT NULL role_code"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_roles",
+      "constraint_name": "user_roles_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_roles",
+      "constraint_name": "user_roles_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_check",
+      "definition": "CHECK (((x_min < x_max) AND (y_min < y_max)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_class_key_not_null",
+      "definition": "NOT NULL class_key"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_confidence_check",
+      "definition": "CHECK (((confidence >= (0)::double precision) AND (confidence <= (1)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_confidence_not_null",
+      "definition": "NOT NULL confidence"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_decision_check",
+      "definition": "CHECK ((decision = ANY (ARRAY['accepted'::text, 'low_confidence'::text, 'unknown'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_decision_not_null",
+      "definition": "NOT NULL decision"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_id_prediction_id_user_id_key",
+      "definition": "UNIQUE (id, prediction_id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_id_user_id_key",
+      "definition": "UNIQUE (id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_item_id_fkey",
+      "definition": "FOREIGN KEY (item_id) REFERENCES waste_items(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_label_not_null",
+      "definition": "NOT NULL label"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_prediction_id_not_null",
+      "definition": "NOT NULL prediction_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_prediction_id_user_id_fkey",
+      "definition": "FOREIGN KEY (prediction_id, user_id) REFERENCES ai_predictions(id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_x_max_check",
+      "definition": "CHECK (((x_max >= (0)::double precision) AND (x_max <= (1)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_x_max_not_null",
+      "definition": "NOT NULL x_max"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_x_min_check",
+      "definition": "CHECK (((x_min >= (0)::double precision) AND (x_min <= (1)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_x_min_not_null",
+      "definition": "NOT NULL x_min"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_y_max_check",
+      "definition": "CHECK (((y_max >= (0)::double precision) AND (y_max <= (1)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_y_max_not_null",
+      "definition": "NOT NULL y_max"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_y_min_check",
+      "definition": "CHECK (((y_min >= (0)::double precision) AND (y_min <= (1)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "constraint_name": "ai_detections_y_min_not_null",
+      "definition": "NOT NULL y_min"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_comment_check",
+      "definition": "CHECK ((length(comment) <= 2000))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_detection_id_not_null",
+      "definition": "NOT NULL detection_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_detection_id_user_id_fkey",
+      "definition": "FOREIGN KEY (detection_id, user_id) REFERENCES ai_detections(id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "constraint_name": "ai_feedback_verdict_not_null",
+      "definition": "NOT NULL verdict"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_asset_id_user_id_fkey",
+      "definition": "FOREIGN KEY (asset_id, user_id) REFERENCES image_assets(id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_id_user_id_key",
+      "definition": "UNIQUE (id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_mode_check",
+      "definition": "CHECK ((mode = ANY (ARRAY['photo'::text, 'live_snapshot'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_mode_not_null",
+      "definition": "NOT NULL mode"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_model_version_id_fkey",
+      "definition": "FOREIGN KEY (model_version_id) REFERENCES model_versions(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_provenance_check",
+      "definition": "CHECK ((provenance = ANY (ARRAY['client_reported'::text, 'server_verified'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_provenance_not_null",
+      "definition": "NOT NULL provenance"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_quality_not_null",
+      "definition": "NOT NULL quality"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_request_key_not_null",
+      "definition": "NOT NULL request_key"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_session_id_user_id_fkey",
+      "definition": "FOREIGN KEY (session_id, user_id) REFERENCES scan_sessions(id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['detected'::text, 'uncertain'::text, 'unknown'::text, 'failed'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "constraint_name": "ai_predictions_user_id_request_key_key",
+      "definition": "UNIQUE (user_id, request_key)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "constraint_name": "areas_code_key",
+      "definition": "UNIQUE (code)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "constraint_name": "areas_code_not_null",
+      "definition": "NOT NULL code"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "constraint_name": "areas_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "constraint_name": "areas_name_not_null",
+      "definition": "NOT NULL name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "constraint_name": "areas_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_accepted_categories",
+      "constraint_name": "bin_accepted_categories_bin_id_fkey",
+      "definition": "FOREIGN KEY (bin_id) REFERENCES waste_bins(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_accepted_categories",
+      "constraint_name": "bin_accepted_categories_bin_id_not_null",
+      "definition": "NOT NULL bin_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_accepted_categories",
+      "constraint_name": "bin_accepted_categories_category_id_fkey",
+      "definition": "FOREIGN KEY (category_id) REFERENCES waste_categories(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_accepted_categories",
+      "constraint_name": "bin_accepted_categories_category_id_not_null",
+      "definition": "NOT NULL category_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_accepted_categories",
+      "constraint_name": "bin_accepted_categories_pkey",
+      "definition": "PRIMARY KEY (bin_id, category_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "constraint_name": "bin_types_code_key",
+      "definition": "UNIQUE (code)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "constraint_name": "bin_types_code_not_null",
+      "definition": "NOT NULL code"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "constraint_name": "bin_types_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "constraint_name": "bin_types_name_not_null",
+      "definition": "NOT NULL name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "constraint_name": "bin_types_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_check",
+      "definition": "CHECK (((prediction_id IS NULL) = (detection_id IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_client_event_id_not_null",
+      "definition": "NOT NULL client_event_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_confirmed_check",
+      "definition": "CHECK (confirmed)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_confirmed_not_null",
+      "definition": "NOT NULL confirmed"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_detection_id_prediction_id_user_id_fkey",
+      "definition": "FOREIGN KEY (detection_id, prediction_id, user_id) REFERENCES ai_detections(id, prediction_id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_disposed_at_not_null",
+      "definition": "NOT NULL disposed_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_item_id_fkey",
+      "definition": "FOREIGN KEY (item_id) REFERENCES waste_items(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_item_id_not_null",
+      "definition": "NOT NULL item_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_material_id_fkey",
+      "definition": "FOREIGN KEY (material_id) REFERENCES material_categories(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_quantity_check",
+      "definition": "CHECK (((quantity >= 1) AND (quantity <= 100)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_quantity_not_null",
+      "definition": "NOT NULL quantity"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_rule_version_id_fkey",
+      "definition": "FOREIGN KEY (rule_version_id) REFERENCES disposal_rules(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_rule_version_id_not_null",
+      "definition": "NOT NULL rule_version_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_user_id_client_event_id_key",
+      "definition": "UNIQUE (user_id, client_event_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "constraint_name": "confirmed_disposals_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_message_check",
+      "definition": "CHECK ((length(message) <= 3000))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_message_not_null",
+      "definition": "NOT NULL message"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_review_status_check",
+      "definition": "CHECK ((review_status = ANY (ARRAY['new'::text, 'in_progress'::text, 'resolved'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_review_status_not_null",
+      "definition": "NOT NULL review_status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_subject_check",
+      "definition": "CHECK ((length(subject) <= 150))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_subject_not_null",
+      "definition": "NOT NULL subject"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "constraint_name": "contact_messages_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_check",
+      "definition": "CHECK (((verification_status <> 'verified'::text) OR (verified_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_reference_not_null",
+      "definition": "NOT NULL reference"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_title_not_null",
+      "definition": "NOT NULL title"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_verification_status_check",
+      "definition": "CHECK ((verification_status = ANY (ARRAY['pending'::text, 'verified'::text, 'expired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "constraint_name": "data_sources_verification_status_not_null",
+      "definition": "NOT NULL verification_status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_area_id_fkey",
+      "definition": "FOREIGN KEY (area_id) REFERENCES areas(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_area_id_not_null",
+      "definition": "NOT NULL area_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_category_id_fkey",
+      "definition": "FOREIGN KEY (category_id) REFERENCES waste_categories(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_check",
+      "definition": "CHECK (((status <> 'verified'::text) OR ((source_id IS NOT NULL) AND (verified_at IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_conditions_not_null",
+      "definition": "NOT NULL conditions"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_id_area_id_key",
+      "definition": "UNIQUE (id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_item_id_fkey",
+      "definition": "FOREIGN KEY (item_id) REFERENCES waste_items(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_item_id_not_null",
+      "definition": "NOT NULL item_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_rule_key_not_null",
+      "definition": "NOT NULL rule_key"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_rule_key_version_key",
+      "definition": "UNIQUE (rule_key, version)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_source_id_fkey",
+      "definition": "FOREIGN KEY (source_id) REFERENCES data_sources(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['draft'::text, 'verified'::text, 'retired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_steps_not_null",
+      "definition": "NOT NULL steps"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_version_check",
+      "definition": "CHECK ((version > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_version_not_null",
+      "definition": "NOT NULL version"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "constraint_name": "disposal_rules_warnings_not_null",
+      "definition": "NOT NULL warnings"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_kind_check",
+      "definition": "CHECK ((kind = ANY (ARRAY['feedback'::text, 'issue'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_kind_not_null",
+      "definition": "NOT NULL kind"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_message_check",
+      "definition": "CHECK (((length(message) >= 3) AND (length(message) <= 2000)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_message_not_null",
+      "definition": "NOT NULL message"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_review_status_check",
+      "definition": "CHECK ((review_status = ANY (ARRAY['new'::text, 'in_progress'::text, 'resolved'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_review_status_not_null",
+      "definition": "NOT NULL review_status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "constraint_name": "feedback_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_bytes_check",
+      "definition": "CHECK (((bytes >= 1) AND (bytes <= 8388608)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_bytes_not_null",
+      "definition": "NOT NULL bytes"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_id_user_id_key",
+      "definition": "UNIQUE (id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_mime_not_null",
+      "definition": "NOT NULL mime"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_object_key_check",
+      "definition": "CHECK ((object_key !~ '(^/|\\.\\.|:)'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_object_key_not_null",
+      "definition": "NOT NULL object_key"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_provider_check",
+      "definition": "CHECK ((provider = ANY (ARRAY['local'::text, 'supabase'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_provider_not_null",
+      "definition": "NOT NULL provider"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_provider_object_key_key",
+      "definition": "UNIQUE (provider, object_key)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "constraint_name": "image_assets_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "item_materials",
+      "constraint_name": "item_materials_item_id_fkey",
+      "definition": "FOREIGN KEY (item_id) REFERENCES waste_items(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "item_materials",
+      "constraint_name": "item_materials_item_id_not_null",
+      "definition": "NOT NULL item_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "item_materials",
+      "constraint_name": "item_materials_material_id_fkey",
+      "definition": "FOREIGN KEY (material_id) REFERENCES material_categories(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "item_materials",
+      "constraint_name": "item_materials_material_id_not_null",
+      "definition": "NOT NULL material_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "item_materials",
+      "constraint_name": "item_materials_pkey",
+      "definition": "PRIMARY KEY (item_id, material_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_body_not_null",
+      "definition": "NOT NULL body"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_kind_check",
+      "definition": "CHECK ((kind = ANY (ARRAY['article'::text, 'tip'::text, 'video'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_kind_not_null",
+      "definition": "NOT NULL kind"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_slug_key",
+      "definition": "UNIQUE (slug)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_slug_not_null",
+      "definition": "NOT NULL slug"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_source_id_fkey",
+      "definition": "FOREIGN KEY (source_id) REFERENCES data_sources(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['draft'::text, 'published'::text, 'retired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "constraint_name": "knowledge_entries_title_not_null",
+      "definition": "NOT NULL title"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "constraint_name": "location_bins_area_id_not_null",
+      "definition": "NOT NULL area_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "constraint_name": "location_bins_bin_id_area_id_fkey",
+      "definition": "FOREIGN KEY (bin_id, area_id) REFERENCES waste_bins(id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "constraint_name": "location_bins_bin_id_not_null",
+      "definition": "NOT NULL bin_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "constraint_name": "location_bins_location_id_area_id_fkey",
+      "definition": "FOREIGN KEY (location_id, area_id) REFERENCES locations(id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "constraint_name": "location_bins_location_id_not_null",
+      "definition": "NOT NULL location_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "constraint_name": "location_bins_pkey",
+      "definition": "PRIMARY KEY (location_id, bin_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_area_id_fkey",
+      "definition": "FOREIGN KEY (area_id) REFERENCES areas(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_area_id_not_null",
+      "definition": "NOT NULL area_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_check",
+      "definition": "CHECK (((verification_status <> 'verified'::text) OR (source_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_id_area_id_key",
+      "definition": "UNIQUE (id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_latitude_check",
+      "definition": "CHECK (((latitude >= ('-90'::integer)::double precision) AND (latitude <= (90)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_longitude_check",
+      "definition": "CHECK (((longitude >= ('-180'::integer)::double precision) AND (longitude <= (180)::double precision)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_name_not_null",
+      "definition": "NOT NULL name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_source_id_fkey",
+      "definition": "FOREIGN KEY (source_id) REFERENCES data_sources(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_verification_status_check",
+      "definition": "CHECK ((verification_status = ANY (ARRAY['pending'::text, 'verified'::text, 'expired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "constraint_name": "locations_verification_status_not_null",
+      "definition": "NOT NULL verification_status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "m1_health",
+      "constraint_name": "m1_health_id_check",
+      "definition": "CHECK ((id = 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "m1_health",
+      "constraint_name": "m1_health_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "m1_health",
+      "constraint_name": "m1_health_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "constraint_name": "material_categories_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "constraint_name": "material_categories_name_not_null",
+      "definition": "NOT NULL name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "constraint_name": "material_categories_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "constraint_name": "material_categories_slug_key",
+      "definition": "UNIQUE (slug)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "constraint_name": "material_categories_slug_not_null",
+      "definition": "NOT NULL slug"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_artifact_sha256_check",
+      "definition": "CHECK ((artifact_sha256 ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_artifact_sha256_not_null",
+      "definition": "NOT NULL artifact_sha256"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_manifest_not_null",
+      "definition": "NOT NULL manifest"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_version_key",
+      "definition": "UNIQUE (version)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "constraint_name": "model_versions_version_not_null",
+      "definition": "NOT NULL version"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_detection_id_not_null",
+      "definition": "NOT NULL detection_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_detection_id_user_id_fkey",
+      "definition": "FOREIGN KEY (detection_id, user_id) REFERENCES ai_detections(id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_rule_version_id_area_id_fkey",
+      "definition": "FOREIGN KEY (rule_version_id, area_id) REFERENCES disposal_rules(id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_snapshot_not_null",
+      "definition": "NOT NULL snapshot"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "constraint_name": "prediction_recommendations_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "constraint_name": "profiles_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "constraint_name": "profiles_display_name_check",
+      "definition": "CHECK ((length(display_name) <= 80))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "constraint_name": "profiles_display_name_not_null",
+      "definition": "NOT NULL display_name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "constraint_name": "profiles_id_fkey",
+      "definition": "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "constraint_name": "profiles_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "constraint_name": "profiles_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_attempt_id_not_null",
+      "definition": "NOT NULL attempt_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_attempt_id_quiz_id_user_id_fkey",
+      "definition": "FOREIGN KEY (attempt_id, quiz_id, user_id) REFERENCES quiz_attempts(id, quiz_id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_pkey",
+      "definition": "PRIMARY KEY (attempt_id, question_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_question_id_not_null",
+      "definition": "NOT NULL question_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_question_id_quiz_id_fkey",
+      "definition": "FOREIGN KEY (question_id, quiz_id) REFERENCES quiz_questions(id, quiz_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_quiz_id_not_null",
+      "definition": "NOT NULL quiz_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_selected_choice_check",
+      "definition": "CHECK ((selected_choice >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_selected_choice_not_null",
+      "definition": "NOT NULL selected_choice"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "constraint_name": "quiz_answers_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_check",
+      "definition": "CHECK ((max_score >= score))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_client_attempt_key_not_null",
+      "definition": "NOT NULL client_attempt_key"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_id_quiz_id_user_id_key",
+      "definition": "UNIQUE (id, quiz_id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_max_score_not_null",
+      "definition": "NOT NULL max_score"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_quiz_id_fkey",
+      "definition": "FOREIGN KEY (quiz_id) REFERENCES quizzes(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_quiz_id_not_null",
+      "definition": "NOT NULL quiz_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_score_check",
+      "definition": "CHECK ((score >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_score_not_null",
+      "definition": "NOT NULL score"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_user_id_client_attempt_key_key",
+      "definition": "UNIQUE (user_id, client_attempt_key)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "constraint_name": "quiz_attempts_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_choices_check",
+      "definition": "CHECK ((jsonb_typeof(choices) = 'array'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_choices_not_null",
+      "definition": "NOT NULL choices"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_id_quiz_id_key",
+      "definition": "UNIQUE (id, quiz_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_position_not_null",
+      "definition": "NOT NULL \"position\""
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_prompt_not_null",
+      "definition": "NOT NULL prompt"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_quiz_id_fkey",
+      "definition": "FOREIGN KEY (quiz_id) REFERENCES quizzes(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_quiz_id_not_null",
+      "definition": "NOT NULL quiz_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "constraint_name": "quiz_questions_quiz_id_position_key",
+      "definition": "UNIQUE (quiz_id, \"position\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_slug_not_null",
+      "definition": "NOT NULL slug"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_slug_version_key",
+      "definition": "UNIQUE (slug, version)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['draft'::text, 'published'::text, 'retired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_title_not_null",
+      "definition": "NOT NULL title"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_version_check",
+      "definition": "CHECK ((version > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "constraint_name": "quizzes_version_not_null",
+      "definition": "NOT NULL version"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recyclebin_schema_version",
+      "constraint_name": "recyclebin_schema_version_applied_at_not_null",
+      "definition": "NOT NULL applied_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recyclebin_schema_version",
+      "constraint_name": "recyclebin_schema_version_pkey",
+      "definition": "PRIMARY KEY (version)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recyclebin_schema_version",
+      "constraint_name": "recyclebin_schema_version_version_not_null",
+      "definition": "NOT NULL version"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "constraint_name": "rule_bins_area_id_not_null",
+      "definition": "NOT NULL area_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "constraint_name": "rule_bins_bin_id_area_id_fkey",
+      "definition": "FOREIGN KEY (bin_id, area_id) REFERENCES waste_bins(id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "constraint_name": "rule_bins_bin_id_not_null",
+      "definition": "NOT NULL bin_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "constraint_name": "rule_bins_pkey",
+      "definition": "PRIMARY KEY (rule_version_id, bin_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "constraint_name": "rule_bins_rule_version_id_area_id_fkey",
+      "definition": "FOREIGN KEY (rule_version_id, area_id) REFERENCES disposal_rules(id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "constraint_name": "rule_bins_rule_version_id_not_null",
+      "definition": "NOT NULL rule_version_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "constraint_name": "rule_sources_pkey",
+      "definition": "PRIMARY KEY (rule_version_id, source_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "constraint_name": "rule_sources_rule_version_id_fkey",
+      "definition": "FOREIGN KEY (rule_version_id) REFERENCES disposal_rules(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "constraint_name": "rule_sources_rule_version_id_not_null",
+      "definition": "NOT NULL rule_version_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "constraint_name": "rule_sources_source_id_fkey",
+      "definition": "FOREIGN KEY (source_id) REFERENCES data_sources(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "constraint_name": "rule_sources_source_id_not_null",
+      "definition": "NOT NULL source_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_created_at_not_null",
+      "definition": "NOT NULL created_at"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_id_user_id_key",
+      "definition": "UNIQUE (id, user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_mode_check",
+      "definition": "CHECK ((mode = ANY (ARRAY['photo'::text, 'realtime'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_mode_not_null",
+      "definition": "NOT NULL mode"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['created'::text, 'running'::text, 'paused'::text, 'stopped'::text, 'expired'::text, 'error'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "constraint_name": "scan_sessions_user_id_not_null",
+      "definition": "NOT NULL user_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_area_id_code_key",
+      "definition": "UNIQUE (area_id, code)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_area_id_fkey",
+      "definition": "FOREIGN KEY (area_id) REFERENCES areas(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_area_id_not_null",
+      "definition": "NOT NULL area_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_bin_type_id_fkey",
+      "definition": "FOREIGN KEY (bin_type_id) REFERENCES bin_types(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_bin_type_id_not_null",
+      "definition": "NOT NULL bin_type_id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_check",
+      "definition": "CHECK (((verification_status <> 'verified'::text) OR ((source_id IS NOT NULL) AND (verified_at IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_code_not_null",
+      "definition": "NOT NULL code"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_id_area_id_key",
+      "definition": "UNIQUE (id, area_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_source_id_fkey",
+      "definition": "FOREIGN KEY (source_id) REFERENCES data_sources(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_verification_status_check",
+      "definition": "CHECK ((verification_status = ANY (ARRAY['pending'::text, 'verified'::text, 'expired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "constraint_name": "waste_bins_verification_status_not_null",
+      "definition": "NOT NULL verification_status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "constraint_name": "waste_categories_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "constraint_name": "waste_categories_name_not_null",
+      "definition": "NOT NULL name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "constraint_name": "waste_categories_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "constraint_name": "waste_categories_slug_key",
+      "definition": "UNIQUE (slug)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "constraint_name": "waste_categories_slug_not_null",
+      "definition": "NOT NULL slug"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_category_id_fkey",
+      "definition": "FOREIGN KEY (category_id) REFERENCES waste_categories(id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_id_not_null",
+      "definition": "NOT NULL id"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_name_not_null",
+      "definition": "NOT NULL name"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_slug_key",
+      "definition": "UNIQUE (slug)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_slug_not_null",
+      "definition": "NOT NULL slug"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_status_check",
+      "definition": "CHECK ((status = ANY (ARRAY['draft'::text, 'published'::text, 'retired'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_status_not_null",
+      "definition": "NOT NULL status"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "constraint_name": "waste_items_synonyms_not_null",
+      "definition": "NOT NULL synonyms"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "private",
+      "tablename": "audit_logs",
+      "indexname": "audit_logs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX audit_logs_pkey ON private.audit_logs USING btree (id)"
+    },
+    {
+      "schemaname": "private",
+      "tablename": "audit_logs",
+      "indexname": "audit_time",
+      "indexdef": "CREATE INDEX audit_time ON private.audit_logs USING btree (created_at DESC, id)"
+    },
+    {
+      "schemaname": "private",
+      "tablename": "quiz_answer_keys",
+      "indexname": "quiz_answer_keys_pkey",
+      "indexdef": "CREATE UNIQUE INDEX quiz_answer_keys_pkey ON private.quiz_answer_keys USING btree (question_id)"
+    },
+    {
+      "schemaname": "private",
+      "tablename": "roles",
+      "indexname": "roles_pkey",
+      "indexdef": "CREATE UNIQUE INDEX roles_pkey ON private.roles USING btree (code)"
+    },
+    {
+      "schemaname": "private",
+      "tablename": "user_access",
+      "indexname": "user_access_pkey",
+      "indexdef": "CREATE UNIQUE INDEX user_access_pkey ON private.user_access USING btree (user_id)"
+    },
+    {
+      "schemaname": "private",
+      "tablename": "user_roles",
+      "indexname": "user_roles_pkey",
+      "indexdef": "CREATE UNIQUE INDEX user_roles_pkey ON private.user_roles USING btree (user_id, role_code)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_detections",
+      "indexname": "ai_detections_id_prediction_id_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX ai_detections_id_prediction_id_user_id_key ON public.ai_detections USING btree (id, prediction_id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_detections",
+      "indexname": "ai_detections_id_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX ai_detections_id_user_id_key ON public.ai_detections USING btree (id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_detections",
+      "indexname": "ai_detections_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ai_detections_pkey ON public.ai_detections USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_detections",
+      "indexname": "detections_prediction_owner",
+      "indexdef": "CREATE INDEX detections_prediction_owner ON public.ai_detections USING btree (prediction_id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_feedback",
+      "indexname": "ai_feedback_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ai_feedback_pkey ON public.ai_feedback USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_predictions",
+      "indexname": "ai_predictions_id_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX ai_predictions_id_user_id_key ON public.ai_predictions USING btree (id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_predictions",
+      "indexname": "ai_predictions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ai_predictions_pkey ON public.ai_predictions USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_predictions",
+      "indexname": "ai_predictions_user_id_request_key_key",
+      "indexdef": "CREATE UNIQUE INDEX ai_predictions_user_id_request_key_key ON public.ai_predictions USING btree (user_id, request_key)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_predictions",
+      "indexname": "predictions_owner_time",
+      "indexdef": "CREATE INDEX predictions_owner_time ON public.ai_predictions USING btree (user_id, created_at DESC, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "areas",
+      "indexname": "areas_code_key",
+      "indexdef": "CREATE UNIQUE INDEX areas_code_key ON public.areas USING btree (code)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "areas",
+      "indexname": "areas_pkey",
+      "indexdef": "CREATE UNIQUE INDEX areas_pkey ON public.areas USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_accepted_categories",
+      "indexname": "bin_accepted_categories_pkey",
+      "indexdef": "CREATE UNIQUE INDEX bin_accepted_categories_pkey ON public.bin_accepted_categories USING btree (bin_id, category_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_types",
+      "indexname": "bin_types_code_key",
+      "indexdef": "CREATE UNIQUE INDEX bin_types_code_key ON public.bin_types USING btree (code)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_types",
+      "indexname": "bin_types_pkey",
+      "indexdef": "CREATE UNIQUE INDEX bin_types_pkey ON public.bin_types USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "confirmed_disposals",
+      "indexname": "confirmed_disposals_pkey",
+      "indexdef": "CREATE UNIQUE INDEX confirmed_disposals_pkey ON public.confirmed_disposals USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "confirmed_disposals",
+      "indexname": "confirmed_disposals_user_id_client_event_id_key",
+      "indexdef": "CREATE UNIQUE INDEX confirmed_disposals_user_id_client_event_id_key ON public.confirmed_disposals USING btree (user_id, client_event_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "confirmed_disposals",
+      "indexname": "disposals_owner_time",
+      "indexdef": "CREATE INDEX disposals_owner_time ON public.confirmed_disposals USING btree (user_id, disposed_at DESC, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "indexname": "contact_messages_pkey",
+      "indexdef": "CREATE UNIQUE INDEX contact_messages_pkey ON public.contact_messages USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "indexname": "contact_owner_time",
+      "indexdef": "CREATE INDEX contact_owner_time ON public.contact_messages USING btree (user_id, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "indexname": "contact_review_queue",
+      "indexdef": "CREATE INDEX contact_review_queue ON public.contact_messages USING btree (review_status, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "data_sources",
+      "indexname": "data_sources_pkey",
+      "indexdef": "CREATE UNIQUE INDEX data_sources_pkey ON public.data_sources USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "indexname": "disposal_rules_id_area_id_key",
+      "indexdef": "CREATE UNIQUE INDEX disposal_rules_id_area_id_key ON public.disposal_rules USING btree (id, area_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "indexname": "disposal_rules_pkey",
+      "indexdef": "CREATE UNIQUE INDEX disposal_rules_pkey ON public.disposal_rules USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "indexname": "disposal_rules_rule_key_version_key",
+      "indexdef": "CREATE UNIQUE INDEX disposal_rules_rule_key_version_key ON public.disposal_rules USING btree (rule_key, version)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "indexname": "rules_item_area",
+      "indexdef": "CREATE INDEX rules_item_area ON public.disposal_rules USING btree (item_id, area_id, status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "indexname": "rules_source_fk",
+      "indexdef": "CREATE INDEX rules_source_fk ON public.disposal_rules USING btree (source_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "feedback",
+      "indexname": "feedback_owner",
+      "indexdef": "CREATE INDEX feedback_owner ON public.feedback USING btree (user_id, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "feedback",
+      "indexname": "feedback_pkey",
+      "indexdef": "CREATE UNIQUE INDEX feedback_pkey ON public.feedback USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "feedback",
+      "indexname": "feedback_review_queue",
+      "indexdef": "CREATE INDEX feedback_review_queue ON public.feedback USING btree (review_status, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "image_assets",
+      "indexname": "assets_expiry",
+      "indexdef": "CREATE INDEX assets_expiry ON public.image_assets USING btree (expires_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "image_assets",
+      "indexname": "assets_owner",
+      "indexdef": "CREATE INDEX assets_owner ON public.image_assets USING btree (user_id, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "image_assets",
+      "indexname": "image_assets_id_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX image_assets_id_user_id_key ON public.image_assets USING btree (id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "image_assets",
+      "indexname": "image_assets_pkey",
+      "indexdef": "CREATE UNIQUE INDEX image_assets_pkey ON public.image_assets USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "image_assets",
+      "indexname": "image_assets_provider_object_key_key",
+      "indexdef": "CREATE UNIQUE INDEX image_assets_provider_object_key_key ON public.image_assets USING btree (provider, object_key)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "item_materials",
+      "indexname": "item_materials_pkey",
+      "indexdef": "CREATE UNIQUE INDEX item_materials_pkey ON public.item_materials USING btree (item_id, material_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "knowledge_entries",
+      "indexname": "knowledge_entries_pkey",
+      "indexdef": "CREATE UNIQUE INDEX knowledge_entries_pkey ON public.knowledge_entries USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "knowledge_entries",
+      "indexname": "knowledge_entries_slug_key",
+      "indexdef": "CREATE UNIQUE INDEX knowledge_entries_slug_key ON public.knowledge_entries USING btree (slug)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "location_bins",
+      "indexname": "location_bins_area",
+      "indexdef": "CREATE INDEX location_bins_area ON public.location_bins USING btree (area_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "location_bins",
+      "indexname": "location_bins_pkey",
+      "indexdef": "CREATE UNIQUE INDEX location_bins_pkey ON public.location_bins USING btree (location_id, bin_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "locations",
+      "indexname": "locations_area_status",
+      "indexdef": "CREATE INDEX locations_area_status ON public.locations USING btree (area_id, verification_status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "locations",
+      "indexname": "locations_id_area_id_key",
+      "indexdef": "CREATE UNIQUE INDEX locations_id_area_id_key ON public.locations USING btree (id, area_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "locations",
+      "indexname": "locations_pkey",
+      "indexdef": "CREATE UNIQUE INDEX locations_pkey ON public.locations USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "m1_health",
+      "indexname": "m1_health_pkey",
+      "indexdef": "CREATE UNIQUE INDEX m1_health_pkey ON public.m1_health USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "material_categories",
+      "indexname": "material_categories_pkey",
+      "indexdef": "CREATE UNIQUE INDEX material_categories_pkey ON public.material_categories USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "material_categories",
+      "indexname": "material_categories_slug_key",
+      "indexdef": "CREATE UNIQUE INDEX material_categories_slug_key ON public.material_categories USING btree (slug)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "model_versions",
+      "indexname": "model_versions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX model_versions_pkey ON public.model_versions USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "model_versions",
+      "indexname": "model_versions_version_key",
+      "indexdef": "CREATE UNIQUE INDEX model_versions_version_key ON public.model_versions USING btree (version)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prediction_recommendations",
+      "indexname": "prediction_recommendations_pkey",
+      "indexdef": "CREATE UNIQUE INDEX prediction_recommendations_pkey ON public.prediction_recommendations USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "indexname": "profiles_pkey",
+      "indexdef": "CREATE UNIQUE INDEX profiles_pkey ON public.profiles USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_answers",
+      "indexname": "quiz_answers_pkey",
+      "indexdef": "CREATE UNIQUE INDEX quiz_answers_pkey ON public.quiz_answers USING btree (attempt_id, question_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_attempts",
+      "indexname": "attempts_owner",
+      "indexdef": "CREATE INDEX attempts_owner ON public.quiz_attempts USING btree (user_id, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_attempts",
+      "indexname": "quiz_attempts_id_quiz_id_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX quiz_attempts_id_quiz_id_user_id_key ON public.quiz_attempts USING btree (id, quiz_id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_attempts",
+      "indexname": "quiz_attempts_pkey",
+      "indexdef": "CREATE UNIQUE INDEX quiz_attempts_pkey ON public.quiz_attempts USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_attempts",
+      "indexname": "quiz_attempts_user_id_client_attempt_key_key",
+      "indexdef": "CREATE UNIQUE INDEX quiz_attempts_user_id_client_attempt_key_key ON public.quiz_attempts USING btree (user_id, client_attempt_key)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_questions",
+      "indexname": "quiz_questions_id_quiz_id_key",
+      "indexdef": "CREATE UNIQUE INDEX quiz_questions_id_quiz_id_key ON public.quiz_questions USING btree (id, quiz_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_questions",
+      "indexname": "quiz_questions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX quiz_questions_pkey ON public.quiz_questions USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_questions",
+      "indexname": "quiz_questions_quiz_id_position_key",
+      "indexdef": "CREATE UNIQUE INDEX quiz_questions_quiz_id_position_key ON public.quiz_questions USING btree (quiz_id, \"position\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quizzes",
+      "indexname": "quizzes_pkey",
+      "indexdef": "CREATE UNIQUE INDEX quizzes_pkey ON public.quizzes USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quizzes",
+      "indexname": "quizzes_slug_version_key",
+      "indexdef": "CREATE UNIQUE INDEX quizzes_slug_version_key ON public.quizzes USING btree (slug, version)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "recyclebin_schema_version",
+      "indexname": "recyclebin_schema_version_pkey",
+      "indexdef": "CREATE UNIQUE INDEX recyclebin_schema_version_pkey ON public.recyclebin_schema_version USING btree (version)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_bins",
+      "indexname": "rule_bins_area",
+      "indexdef": "CREATE INDEX rule_bins_area ON public.rule_bins USING btree (area_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_bins",
+      "indexname": "rule_bins_pkey",
+      "indexdef": "CREATE UNIQUE INDEX rule_bins_pkey ON public.rule_bins USING btree (rule_version_id, bin_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_sources",
+      "indexname": "rule_sources_pkey",
+      "indexdef": "CREATE UNIQUE INDEX rule_sources_pkey ON public.rule_sources USING btree (rule_version_id, source_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scan_sessions",
+      "indexname": "scan_sessions_id_user_id_key",
+      "indexdef": "CREATE UNIQUE INDEX scan_sessions_id_user_id_key ON public.scan_sessions USING btree (id, user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scan_sessions",
+      "indexname": "scan_sessions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX scan_sessions_pkey ON public.scan_sessions USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scan_sessions",
+      "indexname": "sessions_owner_time",
+      "indexdef": "CREATE INDEX sessions_owner_time ON public.scan_sessions USING btree (user_id, created_at DESC)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_bins",
+      "indexname": "bins_area_status",
+      "indexdef": "CREATE INDEX bins_area_status ON public.waste_bins USING btree (area_id, verification_status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_bins",
+      "indexname": "waste_bins_area_id_code_key",
+      "indexdef": "CREATE UNIQUE INDEX waste_bins_area_id_code_key ON public.waste_bins USING btree (area_id, code)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_bins",
+      "indexname": "waste_bins_id_area_id_key",
+      "indexdef": "CREATE UNIQUE INDEX waste_bins_id_area_id_key ON public.waste_bins USING btree (id, area_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_bins",
+      "indexname": "waste_bins_pkey",
+      "indexdef": "CREATE UNIQUE INDEX waste_bins_pkey ON public.waste_bins USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_categories",
+      "indexname": "waste_categories_pkey",
+      "indexdef": "CREATE UNIQUE INDEX waste_categories_pkey ON public.waste_categories USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_categories",
+      "indexname": "waste_categories_slug_key",
+      "indexdef": "CREATE UNIQUE INDEX waste_categories_slug_key ON public.waste_categories USING btree (slug)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_items",
+      "indexname": "waste_item_category",
+      "indexdef": "CREATE INDEX waste_item_category ON public.waste_items USING btree (category_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_items",
+      "indexname": "waste_items_pkey",
+      "indexdef": "CREATE UNIQUE INDEX waste_items_pkey ON public.waste_items USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_items",
+      "indexname": "waste_items_slug_key",
+      "indexdef": "CREATE UNIQUE INDEX waste_items_slug_key ON public.waste_items USING btree (slug)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "ai_detections",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_feedback",
+      "policyname": "ai_feedback_write",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((user_id = auth.uid()) AND private.is_active())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_feedback",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_predictions",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "areas",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "areas",
+      "policyname": "reference_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(archived_at IS NULL)",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_accepted_categories",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_accepted_categories",
+      "policyname": "bins_visible",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM waste_bins b\n  WHERE (b.id = bin_accepted_categories.bin_id)))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_types",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "bin_types",
+      "policyname": "reference_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(archived_at IS NULL)",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "confirmed_disposals",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "contact_write",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((user_id = auth.uid()) AND private.is_active())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "data_sources",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "data_sources",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((verification_status = 'verified'::text) AND (archived_at IS NULL))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "disposal_rules",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((status = 'verified'::text) AND (archived_at IS NULL) AND (EXISTS ( SELECT 1\n   FROM data_sources s\n  WHERE ((s.id = disposal_rules.source_id) AND (s.verification_status = 'verified'::text) AND (s.archived_at IS NULL)))) AND (EXISTS ( SELECT 1\n   FROM areas a\n  WHERE ((a.id = disposal_rules.area_id) AND (a.archived_at IS NULL)))) AND (EXISTS ( SELECT 1\n   FROM waste_items i\n  WHERE ((i.id = disposal_rules.item_id) AND (i.status = 'published'::text) AND (i.archived_at IS NULL)))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "feedback",
+      "policyname": "feedback_write",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((user_id = auth.uid()) AND private.is_active())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "feedback",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "image_assets",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "item_materials",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "item_materials",
+      "policyname": "items_visible",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM waste_items i\n  WHERE (i.id = item_materials.item_id)))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "knowledge_entries",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "knowledge_entries",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((status = 'published'::text) AND (archived_at IS NULL))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "location_bins",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "location_bins",
+      "policyname": "locations_visible",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((EXISTS ( SELECT 1\n   FROM locations l\n  WHERE (l.id = location_bins.location_id))) AND (EXISTS ( SELECT 1\n   FROM waste_bins b\n  WHERE (b.id = location_bins.bin_id))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "locations",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "locations",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((verification_status = 'verified'::text) AND (verified_at IS NOT NULL) AND (latitude IS NOT NULL) AND (longitude IS NOT NULL) AND (archived_at IS NULL) AND (EXISTS ( SELECT 1\n   FROM data_sources s\n  WHERE ((s.id = locations.source_id) AND (s.verification_status = 'verified'::text) AND (s.archived_at IS NULL)))) AND (EXISTS ( SELECT 1\n   FROM areas a\n  WHERE ((a.id = locations.area_id) AND (a.archived_at IS NULL)))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "m1_health",
+      "policyname": "health_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "material_categories",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "material_categories",
+      "policyname": "reference_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(archived_at IS NULL)",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "model_versions",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prediction_recommendations",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "policyname": "profile_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profiles",
+      "policyname": "profile_update",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "UPDATE",
+      "qual": "((id = auth.uid()) AND private.is_active())",
+      "with_check": "((id = auth.uid()) AND private.is_active())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_answers",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_attempts",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_questions",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quiz_questions",
+      "policyname": "questions_visible",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(EXISTS ( SELECT 1\n   FROM quizzes q\n  WHERE (q.id = quiz_questions.quiz_id)))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quizzes",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "quizzes",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((status = 'published'::text) AND (archived_at IS NULL))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_bins",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_bins",
+      "policyname": "rules_bins_visible",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((EXISTS ( SELECT 1\n   FROM disposal_rules r\n  WHERE (r.id = rule_bins.rule_version_id))) AND (EXISTS ( SELECT 1\n   FROM waste_bins b\n  WHERE (b.id = rule_bins.bin_id))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_sources",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rule_sources",
+      "policyname": "sources_visible",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((EXISTS ( SELECT 1\n   FROM disposal_rules r\n  WHERE (r.id = rule_sources.rule_version_id))) AND (EXISTS ( SELECT 1\n   FROM data_sources s\n  WHERE (s.id = rule_sources.source_id))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scan_sessions",
+      "policyname": "owner_read",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((user_id = auth.uid()) AND private.is_active())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_bins",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_bins",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((verification_status = 'verified'::text) AND (archived_at IS NULL) AND (EXISTS ( SELECT 1\n   FROM data_sources s\n  WHERE ((s.id = waste_bins.source_id) AND (s.verification_status = 'verified'::text) AND (s.archived_at IS NULL)))) AND (EXISTS ( SELECT 1\n   FROM areas a\n  WHERE ((a.id = waste_bins.area_id) AND (a.archived_at IS NULL)))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_categories",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_categories",
+      "policyname": "reference_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "(archived_at IS NULL)",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_items",
+      "policyname": "admin_manage",
+      "roles": [
+        "authenticated"
+      ],
+      "cmd": "ALL",
+      "qual": "private.is_admin()",
+      "with_check": "private.is_admin()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "waste_items",
+      "policyname": "published_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "((status = 'published'::text) AND (archived_at IS NULL))",
+      "with_check": null
+    }
+  ],
+  "rls": [
+    {
+      "schema_name": "private",
+      "table_name": "audit_logs",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "private",
+      "table_name": "quiz_answer_keys",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "private",
+      "table_name": "roles",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_access",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "private",
+      "table_name": "user_roles",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_detections",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_feedback",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_predictions",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "areas",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_accepted_categories",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "bin_types",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "confirmed_disposals",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contact_messages",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "data_sources",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "disposal_rules",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "feedback",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "image_assets",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "item_materials",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "knowledge_entries",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "location_bins",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "locations",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "m1_health",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "material_categories",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "model_versions",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "prediction_recommendations",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profiles",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_answers",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_attempts",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quiz_questions",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "quizzes",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recyclebin_schema_version",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_bins",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rule_sources",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scan_sessions",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_bins",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_categories",
+      "rls_enabled": true
+    },
+    {
+      "schema_name": "public",
+      "table_name": "waste_items",
+      "rls_enabled": true
+    }
+  ]
+}

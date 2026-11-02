@@ -1,0 +1,23 @@
+const {chromium}=require('C:/Users/P.12x_/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('fs');
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream']});
+ const context=await browser.newContext({permissions:['camera']});const page=await context.newPage();
+ let calls=0,active=0,peak=0,successful=0;
+ page.on('request',r=>{if(r.url().endsWith('/api/ai/detect')){calls++;peak=Math.max(peak,++active);}});
+ page.on('response',r=>{if(r.url().endsWith('/api/ai/detect')&&r.status()===200)successful++;});
+ const finished=r=>{if(r.url().endsWith('/api/ai/detect'))active=Math.max(0,active-1);};
+ page.on('requestfinished',finished);page.on('requestfailed',finished);
+ await page.goto('http://127.0.0.1:3000/scanner');await page.getByRole('button',{name:'กล้อง Real-Time',exact:true}).click();
+ await page.waitForFunction(()=>!Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='เปิดกล้อง')?.disabled);
+ await page.getByRole('button',{name:'เปิดกล้อง',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('video')?.videoWidth>0);
+ await new Promise((resolve,reject)=>{const deadline=Date.now()+20000;const timer=setInterval(()=>{if(successful>=3){clearInterval(timer);resolve();}else if(Date.now()>deadline){clearInterval(timer);reject(Error('Continuous frame inference timed out'));}},100);});
+ await page.getByRole('button',{name:'Snapshot',exact:true}).click();await page.getByRole('link',{name:'ดาวน์โหลด Snapshot'}).waitFor();
+ await page.waitForFunction(()=>document.querySelector('aside')?.textContent.includes('fasterrcnn-'));await page.waitForTimeout(500);const atStop=calls;
+ const stopped=await page.evaluate(()=>Array.from(document.querySelector('video').srcObject.getTracks()).every(t=>t.readyState==='ended'));
+ await new Promise(resolve=>setTimeout(resolve,1200));
+ if(!stopped||peak>1||calls!==atStop)throw Error('Camera cleanup/backpressure failed');
+ fs.writeFileSync(require('path').join(process.env.RB_EVIDENCE_DIR??'../docs/evidence/product','camera-smoke.json'),JSON.stringify({input:'Chromium synthetic camera test pattern ONLY; no physical camera tested',realAIService:true,successfulFrames:successful,frameRequests:calls,maxConcurrentRequests:peak,tracksStopped:stopped,noRequestsAfterStop:calls===atStop,snapshot:true,physicalCamera:'Not covered by this synthetic test; see product/physical-camera-inference.json for separate physical-device results'},null,2));
+ await browser.close();console.log('Synthetic continuous camera/start/stop/snapshot PASS; physical camera NOT certified');
+})().catch(e=>{console.error(e);process.exit(1)});

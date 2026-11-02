@@ -1,0 +1,35 @@
+{
+  "modelVersion": "fasterrcnn-resnet50-fpn-v2-coco-dd69338a",
+  "source": "https://download.pytorch.org/models/fasterrcnn_resnet50_fpn_v2_coco-dd69338a.pth",
+  "sha256": "dd69338a24b8d7381807e247652bdc356325bcbaf1cd3e092e00e0a1a58706bf",
+  "bytes": 175221657,
+  "architectureLicense": "BSD-3-Clause",
+  "licenseReference": "https://github.com/pytorch/vision/blob/main/LICENSE",
+  "weightsReference": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.fasterrcnn_resnet50_fpn_v2.html",
+  "dataset": "COCO pretrained; no dataset downloaded or fine-tuning performed",
+  "device": "CUDA when available, otherwise CPU",
+  "preprocessing": "EXIF transpose, RGB, thumbnail <=1280; tensor 0..1; model resize min640/max960",
+  "classMap": "Torchvision COCO category metadata (91 slots including background/N/A, 80 object classes)",
+  "wasteMappedClasses": [
+    "bottle",
+    "cup",
+    "bowl",
+    "banana",
+    "apple",
+    "sandwich",
+    "orange",
+    "broccoli",
+    "carrot",
+    "hot dog",
+    "pizza",
+    "donut",
+    "cake"
+  ],
+  "limits": [
+    "General object detector, not waste classifier",
+    "No can/paper/battery classes",
+    "No material or bin-color certainty",
+    "False positives observed on crowded image",
+    "Confidence is not measured accuracy"
+  ]
+}

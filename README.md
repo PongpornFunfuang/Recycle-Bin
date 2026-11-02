@@ -1,35 +1,30 @@
 # Recycle Bin
 
-เว็บแอปภาษาไทยสำหรับช่วยนักศึกษาคัดแยกขยะ มีระบบสมัครสมาชิก/เข้าสู่ระบบ, สถิติรายบุคคล และแผงผู้ดูแลสำหรับจัดการฐานข้อมูลคำแนะนำ
+ผู้ช่วยคัดแยกขยะด้วย AI: Next.js/React/TypeScript/Tailwind + FastAPI/PyTorch/CUDA + Supabase PostgreSQL/Auth integration source.
 
-สถานะปัจจุบัน: เว็บยังรันเฉพาะในเครื่องและเชื่อมกับ Supabase โปรเจกต์ Recycle Bin แล้ว ฐานข้อมูลมีข้อมูลขยะตัวอย่าง ระบบโปรไฟล์ และ Row Level Security (RLS) ยังไม่ได้เผยแพร่เว็บขึ้นโฮสต์.
+**LOCAL PRODUCT IMPLEMENTATION / HOSTED DATABASE CONNECTED / AUTH & E2E PENDING / NOT RELEASE READY / NO DEPLOY**
 
-## ทดลองในเครื่อง
+UIฟ้า–ขาวตามโปสเตอร์ พร้อม Photo AI และกล้องจริง ผลทำนายแยกจากการยืนยันทิ้งขยะ ไม่มีการเดาสีถังหรือตำแหน่งมหาวิทยาลัย ระบบบัญชีและPersistenceต้องตั้งค่าSupabaseที่อนุมัติก่อน ไม่มีFakeLoginหรือFakeDatabaseSuccess
 
-เปิด PowerShell ในโฟลเดอร์โปรเจกต์ แล้วรัน `node local-server.js` จากนั้นเปิด `http://127.0.0.1:4173`. เลือก **เข้าเป็นนักศึกษา** หรือ **เข้าเป็นแอดมิน** เพื่อทดลองได้ทันที ข้อมูลในโหมดนี้อยู่ใน local storage ของเบราว์เซอร์และไม่ส่งออกจากเครื่อง.
+เปิดใน PowerShell จากโฟลเดอร์นี้:
 
-ปิดหน้าต่างเซิร์ฟเวอร์เพื่อหยุดเว็บทดลอง. ไม่มีการเผยแพร่ขึ้นโฮสต์.
+```powershell
+& '.\scripts\Start-Local.ps1'
+```
 
-## ตั้งค่า Supabase
+เว็บ http://127.0.0.1:3000 · Scanner http://127.0.0.1:3000/scanner · AI http://127.0.0.1:8000/health/ready
 
-1. โปรเจกต์และ schema หลักตั้งค่าไว้แล้ว หากเริ่มฐานข้อมูลใหม่ ให้วางและรัน `supabase-schema.sql` ใน **SQL Editor**.
-2. `supabase-profile-migration.sql` เพิ่มช่องรูปโปรไฟล์และนโยบายให้ผู้ใช้แก้ไขชื่อ/รูปของตัวเองได้ โดยไม่ให้แก้ role; migration นี้รันกับโปรเจกต์ที่ใช้อยู่แล้ว.
-3. สมัครบัญชีผ่านหน้าเว็บและยืนยันอีเมล หากโปรเจกต์เปิดการยืนยันอีเมลไว้ จากนั้นเจ้าของโปรเจกต์จึงตั้ง role ผู้ดูแลใน SQL Editor ตามคำสั่งท้าย `supabase-schema.sql`.
-4. เว็บเชื่อมกับ Project URL และ public publishable key ใน `supabase-config.js` แล้ว; ห้ามใส่ `service_role` key หรือรหัสผ่านฐานข้อมูลลงในโค้ดเว็บ.
-5. เปิดเว็บด้วย `node local-server.js` แล้วเข้า `http://127.0.0.1:4173`. URL นี้ตั้งไว้ใน Supabase Authentication → URL Configuration สำหรับการยืนยันอีเมลในเครื่อง.
+- [รายงาน Cloud Migration และการเชื่อมต่อจริง](docs/product/CLOUD_MIGRATION_REPORT_fdmohzvuxvsrcaddbjvl.md)
+- [รายงานงานต่อเนื่อง 2 พ.ย. 2026](docs/product/CONTINUATION_REPORT_2026-11-02.md)
+- [รายงานปัจจุบันครบ26ข้อ](docs/product/PRODUCT_REPORT.md)
+- [สารบัญเอกสารProduct](docs/product/README.md)
+- [ติดตั้ง/เปิด/ทดสอบในเครื่อง](docs/product/INSTALLATION_AND_LOCAL_RUN.md)
+- [EnvironmentและSecrets](docs/product/ENVIRONMENT.md)
+- [ผลทดสอบจริง](docs/product/AUTOMATED_TEST_REPORT.md)
+- [SQLReview](docs/product/MIGRATION_REVIEW.md)
+- [SupabaseRunbook](docs/product/SUPABASE_SETUP_RUNBOOK.md)
+- [CloudApprovalGate](docs/product/CLOUD_APPROVAL_GATE.md)
+- [ข้อจำกัดและReleaseGate](docs/product/RELEASE_READINESS.md)
+- [กู้คืนดีไซน์เดิม](backups/pre-blue-white-redesign/RESTORE.md)
 
-ใช้เฉพาะ public anon/publishable key ใน `supabase-config.js`. ห้ามนำ `service_role` key หรือรหัสผ่านฐานข้อมูลใส่ในโค้ดเว็บ เพราะไฟล์นี้ถูกส่งให้เบราว์เซอร์.
-
-## ระบบสิทธิ์
-
-- Supabase Auth จัดการบัญชีและ session.
-- โปรไฟล์เริ่มต้นมี role `user`; ผู้ใช้แก้ role ผ่านแอปไม่ได้.
-- ผู้ดูแลได้รับ role ผ่าน SQL Editor โดยเจ้าของโปรเจกต์เท่านั้น.
-- ผู้ใช้แก้ชื่อและรูปโปรไฟล์ของบัญชีตัวเองได้; สิทธิ์อัปเดตฐานข้อมูลจำกัดเฉพาะคอลัมน์โปรไฟล์ ไม่รวม role.
-- ผู้ใช้เปลี่ยนรหัสผ่านได้จากหน้าโปรไฟล์หลังเข้าสู่ระบบ.
-- Row Level Security จำกัดประวัติให้เจ้าของบัญชี และจำกัดการเพิ่ม/แก้ไข/ลบรายการขยะไว้เฉพาะผู้ดูแล.
-- การตั้งค่าเว็บใช้ public anon key; สิทธิ์จริงบังคับที่ฐานข้อมูลด้วย RLS.
-
-## ข้อจำกัดต้นแบบ
-
-การแนะนำจากรูปยังเป็นตัวอย่างจำลอง และแผนที่จุดทิ้งเป็นข้อมูลตัวอย่าง ต้องเชื่อมบริการ AI และสำรวจตำแหน่งจริงเพิ่มเติมก่อนใช้งานจริงในมหาวิทยาลัย.
+Backupดีไซน์เดิมตรวจHashก่อนRedesignแล้ว ไม่Restoreอัตโนมัติ ไม่ลบไฟล์เดิม ไม่เปลี่ยนGit ไม่มีCloudSQL/Project/AuthSettings/บริการเสียเงิน/Deploymentในรอบนี้ เอกสารรายงานเดิมเก็บเป็นประวัติเท่านั้น ไม่ใช่สถานะProductปัจจุบัน

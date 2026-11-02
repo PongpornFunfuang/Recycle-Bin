@@ -1,0 +1,12 @@
+from pathlib import Path
+root=Path(__file__).resolve().parents[1]
+p=root/'web/src/app/[section]/page.tsx';s=p.read_text(encoding='utf-8');s='import {protectPage} from "@/lib/page-access";\n'+s;s=s.replace('if(!titles[section])notFound();','if(!titles[section])notFound();if(["profile","settings","history","disposals","dashboard","feedback","contact","learning"].includes(section))await protectPage();');p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/admin/[[...section]]/page.tsx';s=p.read_text(encoding='utf-8');s='import {protectPage} from "@/lib/page-access";\n'+s;s=s.replace('const {section}=await params;','await protectPage(true);const {section}=await params;');p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/history/[id]/page.tsx';s=p.read_text(encoding='utf-8');s='import {protectPage} from "@/lib/page-access";\n'+s;s=s.replace('const {id}=await params;','await protectPage();const {id}=await params;');p.write_text(s,encoding='utf-8')
+p=root/'web/src/proxy.ts';s=p.read_text(encoding='utf-8').replace('"/profile","/history",','"/profile","/settings","/learning","/contact","/history/:path*",');p.write_text(s,encoding='utf-8')
+p=root/'web/src/components/knowledge.tsx';s=p.read_text(encoding='utf-8').replace('const articles=[','const articles:Article[]=[');p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/api/quizzes/route.ts';s=p.read_text(encoding='utf-8').replace("rpc('grade_quiz'","rpc('submit_quiz'");p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/api/disposals/route.ts';s=p.read_text(encoding='utf-8').replace('detectionId:z.uuid().nullable()','detectionId:z.uuid().nullable(),materialId:z.uuid().nullable().optional()').replace("rpc('confirm_disposal'","rpc('confirm_disposal_v2'").replace('p_detection:body.detectionId','p_detection:body.detectionId,p_confirmed:body.confirmed,p_material:body.materialId??null');p.write_text(s,encoding='utf-8')
+p=root/'contracts/schemas/foundation.schema.json';doc=__import__('json').loads(p.read_text(encoding='utf-8'));doc['$defs']['webReadiness']['properties']['checks']['properties']['database']['enum']=['ready','unavailable','not_configured','schema_pending'];p.write_text(__import__('json').dumps(doc,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+p=root/'web/.env.example';s=p.read_text(encoding='utf-8')+'\n# Server-only verified scan persistence. Never use NEXT_PUBLIC_ for these.\nSUPABASE_SECRET_KEY=\nSCAN_RECEIPT_SECRET=\n';p.write_text(s,encoding='utf-8')
+print('Protected page checks, bounded auth input and migration-v5 routes prepared')

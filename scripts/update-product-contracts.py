@@ -1,0 +1,21 @@
+from pathlib import Path
+import json
+r=Path(__file__).resolve().parents[1];p=r/'contracts/openapi/application.openapi.json';d=json.loads(p.read_text(encoding='utf-8'));d['info'].update(title='Recycle Bin — Local Product API',version='1.2.0',description='Real inference and Supabase-backed source. Hosted Auth/PostgreSQL integration pending approval and credentials. No Cloud SQL or deployment performed.')
+for url in ['/api/scans','/api/disposals','/api/quizzes','/api/member','/api/admin','/api/recommendations']:
+ d['paths'].pop(url,None)
+def operation(summary,body=None,query=None):
+ o={'summary':summary,'responses':{'200':{'description':'Actual operation succeeded; never simulated'},'400':{'description':'Invalid input'},'401':{'description':'Authentication required'},'403':{'description':'Denied'},'503':{'description':'Not configured, unavailable, or schema pending'}}}
+ if body:o['requestBody']={'required':True,'content':{'application/json':{'schema':body}}}
+ if query:o['parameters']=[{'name':n,'in':'query','required':False,'schema':{'type':'string'},'description':desc} for n,desc in query]
+ return o
+uuid={'type':'string','format':'uuid'};nullable={'anyOf':[uuid,{'type':'null'}]}
+d['paths']['/api/scans']={'post':operation('Authenticated verified photo/snapshot save; HMAC receipt expires after five minutes',{'type':'object','required':['result','receipt'],'properties':{'result':{'$ref':'../schemas/detection-result.schema.json'},'receipt':{'type':'string','maxLength':2048}}})}
+d['paths']['/api/disposals']={'post':operation('Explicit disposal confirmation, owner-isolated and idempotent',{'type':'object','required':['eventId','itemId','ruleId','quantity','confirmed','disposedAt','predictionId','detectionId'],'properties':{'eventId':uuid,'itemId':uuid,'ruleId':uuid,'quantity':{'type':'integer','minimum':1,'maximum':100},'confirmed':{'const':True},'disposedAt':{'type':'string','format':'date-time'},'predictionId':nullable,'detectionId':nullable,'materialId':nullable}})}
+d['paths']['/api/quizzes']={'get':operation('Published quizzes and questions; no private answer keys'),'post':operation('Authenticated private-key server grading via submit_quiz',{'type':'object','required':['quizId','eventId','answers'],'properties':{'quizId':uuid,'eventId':uuid,'answers':{'type':'object','additionalProperties':{'type':'integer','minimum':0,'maximum':7}}}})}
+d['paths']['/api/member']={'get':operation('Authenticated identity, profile, history, disposal, dashboard and submissions',query=[('section','identity|profile|settings|history|history-detail|disposals|dashboard|feedback|contact|learning'),('page','Zero-based page, 20 rows'),('id','Owned history UUID for history-detail')]),'post':operation('Authenticated profile edit or feedback/contact submission; owner derived from verified session')}
+d['paths']['/api/admin']={'get':operation('Server-authorized admin resource/overview/audit/review/relationships read',query=[('resource','See web/src/lib/admin-resources.ts plus overview/users/feedback/contact/audit/relationships')]),'post':operation('Server + DB admin checks; bounded JSON; create/edit/archive/role/review/relationship operation')}
+d['paths']['/api/recommendations']={'get':operation('Only unambiguous verified active local rules; material is user-confirmed',query=[('slug','Published catalog slug'),('label','COCO label mapped to context when slug absent'),('materialId','Optional linked UUID selected by user')])}
+if '/api/ai/detect' in d['paths']:d['paths']['/api/ai/detect']['post']['description']='Actual loopback inference. Multipart saveable=true optionally returns X-Scan-Receipt for an authenticated active account; no receipt for anonymous/live frame requests.'
+p.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+p=r/'scripts/inventory.py';s=p.read_text(encoding='utf-8').replace("'__pycache__','.pytest_cache','.local','.git'","'__pycache__','.pytest_cache','.local','.git','backups'").replace("if p.suffix in {'.pyc','.tsbuildinfo'}:continue", "if p.suffix in {'.pyc','.tsbuildinfo'} or (p.name.startswith('.env') and p.name!='.env.example'):continue");p.write_text(s,encoding='utf-8')
+print('Product API contracts aligned; source inventory skips local credentials')

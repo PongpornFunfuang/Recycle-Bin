@@ -1,0 +1,1 @@
+begin;update public.quizzes set status='published' where slug='general-waste-foundation' and version=1 and status='draft' and not exists(select 1 from public.quiz_attempts a where a.quiz_id=quizzes.id);commit;

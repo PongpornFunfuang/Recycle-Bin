@@ -1,0 +1,3 @@
+begin;insert into public.knowledge_entries(slug,title,body,kind,status,source_id) select 'campus-waste-reduction','ลดขยะในมหาวิทยาลัย','General Guidance — ไม่ใช่กฎมหาวิทยาลัย
+พกภาชนะใช้ซ้ำเมื่อเหมาะสม เลือกใช้เท่าที่จำเป็น แยกเศษอาหารจากวัสดุรีไซเคิล และตรวจป้ายจุดรับจริง ข้อความนี้เป็นคำแนะนำทั่วไป ไม่ใช่นโยบายมหาวิทยาลัย
+ตรวจแหล่งอ้างอิง 2 พฤศจิกายน 2026: https://greener.bangkok.go.th/waste-recycle/community-waste-guide/','article','published',id from public.data_sources where reference='https://greener.bangkok.go.th/waste-recycle/community-waste-guide/' order by id limit 1 on conflict(slug) do nothing;commit;

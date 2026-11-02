@@ -1,0 +1,1 @@
+begin;insert into public.waste_items(slug,name,synonyms,status,category_id) select 'cardboard','กล่องกระดาษ',array['cardboard'],'published',id from public.waste_categories where slug='recyclable' on conflict(slug) do nothing;commit;

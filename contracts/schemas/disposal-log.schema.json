@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://recyclebin.local/contracts/disposal-log.schema.json",
+  "$ref": "https://recyclebin.local/contracts/foundation.schema.json#/$defs/disposalLog"
+}

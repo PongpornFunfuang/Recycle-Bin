@@ -1,0 +1,120 @@
+{
+  "authoredFiles": [
+    {
+      "path": "contracts\\openapi\\application.openapi.json",
+      "bytes": 2121,
+      "sha256": "85ff1260d3a4e500b181e38ef54b5537dfda45c125968beb007a2af3c8f962f1"
+    },
+    {
+      "path": "contracts\\openapi\\inference.openapi.json",
+      "bytes": 1286,
+      "sha256": "a8ead1ddad327ffd4782b6260172857cae55e1ef247f1afafa20103186896158"
+    },
+    {
+      "path": "contracts\\schemas\\api-error.schema.json",
+      "bytes": 217,
+      "sha256": "51377f59d594cb8cbf3bf4674a56634e47c916ae73b61064bf6d76e34b05a949"
+    },
+    {
+      "path": "contracts\\schemas\\detection-result.schema.json",
+      "bytes": 234,
+      "sha256": "6f6e7e59eb7934dafd3a73a17e7cb9688d87ed92425a6489cc15b550c84c8a5c"
+    },
+    {
+      "path": "contracts\\schemas\\disposal-log.schema.json",
+      "bytes": 226,
+      "sha256": "ba622613144f51e6436a8151bea8612a364d186dadb645168091ff646c6e9912"
+    },
+    {
+      "path": "contracts\\schemas\\foundation.schema.json",
+      "bytes": 14083,
+      "sha256": "d8779c668268f5fa824f828732ad7c5f220f6c0ebe65f8042c7e81092054b6d0"
+    },
+    {
+      "path": "contracts\\schemas\\model-manifest.schema.json",
+      "bytes": 230,
+      "sha256": "22a1cb1d993a9b8b2b7fc8aa484efd0987aaac36228e75bb4013dd5593fdff8e"
+    },
+    {
+      "path": "contracts\\schemas\\photo-request.schema.json",
+      "bytes": 228,
+      "sha256": "b43fbe939b4d78976763c338a20bd96303be6d07011c0a8a4b7d6bdcc919a01f"
+    },
+    {
+      "path": "contracts\\schemas\\recommendation.schema.json",
+      "bytes": 231,
+      "sha256": "e23dc9f2cb9ce2428cf779c3f96a60d217cd60ae695282db30425a9e14cb06a5"
+    },
+    {
+      "path": "contracts\\schemas\\scanner-session.schema.json",
+      "bytes": 225,
+      "sha256": "5a73c4589d3f44b4fb4b7ac3da10aae78690108cc016bc3053f325b4fa081f4f"
+    },
+    {
+      "path": "database\\README.md",
+      "bytes": 1203,
+      "sha256": "86a23ca164a7addc8522299f80452d91131e9855ee9431dc3dc41dffc48afb5b"
+    },
+    {
+      "path": "database\\schemas\\ai-predictions.validator.json",
+      "bytes": 635,
+      "sha256": "9fbcde8036e6f623516bd59120988e6f47b015cb7de8c7d0b26ce820eb7c64f1"
+    },
+    {
+      "path": "database\\schemas\\verified-rules.validator.json",
+      "bytes": 695,
+      "sha256": "44b64bfc2d8cd02251213c9503ab331ef32e3556ea668c91ee406b8b67f0fcd6"
+    },
+    {
+      "path": "database\\schemas\\waste-logs.validator.json",
+      "bytes": 623,
+      "sha256": "695e84e44213d6e284f77039879e6a5fcb1109f50a79b65ba34381f749b763ef"
+    },
+    {
+      "path": "docs\\milestone-1\\acceptance.md",
+      "bytes": 1217,
+      "sha256": "a9ed5638b409eeb90961117157ff9b54378e672a80ac4a23ea59c96cced60451"
+    },
+    {
+      "path": "docs\\milestone-1\\baseline-files.json",
+      "bytes": 1767,
+      "sha256": "e595d2b6068ed4ba2a87848903ce53cf25f4c7f9c01364544b8af91fad835e92"
+    },
+    {
+      "path": "docs\\milestone-1\\blocked-status.json",
+      "bytes": 1584,
+      "sha256": "42a9939f9308539395d2b714f0abf1c02a5315cf1296a8f1853e2503c412413b"
+    },
+    {
+      "path": "docs\\milestone-1\\compatibility.md",
+      "bytes": 2874,
+      "sha256": "cec85d4c81a3fcedc6ea1f080cb94f39959a98b1920ef1f3faa11613621f76ce"
+    },
+    {
+      "path": "docs\\milestone-1\\completion-report.md",
+      "bytes": 6713,
+      "sha256": "9faf718f5188f923be2658f0829ea6c83dc08e261d03e737b1863c8bf97f7230"
+    },
+    {
+      "path": "docs\\milestone-1\\m1-a-review.json",
+      "bytes": 346,
+      "sha256": "6ae4c80223f45cb909227ff6d472c3c5a8791af1c4e4328d8caab9a85c4f22d2"
+    },
+    {
+      "path": "docs\\milestone-1\\README.md",
+      "bytes": 1523,
+      "sha256": "3ddcc23dac350d3c72ffb7822bedfa6e49619652d35e660da52d1ae2183dd780"
+    }
+  ],
+  "thisManifest": "docs/milestone-1/file-inventory.json",
+  "generatedEnvironment": {
+    "path": "ai-service/.venv",
+    "fileCount": 861,
+    "bytes": 11995530,
+    "packages": [
+      "pip==25.0.1"
+    ],
+    "applicationDependenciesInstalled": false
+  },
+  "modifiedPreExistingFiles": []
+}

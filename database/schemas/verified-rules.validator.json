@@ -1,0 +1,41 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": [
+      "areaId",
+      "ruleId",
+      "version",
+      "verificationStatus",
+      "sourceRefs"
+    ],
+    "properties": {
+      "areaId": {
+        "bsonType": "string"
+      },
+      "ruleId": {
+        "bsonType": "string"
+      },
+      "version": {
+        "bsonType": "int",
+        "minimum": 1
+      },
+      "verificationStatus": {
+        "enum": [
+          "pending",
+          "verified",
+          "example",
+          "expired"
+        ]
+      },
+      "sourceRefs": {
+        "bsonType": "array"
+      },
+      "binColor": {
+        "bsonType": [
+          "string",
+          "null"
+        ]
+      }
+    }
+  }
+}

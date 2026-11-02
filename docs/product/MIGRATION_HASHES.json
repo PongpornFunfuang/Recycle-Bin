@@ -1,0 +1,42 @@
+[
+  {
+    "file": "database/postgres/0001_foundation.sql",
+    "sha256": "4ec71fc39f989962ae9acace0d1f6509341704daee5a4bb3c96e5e534824629b",
+    "cloudExecuted": true,
+    "cloudProject": "fdmohzvuxvsrcaddbjvl",
+    "cloudStatus": "COMMITTED",
+    "ledger": "docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/ledger.json"
+  },
+  {
+    "file": "database/postgres/0002_admin_workflow.sql",
+    "sha256": "c616550531ea6773cd23ddfd3b8253856ce02b4dc644af2069284a6fa01a7526",
+    "cloudExecuted": true,
+    "cloudProject": "fdmohzvuxvsrcaddbjvl",
+    "cloudStatus": "COMMITTED",
+    "ledger": "docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/ledger.json"
+  },
+  {
+    "file": "database/postgres/0003_member_workflow.sql",
+    "sha256": "5178d1e87d24b6feed756e5b1f5d53e2064808cdd0a40e62cbb30f587ef02747",
+    "cloudExecuted": true,
+    "cloudProject": "fdmohzvuxvsrcaddbjvl",
+    "cloudStatus": "COMMITTED",
+    "ledger": "docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/ledger.json"
+  },
+  {
+    "file": "database/postgres/0004_quiz_workflow.sql",
+    "sha256": "44c7946584d66a47455a4c0fea81896fc16b8441812121c87869883ed25e24f5",
+    "cloudExecuted": true,
+    "cloudProject": "fdmohzvuxvsrcaddbjvl",
+    "cloudStatus": "COMMITTED",
+    "ledger": "docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/ledger.json"
+  },
+  {
+    "file": "database/postgres/0005_product_hardening.sql",
+    "sha256": "feb76b37c73c986dcee9dccde36cc0d44d02e67b81e7b16cf292ee2a89d73c09",
+    "cloudExecuted": true,
+    "cloudProject": "fdmohzvuxvsrcaddbjvl",
+    "cloudStatus": "COMMITTED",
+    "ledger": "docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/ledger.json"
+  }
+]

@@ -1,0 +1,16 @@
+import {test} from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync,readdirSync} from "node:fs";
+import {resolve,dirname} from "node:path";
+import Ajv2020 from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
+import {expectedDatabaseMode} from './database-mode';
+import {detectionContract} from "../src/lib/detection-contract";
+const directory=resolve("../contracts/schemas");
+const schema=JSON.parse(readFileSync(resolve(directory,"foundation.schema.json"),"utf8"));
+const ajv=new Ajv2020({strict:false,allErrors:true});addFormats(ajv);ajv.addSchema(schema);
+test("all JSON schema wrappers resolve and compile",()=>{for(const name of readdirSync(directory).filter(n=>n.endsWith('.json')&&n!=="foundation.schema.json")){const doc=JSON.parse(readFileSync(resolve(directory,name),"utf8"));assert.ok(ajv.compile(doc));}});
+test("actual model contract manifest validates",()=>{const manifest=JSON.parse(readFileSync('../ml/manifests/active-contract-manifest.json','utf8'));const validate=ajv.getSchema(schema.$id+'#/$defs/modelManifest')!;assert.ok(validate(manifest),JSON.stringify(validate.errors));});
+test("all OpenAPI local references resolve",()=>{for(const name of ["application.openapi.json","inference.openapi.json"]){const file=resolve("../contracts/openapi",name);const doc=JSON.parse(readFileSync(file,"utf8"));function walk(value:unknown){if(value&&typeof value==="object"){for(const [key,v] of Object.entries(value)){if(key==="$ref"&&typeof v==="string"&&!v.startsWith('http')){const [relative,pointer]=v.split('#');let target=JSON.parse(readFileSync(resolve(dirname(file),relative),"utf8"));for(const key of (pointer??'').split('/').slice(1))target=target[key.replace(/~1/g,'/').replace(/~0/g,'~')];assert.notEqual(target,undefined,v);}else walk(v);}}}walk(doc);}});
+test("actual local AI response satisfies JSON and semantic contracts",async()=>{const form=new FormData();form.append("image",new Blob([readFileSync("../ml/test-images/bottles-for-recycling.jpg")],{type:"image/jpeg"}),"renamed.jpg");const r=await fetch("http://127.0.0.1:8000/ai/detect",{method:"POST",body:form});assert.equal(r.status,200);const body=await r.json();const validate=ajv.getSchema(schema.$id+"#/$defs/detectionResult")!;assert.ok(validate(body),JSON.stringify(validate.errors));assert.ok(detectionContract.safeParse(body).success);const bad={...body,detections:[{...body.detections[0],confidence:1.5}]};assert.equal(detectionContract.safeParse(bad).success,false);});
+test("real health satisfies contracts and the explicitly expected database mode",async()=>{for(const [url,def,status] of [["http://127.0.0.1:3000/api/health/live","liveness",200],["http://127.0.0.1:3000/api/health/ready","webReadiness",expectedDatabaseMode==='ready'?200:503],["http://127.0.0.1:8000/health/ready","aiReadiness",200]] as const){const r=await fetch(url);assert.equal(r.status,status);const body=await r.json();if(def==='webReadiness')assert.equal(body.checks.database,expectedDatabaseMode);const validate=ajv.getSchema(schema.$id+"#/$defs/"+def)!;assert.ok(validate(body),JSON.stringify(validate.errors));}});

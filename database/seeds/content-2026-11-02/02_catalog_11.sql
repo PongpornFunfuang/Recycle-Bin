@@ -1,0 +1,1 @@
+begin;insert into public.waste_items(slug,name,synonyms,status,category_id) select 'used-battery','ถ่านไฟฉายใช้แล้ว',array['used battery'],'published',id from public.waste_categories where slug='hazardous' on conflict(slug) do nothing;commit;

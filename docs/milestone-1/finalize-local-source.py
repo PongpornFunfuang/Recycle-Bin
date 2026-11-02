@@ -1,0 +1,23 @@
+from pathlib import Path
+root=Path(__file__).resolve().parents[2]
+p=root/'web/tests/http.test.ts';s=p.read_text(encoding='utf-8').replace('{headers})),false)','{headers:headers as Record<string,string>})),false)');p.write_text(s,encoding='utf-8')
+p=root/'web/src/lib/admin-resources.ts';s=p.read_text(encoding='utf-8').replace('key in resources','Object.hasOwn(resources,key)').replace("['status','สถานะ','draft,verified,retired']","['steps','ขั้นตอน (บรรทัดละข้อ)','lines'],['status','สถานะ','draft,verified,retired']");p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/api/admin/route.ts';s=p.read_text(encoding='utf-8').replace('["text","textarea","number"].includes(kind)','["text","textarea","number","lines"].includes(kind)').replace('if(kind==="number")','if(kind==="lines")fields[name]=z.array(z.string().min(1).max(500)).min(1).max(30).parse(String(value).split("\\n").map(v=>v.trim()).filter(Boolean));else if(kind==="number")');p.write_text(s,encoding='utf-8')
+p=root/'web/src/components/admin-manager.tsx';s=p.read_text(encoding='utf-8').replace('["text","textarea","number"].includes(kind)','["text","textarea","number","lines"].includes(kind)').replace('kind==="textarea"?<textarea','(kind==="textarea"||kind==="lines")?<textarea').replace('defaultValue={String(editing?.[field]??"")} required/>:<input','defaultValue={Array.isArray(editing?.[field])?(editing?.[field] as string[]).join("\\n"):String(editing?.[field]??"")} required/>:<input');p.write_text(s,encoding='utf-8')
+# Quiz answers stay in a server-imported module, separate from the client catalog.
+p=root/'web/src/lib/catalog.ts';s=p.read_text(encoding='utf-8');marker='export const questions = '
+if marker in s:
+ before,after=s.split(marker,1);(root/'web/src/lib/quiz-data.ts').write_text(marker+after,encoding='utf-8');p.write_text(before,encoding='utf-8')
+for relative in ['web/src/app/api/quiz/route.ts','web/src/app/quiz/page.tsx']:
+ p=root/relative;s=p.read_text(encoding='utf-8').replace('from "@/lib/catalog"','from "@/lib/quiz-data"');p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/api/member/route.ts';s=p.read_text(encoding='utf-8');needle='const table=section==="history"'
+s=s.replace(needle,'if(section==="dashboard"){const {data,error:e}=await client.rpc("member_summary");return e?error("อ่านสถิติไม่ได้",503):NextResponse.json({configured:true,authenticated:true,summary:data},{headers:{"Cache-Control":"no-store"}});}'+needle)
+needle='if(body.section==="feedback")'
+s=s.replace(needle,'if(body.section==="contact"){const subject=z.string().trim().min(1).max(150).parse(body.subject);const message=z.string().trim().min(3).max(3000).parse(body.message);const {error:e}=await client.from("contact_messages").insert({user_id:user.id,subject,message});return e?error("ส่งข้อความไม่สำเร็จ",400):NextResponse.json({message:"บันทึกข้อความติดต่อแล้ว"});}'+needle)
+p.write_text(s,encoding='utf-8')
+p=root/'web/src/components/member-panel.tsx';s=p.read_text(encoding='utf-8').replace('isAdmin?:boolean','summary?:{scans:number;disposals:number;items:number};isAdmin?:boolean').replace('section==="feedback"?<form','(section==="feedback"||section==="contact")?<form').replace('<label>ความคิดเห็นต่อระบบ','{section==="contact"&&<label>หัวข้อ<input name="subject" maxLength={150} required/></label>}<label>ความคิดเห็นต่อระบบ').replace('name="message" rows={5} maxLength={2000}','name="message" rows={5} maxLength={section==="contact"?3000:2000}').replace('ส่ง Feedback</button>','{section==="contact"?"ส่งข้อความ":"ส่ง Feedback"}</button>')
+s=s.replace(':<>{data.rows?.length?',':section==="dashboard"&&data.summary?<div className="stats">{[["สแกนที่บันทึก",data.summary.scans],["การยืนยันทิ้ง",data.summary.disposals],["จำนวนชิ้นที่ยืนยัน",data.summary.items]].map(([label,value])=><div className="stat" key={String(label)}><span>{label}</span><strong>{value}</strong></div>)}</div>:<>{data.rows?.length?')
+s=s.replace('<pre key={i} style={{whiteSpace:"pre-wrap",overflowWrap:"anywhere",fontSize:12}}>{JSON.stringify(row,null,2)}</pre>','<article className="detection" key={i}><strong>{section==="history"?"ผลสแกน "+String(row.mode):"ยืนยันทิ้ง "+String(row.quantity)+" ชิ้น"}</strong><p>{new Date(String(row.created_at)).toLocaleString("th-TH")}</p>{section==="history"&&<p>ผลตรวจจับไม่ใช่หลักฐานการทิ้ง · สถานะ {String(row.status)}</p>}</article>')
+p.write_text(s,encoding='utf-8')
+p=root/'web/src/app/[section]/page.tsx';s=p.read_text(encoding='utf-8').replace('"dashboard","feedback"].includes(section)','"dashboard","feedback","contact"].includes(section)');p.write_text(s,encoding='utf-8')
+print('Added member summary/contact, rule steps and server-only quiz data; tightened test types')

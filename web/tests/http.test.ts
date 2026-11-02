@@ -1,0 +1,7 @@
+import {test} from "node:test";
+import assert from "node:assert/strict";
+import {NextRequest} from "next/server";
+import {expectedDatabaseMode} from './database-mode';
+import {sameOrigin} from "../src/lib/http";
+test("origin uses actual loopback Host rather than Next internal hostname",()=>{assert.equal(sameOrigin(new NextRequest('http://localhost:3000/api/quiz',{headers:{host:'127.0.0.1:3000',origin:'http://127.0.0.1:3000'}})),true);for(const headers of [{host:'127.0.0.1:3000',origin:'https://evil.example'},{host:'evil.example',origin:'http://evil.example'},{host:'127.0.0.1:3000'}])assert.equal(sameOrigin(new NextRequest('http://localhost:3000/api/quiz',{headers:headers as Record<string,string>})),false);});
+test("cross-origin mutations reject; configured APIs deny anonymous users without fabricated login attempts",async()=>{for(const route of ['/api/quiz','/api/auth','/api/member','/api/admin','/api/ai/detect']){const r=await fetch('http://127.0.0.1:3000'+route,{method:'POST',headers:{origin:'https://evil.example','Content-Type':'application/json'},body:'{}'});assert.equal(r.status,403,route);}if(expectedDatabaseMode==='not_configured'){const r=await fetch('http://127.0.0.1:3000/api/auth',{method:'POST',headers:{origin:'http://127.0.0.1:3000','Content-Type':'application/json'},body:JSON.stringify({action:'logout'})});assert.equal(r.status,503);}else{for(const path of ['/api/member?section=identity','/api/admin']){const r=await fetch('http://127.0.0.1:3000'+path);assert.equal(r.status,401);}}});

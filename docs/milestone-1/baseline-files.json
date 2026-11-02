@@ -1,0 +1,41 @@
+{
+  "capturedAtUtc": "2026-11-01T11:59:37.142346+00:00",
+  "workspace": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN",
+  "originalWorkspaceEntries": [
+    "RECYCLE_BIN_ANALYSIS_AND_PLAN.md",
+    "RECYCLE_BIN_FRESH_PLAN_2026-11-01.md"
+  ],
+  "protectedFiles": [
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\RECYCLE_BIN_ANALYSIS_AND_PLAN.md",
+      "bytes": 109250,
+      "sha256": "65d236881b57bc3bd691fe25a364830da67d64725c1d06da9b4f8213c16b8d07"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\RECYCLE_BIN_FRESH_PLAN_2026-11-01.md",
+      "bytes": 116595,
+      "sha256": "6aa717b18725babe06ed36f3fee5986441991420070102270c4e69975a7cf2aa"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RecycleBin_รายงานขั้นตอน1-3 (2).pdf",
+      "bytes": 89198,
+      "sha256": "781e4ba594d2dec663d1fa27567ff62b3e1673f6fcf27101d6de229254da9080"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\แบบประเมินโครงงาน Application วิเคราะห์ปัญหาด้วย AI.pdf",
+      "bytes": 225699,
+      "sha256": "c1150b5225809ac9976100f8a2443bead0fcf2608405d89215e31fd70afb5001"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\Recycle Bin (2).png",
+      "bytes": 2715677,
+      "sha256": "6436c1528b160d4c3545c802698019a1645113cf3d1aabe207bbe8195f4356d9"
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\.codex\\attachments\\6ee755af-8640-4980-bdde-b8d63f349600\\Pasted text.txt",
+      "bytes": 43454,
+      "sha256": "96d7a6e3c56cdf4d1281c6677e0dc7c0c87dceba256d6089118157739c13752e"
+    }
+  ],
+  "authorization": "Phase 2 M1-A/B/C only; no M2-M10, no deploy, no Git changes, no model weights or dataset"
+}

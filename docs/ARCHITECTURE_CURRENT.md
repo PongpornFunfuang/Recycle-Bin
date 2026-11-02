@@ -1,0 +1,17 @@
+# Current architecture — local demo
+
+Authority: c85735e2 Master Full Development Prompt. M1–M10 local development is authorized; cloud project creation/SQL execution/deployment is not. Original plans and MongoDB validators are historical references, not current runtime configuration.
+
+Browser -> local Next.js UI/Business API -> local FastAPI -> real Torchvision COCO model. Next.js uses Supabase Auth/PostgreSQL only after configuration and separate cloud approval. No active MongoDB/Better Auth dependency. No public network binding. Local uploads are processed in memory; raw frames and images are not persisted.
+
+Next.js endpoints include liveness/readiness, AI proxy, quiz grading, Supabase Auth/callback, member profile/contact/feedback/history/summary, admin management, scan save, verified-area recommendations and explicit disposal. Normal database requests use the publishable key and user JWT, not a service-role key. Cookie session identity is verified by Supabase, and RLS is a second boundary. Unconfigured cloud features return truthful unavailable/Not Configured states.
+
+AI: Faster R-CNN ResNet50 FPN v2 COCO; CUDA preferred, CPU fallback. File magic/dimensions/byte limits, EXIF orientation, JPEG decoder downsampling, thumbnailing, normalized boxes, thresholded scores, actual model readiness, SHA-256 validation and single-job inference gate. Real-time uses sequential HTTP frames; no WebSocket server or browser-side model is claimed. Physical mobile/webcam tests remain pending. On a phone, localhost refers to the phone: the present loopback setup does not provide phone access to this Windows server. No LAN binding/HTTPS tunnel/firewall change was made.
+
+Recommendation is independent of AI. Built-in guide entries are explicitly unverified for SPU KK; cloud recommendations require exactly one applicable verified unconditional rule and verified source. Ambiguous/material-dependent rules remain Pending. Bin color and position are never inferred. Known caveat: a full source expiry/retention operational workflow and approved campus facts are pending.
+
+PostgreSQL: UUID PKs, ownership composite FKs, per-user RLS, column-level profile update grants, private roles/status/answer keys/audit, verified-source filtering and protected rule versions. Scan snapshots/detections save atomically as client_reported. Confirmed disposal is a separate idempotent audited transaction. Multi-row RPCs are tested in PGlite with explicit non-owner database roles and synthetic auth.uid stubs. These tests do not prove hosted Supabase compatibility, Auth email delivery, project policy setup, or JWT claims handling in a real project.
+
+Known remaining source/integration work: hosted setup, complete provider/error/session integration, Google/LINE, hosted validation of quiz management/grading, full source review/expiry workflow, broader catalog filters, material confirmation UI, campus map data, image history thumbnails/private-file persistence if approved, account deletion/privacy retention, real-user acceptance and unseen-image evaluation. No fabricated data is substituted for these gaps.
+
+Security: loopback services, same-origin mutations checked against actual loopback Host, no CORS for AI, optional internal token, input/response validation, no arbitrary file path API, publishable-key-only configuration, no public secrets. Dependency audit and client-build canary checks are limited evidence, not a complete security certification. Deployment gate remains NOT READY.

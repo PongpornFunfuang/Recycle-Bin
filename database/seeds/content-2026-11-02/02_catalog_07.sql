@@ -1,0 +1,1 @@
+begin;insert into public.waste_items(slug,name,synonyms,status,category_id) select 'fruit-peels','เศษผักและผลไม้',array['fruit peels'],'published',id from public.waste_categories where slug='organic' on conflict(slug) do nothing;commit;

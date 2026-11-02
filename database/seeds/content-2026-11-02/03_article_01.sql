@@ -1,0 +1,3 @@
+begin;insert into public.knowledge_entries(slug,title,body,kind,status,source_id) select 'general-four-types','การคัดแยกขยะ 4 ประเภท','General Guidance — ไม่ใช่กฎมหาวิทยาลัย
+แยกอินทรีย์ รีไซเคิล อันตราย และทั่วไป ตรวจป้ายจุดรับก่อนทิ้ง สีในแอปเป็นแนวทางทั่วไป ไม่ยืนยันสีถังมหาวิทยาลัย
+ตรวจแหล่งอ้างอิง 2 พฤศจิกายน 2026: https://greener.bangkok.go.th/waste-recycle/community-waste-guide/','article','published',id from public.data_sources where reference='https://greener.bangkok.go.th/waste-recycle/community-waste-guide/' order by id limit 1 on conflict(slug) do nothing;commit;

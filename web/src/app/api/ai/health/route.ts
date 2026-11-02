@@ -1,0 +1,3 @@
+import {NextResponse} from "next/server";
+import {aiServiceConfig} from "@/lib/config";
+export async function GET(){try{const service=aiServiceConfig();const r=await fetch(`${service.url}/health/ready`,{headers:service.headers,cache:"no-store",signal:AbortSignal.timeout(5000)});let data:Record<string,unknown>={};try{data=await r.json();}catch{}const ready=r.ok&&data.aiScannerReady===true;return NextResponse.json({ready,model:typeof data.modelVersion==="string"?data.modelVersion:null,...(ready?{}:{reason:"ai_unavailable"})},{status:ready?200:503,headers:{"Cache-Control":"no-store"}});}catch{return NextResponse.json({ready:false,reason:"ai_unavailable"},{status:503,headers:{"Cache-Control":"no-store"}});}}

@@ -1,0 +1,1 @@
+begin;insert into public.quizzes(slug,version,title,status) values('general-waste-foundation',1,'คัดแยกขยะเบื้องต้น — แนวทางทั่วไป','draft') on conflict(slug,version) do nothing;commit;

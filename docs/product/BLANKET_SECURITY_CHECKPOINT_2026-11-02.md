@@ -1,0 +1,9 @@
+# Current security checkpoint — INCOMPLETE / NO DEPLOY
+
+Latest user blanket authorization permits necessary safe non-destructive migrations on fdmohzvuxvsrcaddbjvl after review; do not ask same approval again. Actual read-only Hosted preflight returned versions[5], locations0, bins0, newColumns0. SQL editor query saved automatically in Dashboard. NO migration executed. FirstAdmin and0001–0005 untouched.
+
+This continuation fixed draft drag resetting entered name, retained saved-record ID when moving a new selection, and broadened verified-location edits returning Pending. Added private idempotency request table + RPC request locking/conflict check and client retry request ID. Typecheck PASS. Existing isolated DB suite PASS6 after SQL changes, but no explicit new idempotency assertion yet; do not claim that behavior tested. Other tests/build from earlier checkpoints do not cover these latest edits.
+
+Remaining security work before Hosted Apply: move Local-only evidence to approved private Supabase Storage with RLS/verified-public read checks; verify evidence existence in RPC rather than photo UUID alone; idempotent retry tests and stale draft edits; revise source approval so unrelated source facts cannot become verified implicitly; evidence-relevant bin/junction edits must invalidate affected locations; atomic edit/relationship behavior and complete Browser E2E in isolated environment; final build/tests/mobile/a11y. Current0007 must not be applied until those concerns resolved. No real campus pins supplied or created.
+
+SMTP approval exists for non-secret settings; owner must personally create/enter App Password and confirm readiness before any test mail. No credentials created/read/recorded/sent and no SMTP change in this continuation. Public deployment still requires readiness review and user final confirmation. Keep working on unblocked tasks; this report is not completion.

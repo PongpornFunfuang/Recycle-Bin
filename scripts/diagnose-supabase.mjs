@@ -1,0 +1,5 @@
+import fs from 'node:fs';
+const root='C:/Users/P.12x_/Desktop/RECYCLE BIN';const env=Object.fromEntries(fs.readFileSync(root+'/web/.env.local','utf8').split(/\r?\n/).filter(l=>l.includes('=')&&!l.startsWith('#')).map(l=>{const i=l.indexOf('=');return [l.slice(0,i),l.slice(i+1).trim()];}));
+const result={scope:'Read-only hosted API diagnostic; no credentials printed',keyFormatValid:env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.startsWith('sb_publishable_'),serverKeyFormatValid:env.SUPABASE_SECRET_KEY?.startsWith('sb_secret_')};
+try{const response=await fetch(env.NEXT_PUBLIC_SUPABASE_URL+'/rest/v1/rpc/product_health',{method:'POST',headers:{apikey:env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,'content-type':'application/json'},body:'{}',signal:AbortSignal.timeout(12000)});const body=await response.json();result.httpStatus=response.status;result.code=body.code??null;if(response.ok)result.schemaVersion=body.schemaVersion;}catch(error){result.errorName=error.name;result.causeCode=error.cause?.code??null;}
+fs.writeFileSync(root+'/docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/direct-api-diagnostic.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));

@@ -1,0 +1,304 @@
+{
+  "basis": "recovery-baseline.json; no Git. Env secret values excluded; evidence artifacts under separate directory.",
+  "files": [
+    {
+      "path": "database/postgres/0005_product_hardening.sql",
+      "status": "Modified",
+      "sha256": "feb76b37c73c986dcee9dccde36cc0d44d02e67b81e7b16cf292ee2a89d73c09"
+    },
+    {
+      "path": "docs/product/ADMIN_MANUAL.md",
+      "status": "Modified",
+      "sha256": "6c94300e835dcb59644b16a4f6470977b0a83a4ad5010b5b7a7a9842b28e468d"
+    },
+    {
+      "path": "docs/product/AI_MODEL.md",
+      "status": "Modified",
+      "sha256": "b6660cd35706193d5bd74a054885ebfb5fd62884a615afa7e9ad2ea58762088f"
+    },
+    {
+      "path": "docs/product/ARCHITECTURE.md",
+      "status": "Modified",
+      "sha256": "43c85cfaeb7e67bac8bcaa3aaf97e1482094f9dd229d4a36de7087b3427473d2"
+    },
+    {
+      "path": "docs/product/AUTOMATED_TEST_REPORT.md",
+      "status": "Modified",
+      "sha256": "4c924a2752d5a30f2f499688e505b597c0129ec84bee126b195f6415f4ef7830"
+    },
+    {
+      "path": "docs/product/CLOUD_APPROVAL_GATE.md",
+      "status": "Modified",
+      "sha256": "34ac9da12641fd72c8201bff4bbb77c7fff482c1fdb4ea6c5434aef838d10d69"
+    },
+    {
+      "path": "docs/product/CONTINUATION_REPORT_2026-11-02.md",
+      "status": "Created",
+      "sha256": "84db9443aff453cae49c3a9a6e9ef70bac64f734274d977c6f6ac1f36b0aa3f1"
+    },
+    {
+      "path": "docs/product/FIRST_ADMIN_REVIEW_TEMPLATE.md",
+      "status": "Created",
+      "sha256": "957cb1719bf3c874d016de4c305673849817fc1e923ad53632666ed982341f25"
+    },
+    {
+      "path": "docs/product/KNOWN_LIMITATIONS.md",
+      "status": "Modified",
+      "sha256": "d897ccf548090b04fa98e4148dd2030d67978e65fd1b285374ccb96e63db1cf7"
+    },
+    {
+      "path": "docs/product/MIGRATION_HASHES.json",
+      "status": "Modified",
+      "sha256": "99a97986984f66de8d923def8eaf40c1c15748d3f67eba7c6a99fddf92018a9d"
+    },
+    {
+      "path": "docs/product/MIGRATION_REVIEW.md",
+      "status": "Modified",
+      "sha256": "77cca3ad2a1a1c073f508b44aa78d41e14d5d64144ca89a952322ef187e64cdd"
+    },
+    {
+      "path": "docs/product/PRODUCT_REPORT.md",
+      "status": "Modified",
+      "sha256": "776890a7c9e0ab213c4f7067696cc53750c86d29f3397b9527bdf873862b00ed"
+    },
+    {
+      "path": "docs/product/README.md",
+      "status": "Modified",
+      "sha256": "f86dcd7c35afd6948143288ff4188f4d9b25f9741a8a99e982995385f2728a3b"
+    },
+    {
+      "path": "docs/product/RELEASE_READINESS.md",
+      "status": "Modified",
+      "sha256": "19ba6e1f3c612f9d783f3a9867e85a0c1761c97ce3603d78464d25e9a16ee432"
+    },
+    {
+      "path": "docs/product/schema-catalog.json",
+      "status": "Modified",
+      "sha256": "38e8bf55c7ba84d04905eeac185464407263a3b56361ad51b57d552763a0f38a"
+    },
+    {
+      "path": "docs/product/SECURITY_CHECKLIST.md",
+      "status": "Modified",
+      "sha256": "436223dca8d25d03f3921270a5e5aaa33eb24118212319398f7d43fdd240a39a"
+    },
+    {
+      "path": "docs/product/SUPABASE_SETUP_RUNBOOK.md",
+      "status": "Modified",
+      "sha256": "c4e0a504ddf032f691b50482a45b4880bfbac1fa73de9fae9f75d95799366920"
+    },
+    {
+      "path": "docs/product/USER_MANUAL.md",
+      "status": "Modified",
+      "sha256": "66fe05f4d3f1b90d3115a3a43621a87cb774bc53c93f02303a5f8d8e0af2abba"
+    },
+    {
+      "path": "README.md",
+      "status": "Modified",
+      "sha256": "156fe662a5438b3cc9c5a739efabb5ec59a969882176292e8126c5e9c2393e53"
+    },
+    {
+      "path": "scripts/component-regressions.cjs",
+      "status": "Created",
+      "sha256": "5949533f265384f4362f9f8356071a2debea89908f502fd2654c7e1eb5b508ea"
+    },
+    {
+      "path": "scripts/continuation-final-checks.py",
+      "status": "Created",
+      "sha256": "b26e788a5c4fa9ece3ee375c7e34d94ef83c69a6bdd24ff8984baaaaea6753ee"
+    },
+    {
+      "path": "scripts/continuation-test-paths.py",
+      "status": "Created",
+      "sha256": "7d622d2bd8854b7805fd2902f46ba7fd51899b9291bd73ec9a18ffac76eb5af5"
+    },
+    {
+      "path": "scripts/continue-physical-camera-check.py",
+      "status": "Created",
+      "sha256": "6fcd51b405ae8a7ae720ef39f81c850f5bbae6485d6727f30fa9d2f1353e85fa"
+    },
+    {
+      "path": "scripts/continue-product-fixes.py",
+      "status": "Created",
+      "sha256": "c0b7207ac40c17ff1e81ac9ca447c9189a6b98a65389195d670fbf290908908a"
+    },
+    {
+      "path": "scripts/describe-schema.mjs",
+      "status": "Modified",
+      "sha256": "cd6d5cfa49078066ebd461be15181f5f48b18f8b5bd81c5b86d1c2f2d37cb6ce"
+    },
+    {
+      "path": "scripts/document-continuation.py",
+      "status": "Created",
+      "sha256": "b3774907636b54405c4aedf86435259e44338b2efc3ef52d796f72b6266bfec1"
+    },
+    {
+      "path": "scripts/final-save-scan-guard.py",
+      "status": "Created",
+      "sha256": "1313b7ed111d3006c83ebeea17a2f42ae9f19aad9c444ff9c21eff46047299cf"
+    },
+    {
+      "path": "scripts/final-scanner-race-fix.py",
+      "status": "Created",
+      "sha256": "a9323b0249ad3ebcbd0f779e68bae588bf2512eafcd38c512ff1f063c0ec18f2"
+    },
+    {
+      "path": "scripts/final-security-check.py",
+      "status": "Modified",
+      "sha256": "c9ab34355c197843206df20675e4bfbc4ffbc109d2facbe04826dcf6bc177e11"
+    },
+    {
+      "path": "scripts/finish-continuation-source.py",
+      "status": "Created",
+      "sha256": "00aee71d58eb8154145aa6d7a68a655250da4937b13639f25ef264c9bf5bf1dd"
+    },
+    {
+      "path": "scripts/physical-camera-inference.cjs",
+      "status": "Modified",
+      "sha256": "2b0cd12381a84c66a1debae1d2afd1404ca44397f10e437b1e03945a0cdc2fa4"
+    },
+    {
+      "path": "scripts/product-browser-checks.cjs",
+      "status": "Modified",
+      "sha256": "58a1be6641143c18402bd2bededfd4f065d74175db168524474c5285c391d970"
+    },
+    {
+      "path": "scripts/recover-continuation.py",
+      "status": "Created",
+      "sha256": "9056dea9b7faafc22d61a6fc99955908bb307f4f2145befc0874c9879a24abae"
+    },
+    {
+      "path": "scripts/report-continuation.py",
+      "status": "Created",
+      "sha256": "ab4958060ee3825d336e7b1b37b153ac7ef03f2b78622de7c3b43ac1ac28d7fd"
+    },
+    {
+      "path": "scripts/verify-backup-online.cjs",
+      "status": "Created",
+      "sha256": "47644a159d92085332f10e3de173de28d41c7bb6bfe1bbcbf31bd479cf0785cd"
+    },
+    {
+      "path": "scripts/verify-product.mjs",
+      "status": "Modified",
+      "sha256": "85b7fdd2448897caecaa64754813354755409765bd922df0e1a3af0bb81f6263"
+    },
+    {
+      "path": "web/src/app/admin/[[...section]]/page.tsx",
+      "status": "Modified",
+      "sha256": "39ff35bd7455700d457e45216a9691001bc728443c15fe7efb948fc5108bdcdb"
+    },
+    {
+      "path": "web/src/app/api/ai/detect/route.ts",
+      "status": "Modified",
+      "sha256": "bec992b85bebc23d12756a0f10e85bbf66c90f12f5bab550bc0320d0bb7bfb6f"
+    },
+    {
+      "path": "web/src/app/api/health/ready/route.ts",
+      "status": "Modified",
+      "sha256": "bf03dfdab8fc4df6532fb7e020d07e984a16523f1c759895fc4c7880486f1082"
+    },
+    {
+      "path": "web/src/app/api/quiz/route.ts",
+      "status": "Modified",
+      "sha256": "eaeb4882db30071a9cf65c302f505dcfd65c3c9725238e937867766affd82ec2"
+    },
+    {
+      "path": "web/src/components/admin-manager.tsx",
+      "status": "Modified",
+      "sha256": "07318ca822aeb9426f2e740c6320172eb2bd17682eb52bbdec418d770c0c51bd"
+    },
+    {
+      "path": "web/src/components/database-quiz.tsx",
+      "status": "Modified",
+      "sha256": "0a3989bf07df6840dcba66a28d1c6d7ee7dd0f66b6e5ef149d82cfcb3467b615"
+    },
+    {
+      "path": "web/src/components/recommendation.tsx",
+      "status": "Modified",
+      "sha256": "336f831bf53cd39930a72645c5de68c5088abab19c25ef9a46d7a77820b1bd57"
+    },
+    {
+      "path": "web/src/components/save-scan.tsx",
+      "status": "Modified",
+      "sha256": "6a8a5e797059ba63605fe708f31e65b97212382d0e2216b2d7b16cbfb7e1995e"
+    },
+    {
+      "path": "web/src/components/saved-scan.tsx",
+      "status": "Modified",
+      "sha256": "c7f5e293ec0852e87a1d00cbc8da2953dd7212d7b13a488e542c0c3681959e41"
+    },
+    {
+      "path": "web/src/components/scanner.tsx",
+      "status": "Modified",
+      "sha256": "ac0d0dd255352e40d85588644bcc70d1b26ed080a1ca9d52df1a3bbfb752626f"
+    },
+    {
+      "path": "web/src/lib/database-readiness.ts",
+      "status": "Created",
+      "sha256": "88d24402eebdbbee4f1c93e5a1a860d9e94a575de04130b29c0034fa50e31bb0"
+    },
+    {
+      "path": "web/src/lib/disposal-event.ts",
+      "status": "Created",
+      "sha256": "99864d970c4ac4d6ec4dec9106730bfe12b3866f1194a38b0618bdfcff0659bd"
+    },
+    {
+      "path": "web/src/lib/saved-result.ts",
+      "status": "Created",
+      "sha256": "ff6ee395d6afadab9c7cbf762b7993ce7d66259cc9c708d64390fa48323300b2"
+    },
+    {
+      "path": "web/tests/async-components.fixture.tsx",
+      "status": "Created",
+      "sha256": "55f5cf85fef39f043cb01df694dbb9a998c01c996e5b98b6419ddc0588f0bd13"
+    },
+    {
+      "path": "web/tests/browser-smoke.cjs",
+      "status": "Modified",
+      "sha256": "9f9ae16f062aeed9c86a36db5a2061c14deb6574c872c41af0161dd7d096da2b"
+    },
+    {
+      "path": "web/tests/camera-smoke.cjs",
+      "status": "Modified",
+      "sha256": "2a68158f26580230767ccdf673f28d73ed417b3ceda7b0e2d3d4cd5c9c9ceb0c"
+    },
+    {
+      "path": "web/tests/continuation.test.ts",
+      "status": "Created",
+      "sha256": "652c43da9e8271620df77d042a040d96144514e29adff2be850f43c11dcb2d3e"
+    },
+    {
+      "path": "web/tests/product-database.test.ts",
+      "status": "Modified",
+      "sha256": "024908c2718f2a836e7634d6b78e4e5c544c9504629124e4cf446e016972422f"
+    },
+    {
+      "path": "web/tests/scanner-errors.test.ts",
+      "status": "Created",
+      "sha256": "5b08f15dc7f007b2cdd22bb40705cde01f0b7848a01fe199bf2111ef74c7df30"
+    },
+    {
+      "path": "web/tests/snapshot-inflight.cjs",
+      "status": "Created",
+      "sha256": "295bf3c0f34f846d38858408a84d0912ff96e4b6771f157c65f3dae701ead4f7"
+    }
+  ],
+  "removedBaselineFiles": [],
+  "preservedMigrations": [
+    {
+      "path": "database/postgres/0001_foundation.sql",
+      "unchanged": true
+    },
+    {
+      "path": "database/postgres/0002_admin_workflow.sql",
+      "unchanged": true
+    },
+    {
+      "path": "database/postgres/0003_member_workflow.sql",
+      "unchanged": true
+    },
+    {
+      "path": "database/postgres/0004_quiz_workflow.sql",
+      "unchanged": true
+    }
+  ]
+}

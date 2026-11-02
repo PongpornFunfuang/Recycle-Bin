@@ -1,0 +1,15 @@
+"use client";
+import WasteColorGuide from './waste-color-guide';
+import {useEffect,useState} from 'react';
+import Link from 'next/link';
+import {Search,ArrowRight,Shapes} from 'lucide-react';
+import {items,type WasteItem} from '@/lib/catalog';
+import {guideGroups,guideGroup} from '@/lib/guide-data';
+export default function Guide({initialQuery='',categories=false}:{initialQuery?:string;categories?:boolean}){
+ const [dbCategories,setDbCategories]=useState<{id:string;name:string}[]>([]);
+ const [query,setQuery]=useState(initialQuery),[group,setGroup]=useState('all'),[published,setPublished]=useState<(WasteItem&{categoryId?:string})[]>([]),[cloudState,setCloudState]=useState('loading');
+ useEffect(()=>{const controller=new AbortController();fetch('/api/public/categories',{signal:controller.signal}).then(r=>r.json()).then(d=>setDbCategories(d.items??[])).catch(()=>{});fetch('/api/public/catalog',{signal:controller.signal}).then(async r=>({ok:r.ok,data:await r.json()})).then(({ok,data})=>{setCloudState(ok?'ready':'unavailable');if(ok)setPublished((data.items??[]).map((i:{slug:string;name:string;synonyms:string[];category_id?:string})=>({id:i.slug,categoryId:i.category_id,name:i.name,english:i.slug,icon:'♻',material:'ตรวจวัสดุตามสิ่งของจริง',keywords:i.synonyms??[],steps:['ตรวจชนิดวัสดุและสิ่งปนเปื้อน','ตรวจแนวทางจุดรับในพื้นที่'],caution:'ข้อมูลรายการที่เผยแพร่แล้ว กฎการทิ้งต้องตรวจแยกตามพื้นที่'})));}).catch(e=>{if(e.name!=='AbortError')setCloudState('unavailable');});return()=>controller.abort();},[]);
+ const merged=[...published,...items.filter(i=>!published.some(p=>p.id===i.id))];
+ const filtered=merged.filter(i=>(group==='all'||guideGroup(i)===group||('categoryId' in i&&i.categoryId===group))&&[i.name,i.material,...i.keywords].join(' ').toLowerCase().includes(query.trim().toLowerCase()));
+ return <><WasteColorGuide/><div className="page-toolbar"><div className="search-field"><Search size={20}/><input className="input" aria-label="ค้นหาขยะ" placeholder="ค้นหาชื่อสิ่งของ เช่น ขวดน้ำ กระดาษ…" value={query} onChange={e=>setQuery(e.target.value)}/></div><Link className="button secondary" href={categories?'/guide':'/categories'}><Shapes size={17}/>{categories?'ค้นหาขยะ':'ดูหมวดหมู่'}</Link></div><div className="filters" aria-label="หมวดคู่มือ">{[...guideGroups,...dbCategories].map(g=><button key={g.id} className={group===g.id?'active':''} aria-pressed={group===g.id} onClick={()=>setGroup(g.id)}>{g.name}</button>)}</div><p className="muted">พบ {filtered.length} รายการ{cloudState==='unavailable'?' · แสดงคู่มือทั่วไป ข้อมูลเฉพาะพื้นที่ยังไม่พร้อม':''}</p><div className="catalog-grid">{filtered.map(i=><Link href={`/guide/${encodeURIComponent(i.id)}`} className="item-card link-card" key={i.id}><span className="item-icon">{i.icon}</span><h2>{i.name}</h2><span className="badge">{i.material}</span><p>{i.caution}</p><span className="text-link">รายละเอียดและวิธีจัดการ <ArrowRight size={15}/></span></Link>)}</div>{!filtered.length&&<div className="empty-state"><Search size={30}/>ไม่พบรายการนี้ ลองเปลี่ยนคำค้นหรือหมวดหมู่</div>}</>;
+}

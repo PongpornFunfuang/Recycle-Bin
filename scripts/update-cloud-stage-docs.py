@@ -1,0 +1,13 @@
+from pathlib import Path
+import json
+r=Path(__file__).resolve().parents[1];d=r/'docs/product';e=r/'docs/evidence/cloud-preflight-2026-11-02'
+p=d/'MIGRATION_HASHES.json';items=json.loads(p.read_text(encoding='utf-8'))
+for item in items:item.update(cloudExecuted=True,cloudProject='fdmohzvuxvsrcaddbjvl',cloudStatus='COMMITTED',ledger='docs/evidence/cloud-migration-fdmohzvuxvsrcaddbjvl/ledger.json')
+p.write_text(json.dumps(items,indent=2)+'\n',encoding='utf-8')
+p=e/'project-created.json';state=json.loads(p.read_text(encoding='utf-8'));state.update(applicationCredentialsConfigured=True,localReadinessVerified=True,initialDatabasePasswordCopyUsable=False);p.write_text(json.dumps(state,indent=2),encoding='utf-8')
+p=r/'README.md';s=p.read_text(encoding='utf-8').replace('HOSTED INTEGRATION PENDING','HOSTED DATABASE CONNECTED / AUTH & E2E PENDING');s=s.replace('- [รายงานงานต่อเนื่อง', '- [รายงาน Cloud Migration และการเชื่อมต่อจริง](docs/product/CLOUD_MIGRATION_REPORT_fdmohzvuxvsrcaddbjvl.md)\n- [รายงานงานต่อเนื่อง');p.write_text(s,encoding='utf-8')
+p=d/'README.md';s=p.read_text(encoding='utf-8');s+='\nLatest Cloud stage: CLOUD_MIGRATION_REPORT_fdmohzvuxvsrcaddbjvl.md and AUTH_SETTINGS_APPROVAL_fdmohzvuxvsrcaddbjvl.md. Earlier creation/preflight/continuation reports remain historical. SQL0001–0005 now committed on the named project; Auth settings and E2E remain pending.\n';p.write_text(s,encoding='utf-8')
+for name in ['CLOUD_APPROVAL_GATE.md','RELEASE_READINESS.md','INTEGRATION_TEST_REPORT.md','SUPABASE_PROJECT_CREATED_2026-11-02.md']:
+ p=d/name;s=p.read_text(encoding='utf-8');s+='\n## Hosted SQL stage completed — 2 November 2026\n\nUser-approved SQL0001–0005 committed once on recycle-bin / fdmohzvuxvsrcaddbjvl. Actual schema/grant validation and Local→Cloud readiness passed; see CLOUD_MIGRATION_REPORT_fdmohzvuxvsrcaddbjvl.md. Hosted A/B Auth/persistence E2E remains Pending, Auth settings/Admin/deploy not approved. The initial private DB-password copy failed validation and must not be used for direct database access; API connection works with existing keys. Ledger labels corrected with original retained; no migration rerun.\n';p.write_text(s,encoding='utf-8')
+p=r/'scripts/cloud-preflight.py';s=p.read_text(encoding='utf-8').replace("'cloudExecutedByAgent':False","'cloudExecutedByAgent':item.get('cloudExecuted',False)").replace("'cloudSqlExecuted':False","'cloudSqlExecuted':bool(project and project.get('cloudSqlExecutedByAgent'))");p.write_text(s,encoding='utf-8')
+print('Cloud execution metadata updated; all five SQL source hashes unchanged; Auth approval remains pending')

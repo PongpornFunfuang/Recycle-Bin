@@ -1,0 +1,120 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Recycle Bin — M1 AI service foundation",
+    "version": "1.1.0",
+    "description": "Local real YOLOX inference. Readiness reflects actual model loading; absent or failed model is 503. Camera uses sequential HTTP frame inference, not a WebSocket endpoint."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000"
+    }
+  ],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "summary": "AI service liveness",
+        "x-implementation-milestone": "M1",
+        "responses": {
+          "200": {
+            "description": "AI service liveness",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/foundation.schema.json#/$defs/liveness"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "summary": "Actual local model readiness",
+        "responses": {
+          "503": {
+            "description": "Model not loaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/foundation.schema.json#/$defs/aiReadiness"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Model loaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/foundation.schema.json#/$defs/aiReadiness"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/detect": {
+      "post": {
+        "summary": "Photo or live snapshot real multi-object detection",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "image"
+                ],
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "mode": {
+                    "enum": [
+                      "photo",
+                      "live_snapshot"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Real inference; not proof of disposal",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/detection-result.schema.json"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload too large"
+          },
+          "415": {
+            "description": "Unsupported image"
+          },
+          "422": {
+            "description": "Invalid image"
+          },
+          "429": {
+            "description": "Inference busy"
+          },
+          "503": {
+            "description": "Model/service unavailable"
+          }
+        }
+      }
+    }
+  },
+  "x-future-endpoints": [
+    "WebSocket /ai/stream (not implemented; current real-time mode uses sequential HTTP frames)"
+  ]
+}

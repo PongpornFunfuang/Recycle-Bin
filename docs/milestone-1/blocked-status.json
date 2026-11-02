@@ -1,0 +1,48 @@
+{
+  "status": "BLOCKED_M1_B",
+  "checkedAtUtc": "2026-11-01T12:08:29.168817+00:00",
+  "protectedOriginals": [
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\RECYCLE_BIN_ANALYSIS_AND_PLAN.md",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\RECYCLE_BIN_FRESH_PLAN_2026-11-01.md",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\RecycleBin_รายงานขั้นตอน1-3 (2).pdf",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\แบบประเมินโครงงาน Application วิเคราะห์ปัญหาด้วย AI.pdf",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\Desktop\\Recycle Bin (2).png",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\P.12x_\\.codex\\attachments\\6ee755af-8640-4980-bdde-b8d63f349600\\Pasted text.txt",
+      "unchanged": true
+    }
+  ],
+  "allProtectedOriginalsUnchanged": true,
+  "projectVenv": {
+    "prefix": "C:\\Users\\P.12x_\\Desktop\\RECYCLE BIN\\ai-service\\.venv",
+    "basePrefix": "C:\\Users\\P.12x_\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python",
+    "isVirtualEnvironment": true,
+    "packages": [
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      }
+    ]
+  },
+  "gitExists": false,
+  "m1CStarted": false,
+  "applicationDependenciesInstalled": false,
+  "databaseCreated": false,
+  "modelOrDatasetDownloaded": false,
+  "gpuTensorTestRun": false
+}

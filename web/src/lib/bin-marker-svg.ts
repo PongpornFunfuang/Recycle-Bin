@@ -1,0 +1,4 @@
+import {normalizedColor} from './waste-colors';
+export const markerPaint:Record<string,string>={blue:'#1769bf',yellow:'#e5b51b',green:'#16854b',red:'#cf3545'};
+export function trashBinSvg(color:string|null|undefined){const paint=markerPaint[normalizedColor(color)??'']??'#58677c';return `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 36 44" aria-hidden="true"><path d="M18 43l-5-7h10z" fill="${paint}"/><rect x="6" y="9" width="24" height="27" rx="5" fill="${paint}" stroke="white" stroke-width="2"/><path d="M4 9h28M13 5h10M13 17v12M18 17v12M23 17v12" stroke="white" stroke-width="2.5" stroke-linecap="round"/><circle cx="11" cy="37" r="2" fill="#244257"/><circle cx="25" cy="37" r="2" fill="#244257"/></svg>`;}
+export function groupedBinSvg(colors:(string|null|undefined)[],demo=false){return `<div class="trash-pin-icons">${colors.map(trashBinSvg).join('')}</div>${demo?'<b class="demo-pin-tag">DEMO</b>':''}`;}

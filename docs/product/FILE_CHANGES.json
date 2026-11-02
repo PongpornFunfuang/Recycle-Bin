@@ -1,0 +1,1035 @@
+{
+  "comparison": "Prior local-development source-inventory.json; no Git command used. Text source/docs only; secret env/runtime/dependencies/binary evidence excluded. Local signing secret configured separately, never listed by value.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "718ce3c49ff23798a0d740fb8b6d9cefb2e66e80f5e805842178ca3b133125d9",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/.env.example",
+      "sha256": "ab6ee0057cae261ee73869153ade2847b59ee1baf488ba3141b16c79678aef2a",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/app/detector.py",
+      "sha256": "ba497011ffcf7a696a19ef4f63ca4e8563f216557290994caed14be60b1dee8f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/app/main.py",
+      "sha256": "3180b2beda469a7ef9beb47176266faa84ecb0fb7df246b275bde5e86b67c9af",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/app/torch_detector.py",
+      "sha256": "f745056d074bb9b15b23061b2a54e01dab0870805346b23da5bb9815192493eb",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/app/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/diagnostics.py",
+      "sha256": "0748749fc1c097138829af82b2625d3d18410c5929169409e597d20537587a32",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/requirements-cpu.txt",
+      "sha256": "edd42d8bac457dec44301ead69eb6e535c0bc5092679025f8612cfdc7e20b723",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/requirements-gpu.txt",
+      "sha256": "4abc7e98318387481524b239422e8bf810355f7401a6d24c2ca8eaa251316000",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/requirements-lock.txt",
+      "sha256": "e85d868f039774837dc47ed2ae10682b29bdea60681792ef368d0e0abe3fbf0a",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/requirements.txt",
+      "sha256": "0635cbe5a783ec41da7bfeca59e19ed9edc1f528ec2b31fb5d2decc3224c454d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ai-service/tests/test_service.py",
+      "sha256": "0256785eafc2228647c1b88e953654c45475fb00d8e6b0d1b511c54d08d9e05f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/openapi/application.openapi.json",
+      "sha256": "42b4ef7944c9bd4bad783cd0e3c15540e633a32491fe4d2aee592e7c0fe1ecc7",
+      "status": "Modified"
+    },
+    {
+      "path": "contracts/openapi/inference.openapi.json",
+      "sha256": "083314eb179ec10ee515124d2679a05cd365f87ef6feecc1cdc676586d37c7d5",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/api-error.schema.json",
+      "sha256": "51377f59d594cb8cbf3bf4674a56634e47c916ae73b61064bf6d76e34b05a949",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/detection-result.schema.json",
+      "sha256": "6f6e7e59eb7934dafd3a73a17e7cb9688d87ed92425a6489cc15b550c84c8a5c",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/disposal-log.schema.json",
+      "sha256": "ba622613144f51e6436a8151bea8612a364d186dadb645168091ff646c6e9912",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/foundation.schema.json",
+      "sha256": "be41b089741416c0ad884244fb801c57fb2d18c00ff01e404ded62d0bfe73015",
+      "status": "Modified"
+    },
+    {
+      "path": "contracts/schemas/model-manifest.schema.json",
+      "sha256": "22a1cb1d993a9b8b2b7fc8aa484efd0987aaac36228e75bb4013dd5593fdff8e",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/photo-request.schema.json",
+      "sha256": "b43fbe939b4d78976763c338a20bd96303be6d07011c0a8a4b7d6bdcc919a01f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/recommendation.schema.json",
+      "sha256": "e23dc9f2cb9ce2428cf779c3f96a60d217cd60ae695282db30425a9e14cb06a5",
+      "status": "Unchanged"
+    },
+    {
+      "path": "contracts/schemas/scanner-session.schema.json",
+      "sha256": "5a73c4589d3f44b4fb4b7ac3da10aae78690108cc016bc3053f325b4fa081f4f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/postgres/0001_foundation.sql",
+      "sha256": "4ec71fc39f989962ae9acace0d1f6509341704daee5a4bb3c96e5e534824629b",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/postgres/0002_admin_workflow.sql",
+      "sha256": "c616550531ea6773cd23ddfd3b8253856ce02b4dc644af2069284a6fa01a7526",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/postgres/0003_member_workflow.sql",
+      "sha256": "5178d1e87d24b6feed756e5b1f5d53e2064808cdd0a40e62cbb30f587ef02747",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/postgres/0004_quiz_workflow.sql",
+      "sha256": "44c7946584d66a47455a4c0fea81896fc16b8441812121c87869883ed25e24f5",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/postgres/0005_product_hardening.sql",
+      "sha256": "903f1853dedb67b311d33a5b1befe918f6f3cceb667c5fa555e6e8cf9aee2a89",
+      "status": "Created"
+    },
+    {
+      "path": "database/postgres/admin-bootstrap.example.sql",
+      "sha256": "a6e3328efb368ab3d739e2793ab5abc1864329652dbb5e99143b2f58acd4ec55",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/postgres/README.md",
+      "sha256": "772685d314e98c8adc97d2efcfba7325e88e597a3cafa76d0e54062d7b443a9b",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/README.md",
+      "sha256": "b0f30bd4bfae65a86651e802d8028e8658ba94658a4dcf89cbc2e6113dd64a75",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/schemas/ai-predictions.validator.json",
+      "sha256": "9fbcde8036e6f623516bd59120988e6f47b015cb7de8c7d0b26ce820eb7c64f1",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/schemas/verified-rules.validator.json",
+      "sha256": "44b64bfc2d8cd02251213c9503ab331ef32e3556ea668c91ee406b8b67f0fcd6",
+      "status": "Unchanged"
+    },
+    {
+      "path": "database/schemas/waste-logs.validator.json",
+      "sha256": "695e84e44213d6e284f77039879e6a5fcb1109f50a79b65ba34381f749b763ef",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/ARCHITECTURE_CURRENT.md",
+      "sha256": "4e52a8bc191a2e57493d9ad2b0e7af897391629ec6185fa2801b6965ce514a1e",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/DEMO_SCRIPT.md",
+      "sha256": "cf4a1b0595eda292f84334d0b630f75e454ba9a165a5f0238fa642bf47356a94",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/LOCAL_DEVELOPMENT_REPORT.md",
+      "sha256": "cb234b017086e4ce4ec4ee28351dfe025dcd197f440648ee6be6deb0bc90caae",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/acceptance-supabase.md",
+      "sha256": "a1a04e71de4d80de321ad62a273f289d6accd89580af970d2acff89a6f40f3e4",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/acceptance.md",
+      "sha256": "a9ed5638b409eeb90961117157ff9b54378e672a80ac4a23ea59c96cced60451",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/activate-database-readme.py",
+      "sha256": "dae2dee33bdb1c3801421267568dc2b59f8b9fdbc9ab72165dd5691e02b04325",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/activate-detector.py",
+      "sha256": "6cdea28934fe3717992a423c76fda7f0db9ed4c2fed725386f5c94eb2030742f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/baseline-files.json",
+      "sha256": "e595d2b6068ed4ba2a87848903ce53cf25f4c7f9c01364544b8af91fad835e92",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/blocked-status.json",
+      "sha256": "42a9939f9308539395d2b714f0abf1c02a5315cf1296a8f1853e2503c412413b",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/clarify-confidence.py",
+      "sha256": "ed07066dc9fa19c3fa84e75bbf044cde73abd7a2a1b409c89c8a8f7c4f6ba113",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/compatibility-supabase.md",
+      "sha256": "0212db1d3bc90ed118ab0f4bb1356ca462cd757199014b00d59ad5f56b6dbfd9",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/compatibility.md",
+      "sha256": "cec85d4c81a3fcedc6ea1f080cb94f39959a98b1920ef1f3faa11613621f76ce",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/completion-report.md",
+      "sha256": "9faf718f5188f923be2658f0829ea6c83dc08e261d03e737b1863c8bf97f7230",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/file-inventory.json",
+      "sha256": "2bd4f07827cc481d914af7304f49a1959517fcc8da8ee672c442bf849b071daa",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/final-contracts-and-config.py",
+      "sha256": "142dfa32f09a8d65d98378b4fcaee0e7950964ba70006825db77ebbde2aa0596",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/finalize-docs.py",
+      "sha256": "efa79fd931e474746988e4f895db7ab3b33ff7e7ec2e702e652307e0c29a52ce",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/finalize-local-source.py",
+      "sha256": "a4814751c49219b576a2494bed846be9c466c48121253da8968662683a99d1e9",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/integrate-member-features.py",
+      "sha256": "ef849afbf697e14690de1638d9ea6f17f9e3ae7c14b735112d139ed745dc2082",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/integrate-public-data.py",
+      "sha256": "7f4fff9acedb4de8e2d403a55030f746ab8e6f9367a330eebd7c0791d923f56c",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/integrate-quiz.py",
+      "sha256": "e50672843106c1e2cee866804d5acc3470b4082b311f4b3580d88599f77009b8",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/local-development-baseline-2026-11-01.json",
+      "sha256": "42ff36380b292eadeb27772c49fe9bbb37f34394371f0976369097f90d1fb517",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/m1-a-review.json",
+      "sha256": "6ae4c80223f45cb909227ff6d472c3c5a8791af1c4e4328d8caab9a85c4f22d2",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/model-contract-manifest.py",
+      "sha256": "01d634221b412491a60d1f083b03cdae61e3462afa46bc4388979b7c9c1b5a33",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/README.md",
+      "sha256": "3ddcc23dac350d3c72ffb7822bedfa6e49619652d35e660da52d1ae2183dd780",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/revise-contracts.py",
+      "sha256": "53e1ddf7a710b1ac39f81e92ba30fd6fc8779fd312b974cb786dc2553110f92d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/milestone-1/sync-implementation.py",
+      "sha256": "774901920f60e02beeda4b878dc9add17a9cc2f4b530f43fb60434e9e6a47d4d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "docs/product/ADMIN_MANUAL.md",
+      "sha256": "bd8750430508d1cd20dd067c8a4b79eeae73aa8730ecc802290cb72f9fa4d467",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/AI_MODEL.md",
+      "sha256": "088eab61d2358ae5a63a9ba4fb0f112a1c5429f00caee528995a45ce9596cba9",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/ARCHITECTURE.md",
+      "sha256": "7d08a24d22946cbc44e333315da6fc329ac581efe20983f17f6d6b66ea193e3c",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/AUTOMATED_TEST_REPORT.md",
+      "sha256": "f605870584103a322f49d3b5016bcb58d0a6582b6c9be2515f4cb4814f8fe923",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/CLOUD_APPROVAL_GATE.md",
+      "sha256": "697ad4ae75726dde0508c5eb1612348c7296b0d6d8b635f5d0b4fb21e961983d",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/DATABASE_SCHEMA.md",
+      "sha256": "8df7a3f25d1e52b9d47c238685fa01ec0ded1aab62c5cbdf3fb9c3fd98424e31",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/ENVIRONMENT.md",
+      "sha256": "90f5a99d7646675ce958d3745dbd3a4bae5aacac924ecec0c2ea193c9e45b653",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/INSTALLATION_AND_LOCAL_RUN.md",
+      "sha256": "ecf259b2c50f058f07e3a13cc96215474da592ada89455f92917031cdbff0e01",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/INTEGRATION_TEST_REPORT.md",
+      "sha256": "d81dc6c11bb1efb98b0c2fcaded64a4fce4da2af97346f95aea4663c1ddf2b8e",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/KNOWN_LIMITATIONS.md",
+      "sha256": "ad64b481d7dd89d9bbaef216eabd6a7a3a684d223639c300e43cd35fe0e3115f",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/MIGRATION_HASHES.json",
+      "sha256": "2f09d213c9f1f80aed472fb27ed87b85eac5096b035ceb47515da18ae8dea416",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/MIGRATION_REVIEW.md",
+      "sha256": "67d79b5191d132ab5298f2c5857e822329812f7e1d4744607388ab232bd6719a",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/OPERATIONS_RECOVERY.md",
+      "sha256": "b633db136472e73b3535e25ceb62b2ce336328c141fe61526bf783d4248132be",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/PRD.md",
+      "sha256": "67b98009c162a1ec32320b3eabd5dcbd83d437774da8a687b6d7d258d5e09f14",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/PRODUCT_REPORT.md",
+      "sha256": "ffefeef7fba307f31b56ec2462d55e4dfb8377f2e814b5ff8cc180b5d2f3ad9a",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/README.md",
+      "sha256": "157961e0faa8e8d502e8b2beab3f14e120c5748caa69529cacfc05668fd3c37e",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/RELEASE_READINESS.md",
+      "sha256": "c1e929c3780b497600368c3f359f8192d7a65414cb130fef4def1348e25b02f9",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/schema-catalog.json",
+      "sha256": "d28a35b4c1ebb5968318ed833e4310264e943ea14c0123bde55db02cd157fc9c",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/SECURITY_CHECKLIST.md",
+      "sha256": "397cdc7f8d9feec219f84f94d7b9e97dfa709e6cc59d65c6d690b33124474f75",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/SUPABASE_SETUP_RUNBOOK.md",
+      "sha256": "366895b14d3aa61d4ad812c2d5ca5feab508ac857559eecafb7ea453f2c7965f",
+      "status": "Created"
+    },
+    {
+      "path": "docs/product/USER_MANUAL.md",
+      "sha256": "03743ca76c6f9b3ee5f60659d76a6dc20f58f26a4d96253ba959c68e623c9fc2",
+      "status": "Created"
+    },
+    {
+      "path": "docs/REQUIREMENTS_TRACEABILITY.md",
+      "sha256": "805a97a19d088703ea32ddb8a4cbb143cb1b8ea2fb68e4eb6b5e2d27ebea0f4a",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/manifests/active-contract-manifest.json",
+      "sha256": "ee145c554e51866463326a619b8b0245a0b7fec7b606e0385a6e8690a606e108",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/manifests/active-model.json",
+      "sha256": "ce28140265fc7891dc75d225b83f906e742c277520f70e1ccd135bc8827e0464",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/manifests/yolox-nano.json",
+      "sha256": "fdd3bf2dc5e8402420efa21f3bd2d3e991afefa015b48a66f744f36a04b974b4",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/benchmark-api.py",
+      "sha256": "f79d4e5893461ba29a57186ebdc90465dc309f574343a2bbc944692bdb32084d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/benchmark-fasterrcnn.py",
+      "sha256": "112533c8a944a3bbc227e2b931b83f034d8b395a86b195018d961cdef2fb1e71",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/benchmark-multiple.py",
+      "sha256": "33d1d15398effafa2cec4a4fdae01cb14e54b8f929dc0e129841f09bacecf172",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/benchmark-ssdlite.py",
+      "sha256": "5422737c3d8394c0e170fe8e065e8a15f328185ba863d0cbef315014b5f265bb",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/benchmark.py",
+      "sha256": "654d02262567017d0f6e8df7dca272fc2667d5b90b9c13b98175013e01b3232f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/download-active-model.py",
+      "sha256": "e4d91fdd1dea0fcfed9ad57d7a9238a260470efb4b773cf4b7029d7140678a14",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/download-model.py",
+      "sha256": "d712d69e57164c59cf372a1364e1e9c76d8531da86eba029ef95006391b8fcad",
+      "status": "Unchanged"
+    },
+    {
+      "path": "ml/scripts/evaluate-local-product.py",
+      "sha256": "8d0e21342b38cd0e493cf0d89dcc655e61a91bd34ed9dd191daa41c9b8bfc8d9",
+      "status": "Created"
+    },
+    {
+      "path": "ml/test-images/ATTRIBUTION.md",
+      "sha256": "893f825572e7434b0accc1135acb64c5c1519bb194069e7f904b300ed80fdb67",
+      "status": "Unchanged"
+    },
+    {
+      "path": "README.md",
+      "sha256": "53f5864729d1ebab79a07487315dee24462ce5fb2940709c722d91faa86f2bc9",
+      "status": "Modified"
+    },
+    {
+      "path": "RECYCLE_BIN_ANALYSIS_AND_PLAN.md",
+      "sha256": "65d236881b57bc3bd691fe25a364830da67d64725c1d06da9b4f8213c16b8d07",
+      "status": "Unchanged"
+    },
+    {
+      "path": "RECYCLE_BIN_FRESH_PLAN_2026-11-01.md",
+      "sha256": "6aa717b18725babe06ed36f3fee5986441991420070102270c4e69975a7cf2aa",
+      "status": "Unchanged"
+    },
+    {
+      "path": "scripts/apply-blue-shell.py",
+      "sha256": "a51495c8d3bfa0fc409bd3dc3a2fc533d88fe3d95d44c40bfb774f38578a3648",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/audit-python.py",
+      "sha256": "ef1c533337be64f9c7545a1fdca26b47e0fdacaf20a164f9e1afc28603f15586",
+      "status": "Unchanged"
+    },
+    {
+      "path": "scripts/backup-product-ui.py",
+      "sha256": "86f28826b5f79c82b2322a5982f4440fb29648ee49638f096d2ee5f9620241c3",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/build-product-report.py",
+      "sha256": "3035cbeb6eba869dd6cb4c2addebfb2722d549b97195d99186f2f089ce0becf1",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/capture-product-ui.cjs",
+      "sha256": "4ab9ef865db7136a2e3c84af662df97e5e002f881a4aad3ee604395c8a34a869",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/check-backup-secrets.py",
+      "sha256": "4865eadfc2551c2d4a26d98e0c44335b159c4202aabe4061cfa16679d880ca4e",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/connect-product-categories.py",
+      "sha256": "fcf50525dac9b96388b113d020438a9b1f45d0c149a8dc2b9d8855427444b183",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/describe-schema.mjs",
+      "sha256": "c985eff27d69a7b7b531a9f7926c343f42435dc81c46c17303a6becb28c8ffd0",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/download-thai-font.py",
+      "sha256": "b8c9077b1b2e7cccc12a326bc2e523c4872b2763537b5416fde05b2ef1671464",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/final-security-check.py",
+      "sha256": "8b02891c49d3577566d4b9477039234b373140f7f07947ba738c3d7284484223",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/finalize-admin-inputs.py",
+      "sha256": "80543d091f896827009e43558584b511824ebe41cbbbb3299836a73a96d9a780",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/finish-product-wiring.py",
+      "sha256": "ec9e2e7623ebf66e120c122045a9f011de0ad285669cfa7fdcdafb0067739c9a",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/fix-product-types.py",
+      "sha256": "efbd907e04daac75c09e2b1a16f868d756cb47d634cc698024591404e9322359",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/inventory.py",
+      "sha256": "e154164102b3767725d4ef065911ab001d9eb62ccfda434979d42f8b5d5820d7",
+      "status": "Modified"
+    },
+    {
+      "path": "scripts/physical-camera-inference.cjs",
+      "sha256": "047cb1bd0014fd9fe3830ba5f82984aaea59c87d49c12023dbe88e7d9f8e285a",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/prepare-final-report.py",
+      "sha256": "35f8ee4d0fcc2a6fa6abbfe2fc862e2807d4792497f51d9fd6f3dfed957a5ae4",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/prepare-local-signing.py",
+      "sha256": "8ebd737002f282d5e99a97ac4eb274284e28c63ecdc41fb659f0d33cd74e1f33",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/prepare-product-checks.py",
+      "sha256": "5dc6e96f713feef90c46225a179ffc7cb4393b830a2b762e5e09eb46a69a5f3d",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/product-browser-checks.cjs",
+      "sha256": "b972df46d844115e781897f45e7df348e5b3b9e8fc9c224941d7a3ce9b49a748",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/product-pages.py",
+      "sha256": "95a0460ce245e21ffe486b9b2a7bcdff0e95c7689ffe23c35820652c08cc79e1",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/report.py",
+      "sha256": "9f5e8aa4c96f9f309875ca0b84206070b160505c8e4ce8ef80348575cd2b7031",
+      "status": "Unchanged"
+    },
+    {
+      "path": "scripts/secure-product-routes.py",
+      "sha256": "bcb490c5e6d035a4dd45c425dfe5d7a8fb3a92a2d28f844264f6398273461073",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/security-check.mjs",
+      "sha256": "5d9be25d80db9a2b16afbe5698893f8ffa014a4d85b5897545194881f10d0286",
+      "status": "Unchanged"
+    },
+    {
+      "path": "scripts/Start-Local.ps1",
+      "sha256": "4448c09293db706c96975396e8c749cdef94cbd309825cb7ef3eaa45ef731988",
+      "status": "Unchanged"
+    },
+    {
+      "path": "scripts/ui-shell-gate.cjs",
+      "sha256": "8172aaa2228cc13c51575235242f859ba5d4ae8781eddcca1f9ceb87ca121b4a",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/update-final-checks.py",
+      "sha256": "f04caa6dbbc85fa5b7d20246e694477b38b1fa63f8461b5c7306aee9bd6f8418",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/update-product-contracts.py",
+      "sha256": "20644e71a8fb8008915ef8b34422aca8858c7cb9785467629c482954e3911d12",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/update-product-readme.py",
+      "sha256": "19061af496038f46f3928e02710160e8a0ae3fed936ddfad8ccb20645bc70f20",
+      "status": "Created"
+    },
+    {
+      "path": "scripts/verify-local.mjs",
+      "sha256": "645d4ecf9a89dc8067f72386bb2edcfb8f4268aedfd62c87a50e4a0c8d0f902e",
+      "status": "Unchanged"
+    },
+    {
+      "path": "scripts/verify-product.mjs",
+      "sha256": "e8446f033c63d8f1865acdd6e576fc46c8a5b466ba8b39ee650777060eb87b23",
+      "status": "Created"
+    },
+    {
+      "path": "web/.env.example",
+      "sha256": "32a4cf21ff49186705fa55c8390d56f53c5983002d8e6ee428cf603767365150",
+      "status": "Modified"
+    },
+    {
+      "path": "web/AGENTS.md",
+      "sha256": "063098f6cb31bb44c6f8fbea25b3876de7ee1e5f7d00a50dbab506f6415eb7f0",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/next-env.d.ts",
+      "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/next.config.ts",
+      "sha256": "ff2c4d76472cdbbcaff72c96c019e616a8c89725ba96f5e5b588647d19e927ef",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/package.json",
+      "sha256": "0f82d9dc3f840b67321cf3e17ab2a0c8dc6e2065ea9b9b4d73be5f5d25fcd66e",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/pnpm-lock.yaml",
+      "sha256": "f6c6a5839e04e2d6e3766bd014b71413cb0c8f6bc348e58a65b236939f03ff0d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/postcss.config.mjs",
+      "sha256": "a1a188221f064d964dd9958c3d48b0c23252fabbeb6099d95ee8e15c764718b0",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/public/fonts/OFL.txt",
+      "sha256": "2e98fd23a52d253db8612cd5942c8f2ff4111b21d2367050fdca91d8ccc374a0",
+      "status": "Created"
+    },
+    {
+      "path": "web/public/fonts/provenance.json",
+      "sha256": "9b640a23ae59e973a60ac47f090d8f06112434ceedf02c779d75faeec6a7a9d8",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/admin/[[...section]]/page.tsx",
+      "sha256": "e2cb3f1cebfc962dbe2af2bf2ada9fcfea509723c5b161c5755c8af344c50967",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/admin/route.ts",
+      "sha256": "5f90c5663b57f62fc6e61cf3dce930d126611adf25b076fba5502c181b02cd6e",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/ai/detect/route.ts",
+      "sha256": "190c54cc05e2f361d45f32f4f84996347e8be9777ed54d212fa2986a82c6f27a",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/ai/health/route.ts",
+      "sha256": "28492ac81e25c8ab1b8d6f1aa23f5b5de89070d9fb1e0777d9cd918f4bc2a38f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/api/auth/route.ts",
+      "sha256": "b845add363d5c79248e62dac6f036b22a1b4e019d56f6bf59b8d74d5c4159c31",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/catalog/[slug]/route.ts",
+      "sha256": "fc6d6c480dec9d5a32d784fd16391252fdfa4e368de2e2f52af7219b645b7f56",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/api/disposals/route.ts",
+      "sha256": "8cc1d2f350f191b7581a31c678e6888dbae116b0cf5496a88e79a339e9b4bb97",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/health/live/route.ts",
+      "sha256": "758ed17e2150a3d68251a273126188271eece2ddfffbeec52c7950828f92b943",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/api/health/ready/route.ts",
+      "sha256": "bdf5b37b7d85925b6531aa162d8a705378f9e6eaf0b7eeeae8901908f7045f68",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/member/route.ts",
+      "sha256": "e6b59f28881171bdfe15a7359db8aa5b5c22535ce5430187da9dea25b2606753",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/public/[section]/route.ts",
+      "sha256": "15aa1104b4d3943394646034c114d214e5e9be6633d25167978ab613ee275245",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/quiz/route.ts",
+      "sha256": "95a3b90ad5ddb014cb5673d07c45973d795a0c6ef50209c21378bd3700a365ae",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/api/quizzes/route.ts",
+      "sha256": "4094678aea336a218635898b044ebf0ea04d98e3fa711d4496ed6e31a5b1e042",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/recommendations/route.ts",
+      "sha256": "c7f2b9966883ab8c1776612602511b0179e471962f1ed7c17e6238237e88e0fe",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/api/scans/route.ts",
+      "sha256": "3820b34e93ed4f3775d31bb7198dc59c480f1e29d2d6a0a92872667f977ab94c",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/auth/callback/route.ts",
+      "sha256": "c7e1c79e4858b968f53f163d746187df558b7b4fa86d6bb572fdf93df970f1d6",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/categories/page.tsx",
+      "sha256": "75ecbf5d3add62f36e792c8ab69c125b1693d2a2ff60f7dfb368d14a4775d23c",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/design-tokens.css",
+      "sha256": "232ea78faf9637565e52b20776230909b3ce9286167e465b7c19df0c68b68f9d",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/globals.css",
+      "sha256": "1f69c050426915506d6f463990438a53410d12b4ded708c1525f258ee9067f7c",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/guide/page.tsx",
+      "sha256": "4cfc3f26740802c10fcda9844f17a68dba3d1798e8eecff12b1507a485f2d91e",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/guide/[slug]/page.tsx",
+      "sha256": "aec9b82bf56dffbf188c0876999ef82744b58a3cf4f1513783c4882610e8bc1f",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/history/[id]/page.tsx",
+      "sha256": "07dcdf4202c1c288206534e32fc03add19d569aebf9004dbe3c9a2898436c536",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/icon.svg",
+      "sha256": "93507ccadb115e69b471bed1c2e2598c2e2aadc36509cb63595ce36bcab6871d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/knowledge/[slug]/page.tsx",
+      "sha256": "ff2367ac412b973d78e3e75523a052020f08941e6898c51994afaa17a90bb9ec",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/layout.tsx",
+      "sha256": "64eda982901458ffb7272bde2e36aa9b009e0d09479e5871edb2a580df213495",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/not-found.tsx",
+      "sha256": "5b877b6274878116e05819270c39e33523137c15e69d37262012a031df4d138a",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/page.tsx",
+      "sha256": "36c09424c657b87526812500937426def256f0d8bbcf7a23487d4125db8f2dcf",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/app/product.css",
+      "sha256": "3b23c64bf531a75eee805b25ee2006a21ab617115a8da379df2b5e6dbfd618fd",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/app/quiz/page.tsx",
+      "sha256": "e4f2891bfe050945fdf4b37e7414afaa0f263909c9816c7525c9326d3b04bf50",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/scanner/page.tsx",
+      "sha256": "1792bcadf7af13e93f39e5cc19ea0b8585e95890d649e074c440e29d0fbcb552",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/app/[section]/page.tsx",
+      "sha256": "ad4f64e4edead7bf45345a659cdf6cd894d4bacad97d8490dffc02c03da59aee",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/admin-manager.tsx",
+      "sha256": "5df920a88ccc2ef6fb06a27dfd8b081a1c41469090c9f3b5caaaf1a10c186d00",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/auth-form.tsx",
+      "sha256": "24c392eebeb8bc93f2ac939ec7ce32e698bf6610a67558d62591e495b2aecd84",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/database-quiz.tsx",
+      "sha256": "c9f7c8dbb43729a5cf1eeb5b645d6cd0a27327db07cb8f8643c72a71356d895f",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/components/disposal-map.tsx",
+      "sha256": "19b0d61f2477489e9fd1c322271d13a380b29ebd8deb82c7f44b94afe3192429",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/components/guide.tsx",
+      "sha256": "09c5c21cceb6e0949e1efab4f0db7f289676cfd580c1dbccf68a1212950dcf45",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/home.tsx",
+      "sha256": "aad9b12c98ab9c6f5f104f39b1696a1b13bf758be52e5a4b221b7ef391b6ddfc",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/components/knowledge.tsx",
+      "sha256": "fef9654d5b00a65410e62e201a2c32d16dfc94ff6fcdd4c298c755d8126f93eb",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/components/mascot.tsx",
+      "sha256": "507ca51c3a9339d416d7b6d5b6ddd3726349eb0c54e7de61704369f41c7dc4bd",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/components/member-panel.tsx",
+      "sha256": "a6bc7115bc7bf863dcdc155f203bbca3f9bf543b7e26221103ce8a8ada32b16a",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/navigation.tsx",
+      "sha256": "5eed8b9fb067d722bcdade0e23e3a66776671562215bd01c68bebfb1d3be5bfa",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/components/public-data.tsx",
+      "sha256": "78f4d0b4aa73e44af009fe6a1ae43825a98205a9bb7c27778e15dea0e2aaa035",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/components/quiz.tsx",
+      "sha256": "7cc151286f99807181c533e2dd560204aa8be409151d72406d4855f38e16aa0d",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/recommendation.tsx",
+      "sha256": "e91ddf7b81a8f86c5a5ed9eb54884da4f476091f71b42a2b643ed29582c7e235",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/save-scan.tsx",
+      "sha256": "a47500e08b4e6519f5edb60be4a7629c9ab15ae89f2c737e9083db6fcb41411f",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/saved-scan.tsx",
+      "sha256": "dcce5650492263dc2d933ed2f8824df91d272a96cc1175019425ada7a6cae7fc",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/components/scanner.tsx",
+      "sha256": "ebbf2ba8f5d7988cb8aba0ed420570230693fb90a13b54a872534270d55c209b",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/components/waste-detail.tsx",
+      "sha256": "251fb3878f858a137afcfb2a233807f2715fe0f9793f6b364c7dd820b9b76026",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/lib/admin-resources.ts",
+      "sha256": "f945922919781189f8ebc2ecc376ca769e3a468b490fc1d31aeeb8798dd0d39b",
+      "status": "Modified"
+    },
+    {
+      "path": "web/src/lib/catalog.ts",
+      "sha256": "8779382a51f88e3a7865575e53a285468ac346490e8f471bed50ed286f756ee5",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/lib/config.ts",
+      "sha256": "6a944a27997fb71b5b360ad2195d8b6fedbfddcd4b2d47376e78694c1dca4d8d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/lib/detection-contract.ts",
+      "sha256": "ac1fd3cca1aefcbe298a36ef3790d271259fc8ac01b73fa733f8fcee79bc84da",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/lib/guide-data.ts",
+      "sha256": "eb93bcad5d6d552039cd948f563f2d69d08678c338c3a559d10274a75975d3c1",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/lib/http.ts",
+      "sha256": "891dbfc322af170a3c292bbb2fd0f348a0f647c62bdef1875549eb47a7eebcb3",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/lib/page-access.ts",
+      "sha256": "917c645b877d04aa6465c05e33ddf3d7111c9dbee9105533d4295faf3c0d6cfc",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/lib/quiz-data.ts",
+      "sha256": "cea4446446db8986dba31567e6b54b37dbf53b046a546f1779a63b49f1ab319d",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/lib/read-json.ts",
+      "sha256": "72b3c3df77758ecb7849633513424876c2faa84961ab578e379fd9f96979211d",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/lib/scan-receipt.ts",
+      "sha256": "c8c91651969e1445e70a837cff6be8eb82c4a537969a6810a231dd0e048d74a1",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/lib/supabase-privileged.ts",
+      "sha256": "9bedcc3f08ca1d113ac9ac1e3ee81ea102aa4d351cf0025bc9fc4c07a12fce53",
+      "status": "Created"
+    },
+    {
+      "path": "web/src/lib/supabase-server.ts",
+      "sha256": "2ce23da43e6a7929b525ab882ce773f148fabd503520f1fa6c4231164580a87a",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/src/proxy.ts",
+      "sha256": "4bba52c555b7b9540cc05cb1fcef96660b34713d2479c49d56fa9ace5cc2357a",
+      "status": "Modified"
+    },
+    {
+      "path": "web/tests/browser-smoke.cjs",
+      "sha256": "e8fc9e8030d75969e1475d1e94e11bfafa6e2209f7c04ae482415dceb62118cc",
+      "status": "Modified"
+    },
+    {
+      "path": "web/tests/camera-smoke.cjs",
+      "sha256": "8ba5d2ff25676fb57c022f3e750ed3c39a17ab79b01dbf98c5ec3eb4c2bf00bc",
+      "status": "Modified"
+    },
+    {
+      "path": "web/tests/contracts.test.ts",
+      "sha256": "eb4e15134a86af1fa10b26b2ade6433c05e6a313b9dffd4fc1e2bc64a9ec6624",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/tests/database.test.ts",
+      "sha256": "584c21b0187542dabf990dc90f770e75e0ba6b3e559614da17cee63a72944c58",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/tests/http.test.ts",
+      "sha256": "6634d814af244fdf1afb8579e330bd97006e924219266df5dc0f9e18c9667323",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/tests/input.test.ts",
+      "sha256": "b8504535a35fa5633ffb5f952df117da598f77599b71cfddefddb48c8d9b1f5a",
+      "status": "Created"
+    },
+    {
+      "path": "web/tests/product-database.test.ts",
+      "sha256": "680b382d7231f5153a1094b329742d97e86b592e26656e8a2863dbee59838a25",
+      "status": "Created"
+    },
+    {
+      "path": "web/tests/receipt.test.ts",
+      "sha256": "82a027339421d9ae89b8399835927033efb793014f7d263a4d749def7c34949a",
+      "status": "Created"
+    },
+    {
+      "path": "web/tests/rules.test.ts",
+      "sha256": "02c67df90a62e84408a1e16be3a7571c4e7488859bf6c9dd115564643b7e99d3",
+      "status": "Unchanged"
+    },
+    {
+      "path": "web/tsconfig.json",
+      "sha256": "add8204f296d4320940b283585b315d89b9728b80bb8c0ded59f83198a403ff7",
+      "status": "Unchanged"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+begin;insert into public.data_sources(title,reference,verification_status,verified_at) select 'แนวทางทั่วไป ไม่ใช่กฎมหาวิทยาลัย','https://greener.bangkok.go.th/waste-recycle/community-waste-guide/','verified','2026-11-02T00:00:00Z' where not exists(select 1 from public.data_sources where reference='https://greener.bangkok.go.th/waste-recycle/community-waste-guide/');commit;

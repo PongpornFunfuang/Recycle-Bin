@@ -1,0 +1,23 @@
+-- Apply after0006 and before0007. Private bucket; no public object listing.
+begin;
+create table public.pin_evidence(id uuid primary key,owner_id uuid not null references public.profiles(id),object_key text not null unique,created_at timestamptz not null default now(),check(object_key=owner_id::text||'/'||id::text));
+alter table public.pin_evidence enable row level security;
+revoke all on public.pin_evidence from public,anon,authenticated;
+grant select,insert on public.pin_evidence to authenticated;
+create policy evidence_admin_read on public.pin_evidence for select to authenticated using(private.is_admin());
+create policy evidence_admin_insert on public.pin_evidence for insert to authenticated with check(private.is_admin() and owner_id=auth.uid());
+do $$begin if exists(select 1 from storage.buckets where id='pin-evidence' and public) then raise exception 'unexpected_public_bucket';end if;end;$$;
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('pin-evidence','pin-evidence',false,8388608,array['image/jpeg','image/png','image/webp']) on conflict(id) do nothing;
+create policy pin_evidence_upload on storage.objects for insert to authenticated with check(bucket_id='pin-evidence' and private.is_admin() and split_part(name,'/',1)=auth.uid()::text and exists(select 1 from public.pin_evidence e where e.object_key=name and e.owner_id=auth.uid()));
+create policy pin_evidence_admin_read on storage.objects for select to authenticated using(bucket_id='pin-evidence' and private.is_admin());
+create function public.pin_evidence_is_published(p_key text) returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.pin_evidence e join public.locations l on l.evidence_photo_id=e.id join public.data_sources s on s.id=l.source_id where e.object_key=p_key and l.verification_status='verified' and l.archived_at is null and l.verified_at is not null and s.verification_status='verified' and s.archived_at is null and exists(select 1 from public.location_bins x join public.waste_bins b on b.id=x.bin_id where x.location_id=l.id and b.verification_status='verified' and b.archived_at is null));$$;
+revoke all on function public.pin_evidence_is_published(text) from public;
+grant execute on function public.pin_evidence_is_published(text) to anon,authenticated;
+create policy pin_evidence_published_read on storage.objects for select to anon,authenticated using(bucket_id='pin-evidence' and public.pin_evidence_is_published(name));
+create policy pin_evidence_unused_delete on storage.objects for delete to authenticated using(bucket_id='pin-evidence' and private.is_admin() and split_part(name,'/',1)=auth.uid()::text and not exists(select 1 from public.locations l join public.pin_evidence e on e.id=l.evidence_photo_id where e.object_key=name));
+create function private.pin_evidence_exists(p_id uuid,p_owner uuid default null) returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.pin_evidence e join storage.objects o on o.bucket_id='pin-evidence' and o.name=e.object_key where e.id=p_id and (p_owner is null or e.owner_id=p_owner) and coalesce(o.metadata->>'mimetype','') in ('image/jpeg','image/png','image/webp') and coalesce((o.metadata->>'size')::bigint,0) between 1 and 8388608);$$;
+revoke all on function private.pin_evidence_exists(uuid,uuid) from public,anon,authenticated;
+create function public.pin_evidence_object_key(p_id uuid) returns text language sql stable security definer set search_path='' as $$select object_key from public.pin_evidence where id=p_id and public.pin_evidence_is_published(object_key);$$;
+revoke all on function public.pin_evidence_object_key(uuid) from public;
+grant execute on function public.pin_evidence_object_key(uuid) to anon,authenticated;
+commit;

@@ -1,0 +1,614 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Recycle Bin — Local Product API",
+    "version": "1.2.0",
+    "description": "Real inference and Supabase-backed source. Hosted Auth/PostgreSQL integration pending approval and credentials. No Cloud SQL or deployment performed."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000"
+    }
+  ],
+  "paths": {
+    "/api/health/live": {
+      "get": {
+        "summary": "Web liveness",
+        "x-implementation-milestone": "M1",
+        "responses": {
+          "200": {
+            "description": "Web liveness",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/foundation.schema.json#/$defs/liveness"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health/ready": {
+      "get": {
+        "summary": "Scratch database readiness; never AI scanner readiness",
+        "x-implementation-milestone": "M1",
+        "responses": {
+          "200": {
+            "description": "Database ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/foundation.schema.json#/$defs/webReadiness"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/foundation.schema.json#/$defs/webReadiness"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ai/detect": {
+      "post": {
+        "summary": "Photo or live snapshot real multi-object detection",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "image"
+                ],
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "mode": {
+                    "enum": [
+                      "photo",
+                      "live_snapshot"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Real inference; not proof of disposal",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../schemas/detection-result.schema.json"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload too large"
+          },
+          "415": {
+            "description": "Unsupported image"
+          },
+          "422": {
+            "description": "Invalid image"
+          },
+          "429": {
+            "description": "Inference busy"
+          },
+          "503": {
+            "description": "Model/service unavailable"
+          }
+        },
+        "description": "Actual loopback inference. Multipart saveable=true optionally returns X-Scan-Receipt for an authenticated active account; no receipt for anonymous/live frame requests."
+      }
+    },
+    "/api/auth": {
+      "post": {
+        "summary": "Supabase Auth actions; 503 when not configured",
+        "description": "Implemented local handler; hosted operations require configured and approved Supabase. Detailed input constraints are enforced in the route and SQL RPC.",
+        "responses": {
+          "200": {
+            "description": "Operation result; inspect payload status"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Origin/permission denied"
+          },
+          "503": {
+            "description": "Not configured or unavailable"
+          }
+        }
+      }
+    },
+    "/api/quiz": {
+      "post": {
+        "summary": "Local practice quiz grading, no persistence",
+        "description": "Implemented local handler; hosted operations require configured and approved Supabase. Detailed input constraints are enforced in the route and SQL RPC.",
+        "responses": {
+          "200": {
+            "description": "Operation result; inspect payload status"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Origin/permission denied"
+          },
+          "503": {
+            "description": "Not configured or unavailable"
+          }
+        }
+      }
+    },
+    "/api/public/{section}": {
+      "get": {
+        "summary": "Published catalog/knowledge or verified campus locations",
+        "description": "Implemented local handler; hosted operations require configured and approved Supabase. Detailed input constraints are enforced in the route and SQL RPC.",
+        "responses": {
+          "200": {
+            "description": "Operation result; inspect payload status"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Origin/permission denied"
+          },
+          "503": {
+            "description": "Not configured or unavailable"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section",
+            "required": true,
+            "schema": {
+              "enum": [
+                "catalog",
+                "knowledge",
+                "locations"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/api/scans": {
+      "post": {
+        "summary": "Authenticated verified photo/snapshot save; HMAC receipt expires after five minutes",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "result",
+                  "receipt"
+                ],
+                "properties": {
+                  "result": {
+                    "$ref": "../schemas/detection-result.schema.json"
+                  },
+                  "receipt": {
+                    "type": "string",
+                    "maxLength": 2048
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/disposals": {
+      "post": {
+        "summary": "Explicit disposal confirmation, owner-isolated and idempotent",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "eventId",
+                  "itemId",
+                  "ruleId",
+                  "quantity",
+                  "confirmed",
+                  "disposedAt",
+                  "predictionId",
+                  "detectionId"
+                ],
+                "properties": {
+                  "eventId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "itemId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "ruleId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "confirmed": {
+                    "const": true
+                  },
+                  "disposedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "predictionId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "detectionId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "materialId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes": {
+      "get": {
+        "summary": "Published quizzes and questions; no private answer keys",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        }
+      },
+      "post": {
+        "summary": "Authenticated private-key server grading via submit_quiz",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "quizId",
+                  "eventId",
+                  "answers"
+                ],
+                "properties": {
+                  "quizId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "eventId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "answers": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 7
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/member": {
+      "get": {
+        "summary": "Authenticated identity, profile, history, disposal, dashboard and submissions",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        },
+        "parameters": [
+          {
+            "name": "section",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "identity|profile|settings|history|history-detail|disposals|dashboard|feedback|contact|learning"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Zero-based page, 20 rows"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Owned history UUID for history-detail"
+          }
+        ]
+      },
+      "post": {
+        "summary": "Authenticated profile edit or feedback/contact submission; owner derived from verified session",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        }
+      }
+    },
+    "/api/admin": {
+      "get": {
+        "summary": "Server-authorized admin resource/overview/audit/review/relationships read",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        },
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "See web/src/lib/admin-resources.ts plus overview/users/feedback/contact/audit/relationships"
+          }
+        ]
+      },
+      "post": {
+        "summary": "Server + DB admin checks; bounded JSON; create/edit/archive/role/review/relationship operation",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        }
+      }
+    },
+    "/api/recommendations": {
+      "get": {
+        "summary": "Only unambiguous verified active local rules; material is user-confirmed",
+        "responses": {
+          "200": {
+            "description": "Actual operation succeeded; never simulated"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Denied"
+          },
+          "503": {
+            "description": "Not configured, unavailable, or schema pending"
+          }
+        },
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Published catalog slug"
+          },
+          {
+            "name": "label",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "COCO label mapped to context when slug absent"
+          },
+          {
+            "name": "materialId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional linked UUID selected by user"
+          }
+        ]
+      }
+    }
+  },
+  "x-future-contracts": {
+    "POST /api/v1/predictions": "photo-request.schema.json -> detection-result.schema.json",
+    "POST /api/v1/scanner-sessions": "scanner-session.schema.json",
+    "POST /api/v1/waste-logs": "disposal-log.schema.json",
+    "POST /api/v1/recommendations": "recommendation.schema.json"
+  },
+  "components": {
+    "schemas": {
+      "DetectionResult": {
+        "$ref": "../schemas/detection-result.schema.json"
+      },
+      "ConfirmedDisposal": {
+        "$ref": "../schemas/disposal-log.schema.json"
+      }
+    }
+  }
+}

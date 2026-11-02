@@ -1,0 +1,5 @@
+from pathlib import Path
+r=Path(__file__).resolve().parents[1];p=r/'web/tests/http.test.ts';s=p.read_text(encoding='utf-8').replace('import {sameOrigin}',"import {expectedDatabaseMode} from './database-mode';\nimport {sameOrigin}");s=s.replace('cross-origin mutations reject; unconfigured cloud operations cannot succeed','cross-origin mutations reject; configured APIs deny anonymous users without fabricated login attempts')
+start=s.index("const r=await fetch('http://127.0.0.1:3000/api/auth'")
+s=s[:start]+'''if(expectedDatabaseMode==='not_configured'){const r=await fetch('http://127.0.0.1:3000/api/auth',{method:'POST',headers:{origin:'http://127.0.0.1:3000','Content-Type':'application/json'},body:JSON.stringify({action:'logout'})});assert.equal(r.status,503);}else{for(const path of ['/api/member?section=identity','/api/admin']){const r=await fetch('http://127.0.0.1:3000'+path);assert.equal(r.status,401);}}});
+''';p.write_text(s,encoding='utf-8');print('Connected tests require ready explicitly and do not send synthetic credentials to hosted Auth')

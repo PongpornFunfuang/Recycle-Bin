@@ -1,0 +1,2 @@
+import Guide from "@/components/guide";
+export default async function Page({searchParams}:{searchParams:Promise<{q?:string}>}){const {q}=await searchParams;return <div className="page"><div className="eyebrow">ค้นหาก่อนแยก เพื่อทิ้งอย่างเข้าใจ</div><h1>ขยะชิ้นนี้ แยกอย่างไร?</h1><p className="page-intro">ตรวจวัสดุ สิ่งปนเปื้อน และเงื่อนไขจุดรับก่อนเลือกวิธีทิ้ง</p><Guide initialQuery={typeof q==='string'?q.slice(0,100):''}/></div>;}

@@ -1,0 +1,3 @@
+begin;insert into public.knowledge_entries(slug,title,body,kind,status,source_id) select 'prepare-recycling','เตรียมขยะรีไซเคิล','General Guidance — ไม่ใช่กฎมหาวิทยาลัย
+เทของเหลวเมื่อปลอดภัย แยกวัสดุ ทำความสะอาดและผึ่งแห้ง ตรวจว่าจุดรับรับวัสดุและสภาพนั้นก่อนนำส่ง ภาชนะสารอันตรายไม่ควรปะปน
+ตรวจแหล่งอ้างอิง 2 พฤศจิกายน 2026: https://greener.bangkok.go.th/waste-recycle/community-waste-guide/','article','published',id from public.data_sources where reference='https://greener.bangkok.go.th/waste-recycle/community-waste-guide/' order by id limit 1 on conflict(slug) do nothing;commit;

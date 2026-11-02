@@ -1,0 +1,693 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://recyclebin.local/contracts/foundation.schema.json",
+  "title": "Recycle Bin M1 wire contracts — no inference implementation",
+  "$defs": {
+    "box": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "xMin": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "yMin": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "xMax": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "yMax": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "xMin",
+        "yMin",
+        "xMax",
+        "yMax"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "verificationStatus": {
+          "enum": [
+            "verified",
+            "pending",
+            "example",
+            "expired"
+          ]
+        },
+        "verifiedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "reference",
+        "verificationStatus",
+        "verifiedAt"
+      ]
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "areaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "ruleVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "preparationSteps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "separationSteps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "binId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "binColor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "https://recyclebin.local/contracts/foundation.schema.json#/$defs/source"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "itemId",
+        "areaId",
+        "ruleId",
+        "ruleVersion",
+        "preparationSteps",
+        "separationSteps",
+        "binId",
+        "binColor",
+        "reason",
+        "warnings",
+        "sources"
+      ]
+    },
+    "detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "detectionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "format": "uuid"
+        },
+        "box": {
+          "$ref": "https://recyclebin.local/contracts/foundation.schema.json#/$defs/box"
+        },
+        "classId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "decision": {
+          "enum": [
+            "accepted",
+            "low_confidence",
+            "unknown"
+          ]
+        },
+        "materialCategoryId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recommendation": {
+          "anyOf": [
+            {
+              "$ref": "https://recyclebin.local/contracts/foundation.schema.json#/$defs/recommendation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "detectionId",
+        "box",
+        "classId",
+        "label",
+        "confidence",
+        "decision",
+        "materialCategoryId",
+        "recommendation"
+      ]
+    },
+    "detectionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1.1"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "predictionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "format": "uuid"
+        },
+        "mode": {
+          "enum": [
+            "photo",
+            "live_snapshot"
+          ]
+        },
+        "inferenceLocation": {
+          "enum": [
+            "browser",
+            "local_server"
+          ]
+        },
+        "frameId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sceneDecision": {
+          "enum": [
+            "detected",
+            "uncertain",
+            "unknown"
+          ]
+        },
+        "imageWidth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "imageHeight": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "detections": {
+          "type": "array",
+          "items": {
+            "$ref": "https://recyclebin.local/contracts/foundation.schema.json#/$defs/detection"
+          },
+          "maxItems": 100
+        },
+        "modelVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "artifactSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "classMapVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "policyVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "historySaved": {
+          "type": "boolean"
+        },
+        "latencyMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "quality": {
+          "enum": [
+            "ok",
+            "dark",
+            "possibly_blurry"
+          ]
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "requestId",
+        "predictionId",
+        "mode",
+        "inferenceLocation",
+        "frameId",
+        "sceneDecision",
+        "imageWidth",
+        "imageHeight",
+        "detections",
+        "modelVersion",
+        "artifactSha256",
+        "classMapVersion",
+        "policyVersion",
+        "historySaved",
+        "latencyMs",
+        "quality"
+      ]
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "format": "uuid"
+        },
+        "mode": {
+          "const": "realtime"
+        },
+        "inferenceLocation": {
+          "enum": [
+            "browser",
+            "local_server"
+          ]
+        },
+        "status": {
+          "enum": [
+            "created",
+            "running",
+            "paused",
+            "stopped",
+            "expired",
+            "error"
+          ]
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "maxFramesPerSecond": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "maxFrameBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8388608
+        }
+      },
+      "required": [
+        "sessionId",
+        "mode",
+        "inferenceLocation",
+        "status",
+        "expiresAt",
+        "maxFramesPerSecond",
+        "maxFrameBytes"
+      ]
+    },
+    "disposalLog": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clientEventId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "format": "uuid"
+        },
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "predictionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "detectionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ruleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "ruleVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "confirmed": {
+          "const": true
+        },
+        "disposedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "clientEventId",
+        "itemId",
+        "quantity",
+        "predictionId",
+        "detectionId",
+        "ruleId",
+        "ruleVersion",
+        "confirmed",
+        "disposedAt"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ]
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "error",
+        "requestId"
+      ]
+    },
+    "liveness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "alive"
+        },
+        "component": {
+          "enum": [
+            "web",
+            "ai"
+          ]
+        },
+        "milestone": {
+          "const": "M1"
+        },
+        "aiScannerReady": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status",
+        "component",
+        "milestone",
+        "aiScannerReady"
+      ]
+    },
+    "webReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "not_ready"
+          ]
+        },
+        "component": {
+          "const": "web"
+        },
+        "milestone": {
+          "const": "M1"
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "database": {
+              "enum": [
+                "ready",
+                "unavailable",
+                "not_configured",
+                "schema_pending"
+              ]
+            }
+          },
+          "required": [
+            "database"
+          ]
+        },
+        "aiScannerReady": {
+          "const": false
+        }
+      },
+      "required": [
+        "status",
+        "component",
+        "milestone",
+        "checks",
+        "aiScannerReady"
+      ]
+    },
+    "aiReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "not_ready"
+          ]
+        },
+        "component": {
+          "const": "ai"
+        },
+        "milestone": {
+          "const": "M1"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "aiScannerReady": {
+          "type": "boolean"
+        },
+        "modelVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "component",
+        "milestone",
+        "reason",
+        "aiScannerReady"
+      ]
+    },
+    "photoRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "format": "uuid"
+        },
+        "areaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "assetId",
+        "areaId"
+      ]
+    },
+    "modelManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1.0"
+        },
+        "modelVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "artifactSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "supportedClasses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minItems": 1
+        },
+        "runtime": {
+          "enum": [
+            "pytorch",
+            "onnx_wasm",
+            "onnx_webgpu",
+            "onnx_cuda"
+          ]
+        },
+        "preprocessVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "postprocessVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "licenseReference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "modelVersion",
+        "artifactSha256",
+        "supportedClasses",
+        "runtime",
+        "preprocessVersion",
+        "postprocessVersion",
+        "licenseReference"
+      ]
+    }
+  }
+}

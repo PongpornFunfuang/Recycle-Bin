@@ -1,0 +1,13 @@
+# General guidance scope adopted — partial execution
+
+New user scope: general trusted waste principles suffice for Catalog/Guidance/Knowledge/Quiz. Do not require campus-specific sorting rules as a development gate. Physical map still requires real verified bin coordinates/colors/accepted categories; no AI inference substitutes for field evidence.
+
+Added general-guidance.ts covering12Hostedcatalogslugs + bottle/cup/bowl/food contextual labels. API /api/catalog/[slug] and /api/recommendations now return generalGuidance regardless of area rule availability. UI displays steps/cautions/source/date and avoids implying material classification. No bin color or hazardous collectionpoint fabricated. Local guidance is source-backed code, not a new Hosted guidance-table seed. Existing rule-based disposal confirmation still needs separate redesign/migration for general-guidance confirmation; not falsely claimed complete.
+
+Quiz Hosted Execute: before0, after1publishedquiz,4questions,4privateanswerkeys,0attempts. Seed SQLfiles database/seeds/quiz-2026-11-02. Tested twice in isolatedPGlite: PASS. Editor text compared to file before eachshorttransaction; all6chunksSQLsuccess. Nooldcontent/refdataoverwritten. Source general taxonomy/clean-dry recycling/organic separation from existing official references, app-scope question based on project policy. Questions have correctchoice/explanation but lessonFK/sourcecolumnnotadded. Actualanswer-submission/score browserE2E NOT TESTED this round; nofakeuserquizattempts.
+
+Actual browser PET catalog shows generalsteps/source/date while no campusrule exists. Typecheck PASS, finalBuild logged; no claims for fullNode/Python/Regression afternewchanges. Scopechanged source/UI files protected in backups/general-scope-2026-11-02. Screenshot general-guidance.jpg and Hostedquizcounts in evidence.
+
+Storage blocker inventory: docker/supabaseCLI not inPATH; wsl--status exit1withno usable status output. Presence ofwsl.exe doesnotproveWSL2/distro/virtualization installed. Need read-only systemfeature/distro inventory, compatibleDockerAPIruntime+SupabaseCLI, then isolatedLocalstack. OS/WSL/services changes require targeted user authorization under existing restrictions; noinstaller/systemchanges here. Alternative dedicatedFreeSupabaseTestProject needs accountquota and project-specific scope; existing otherprojects cannot be repurposed. Skippingrealstorage tests means object/network/owner/SignedURL/delete behavior unproven, so cannotmarkPASS orProductionReady.
+
+P0Migration/securitylatestCandidatesremainunapplied;HostedSchema5,physicalLocations0lastverified. NoSMTPchange/mail/Deploy. Generalguidanceisusableindependently;MapSave/StorageandfullE2Eremainincomplete. NoexistingpassedchoiceSeedrepeated.

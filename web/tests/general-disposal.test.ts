@@ -1,0 +1,22 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {PGlite} from '@electric-sql/pglite';
+import {generalConfirmationSnapshot} from '../src/lib/general-confirmation';
+test('general disposal: explicit user confirmation, no campus rule, isolated PostgreSQL only',async t=>{
+ const db=new PGlite(),A=crypto.randomUUID(),B=crypto.randomUUID();
+ async function role(name:string,user=A){await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[user]);await db.exec('set role '+name);}
+ try{
+ await db.exec("create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key,raw_user_meta_data jsonb default '{}');create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema public,auth to anon,authenticated,service_role;grant execute on function auth.uid() to anon,authenticated,service_role;");
+ for(const name of ['0001_foundation','0002_admin_workflow','0003_member_workflow','0004_quiz_workflow','0005_product_hardening','0008_general_confirmation'])await db.exec(readFileSync('../database/postgres/'+name+'.sql','utf8'));
+ await db.query('insert into auth.users(id) values($1),($2)',[A,B]);
+ const item=(await db.query<{id:string}>("insert into public.waste_items(slug,name,status) values('pet-bottle','LOCAL PET TEST','published') returning id")).rows[0].id;
+ const snapshot=generalConfirmationSnapshot({slug:'pet-bottle',name:'LOCAL PET TEST'});assert.equal(snapshot?.scope,'general');assert.equal('bins' in snapshot!,false);
+ const event=crypto.randomUUID(),at='2026-01-01T00:00:00Z';let id='';
+ const save=(owner=A,key=event,quantity=2,confirmed=true,body:unknown=snapshot)=>db.query<{id:string}>('select public.confirm_general_disposal($1,$2,$3,$4,$5,$6,$7::jsonb) id',[owner,key,item,quantity,at,confirmed,JSON.stringify(body)]);
+ await t.test('anonymous/member cannot spoof server snapshot; false confirmation rejected',async()=>{await role('authenticated');await assert.rejects(save());await role('anon');await assert.rejects(save());await role('service_role');await assert.rejects(save(A,crypto.randomUUID(),1,false));});
+ await t.test('general confirmation persists immutable snapshot and idempotent retry without rules',async()=>{await role('service_role');id=(await save()).rows[0].id;assert.equal((await save()).rows[0].id,id);await assert.rejects(save(A,event,3));await db.exec('reset role');const result=(await db.query<{guidance_scope:string;rule_version_id:string|null;quantity:number}>('select guidance_scope,rule_version_id,quantity from public.confirmed_disposals where id=$1',[id])).rows[0];assert.deepEqual(result,{guidance_scope:'general',rule_version_id:null,quantity:2});assert.equal((await db.query('select * from public.disposal_rules')).rows.length,0);});
+ await t.test('owner sees history/summary; other user and anon cannot read it',async()=>{await role('authenticated',A);assert.equal((await db.query('select * from public.confirmed_disposals where id=$1',[id])).rows.length,1);const summary=(await db.query<{s:{disposals:number;items:number}}>('select public.member_summary() s')).rows[0].s;assert.equal(summary.disposals,1);assert.equal(summary.items,2);await role('authenticated',B);assert.equal((await db.query('select * from public.confirmed_disposals where id=$1',[id])).rows.length,0);await role('anon');await assert.rejects(db.query('select * from public.confirmed_disposals'));});
+ await t.test('untrusted source/bin assertions, unconfirmed event and cross-owner prediction fail atomically',async()=>{await role('service_role');await assert.rejects(save(A,crypto.randomUUID(),1,true,{...snapshot,bins:['fake']}));await assert.rejects(save(A,crypto.randomUUID(),1,true,{...snapshot,source:{reference:'https://untrusted.invalid'}}));await assert.rejects(db.query('select public.confirm_general_disposal($1,$2,$3,1,$4,true,$5::jsonb,$6,$7)',[A,crypto.randomUUID(),item,at,JSON.stringify(snapshot),crypto.randomUUID(),crypto.randomUUID()]));await db.exec('reset role');assert.equal((await db.query('select * from public.confirmed_disposals')).rows.length,1);assert.equal((await db.query("select * from private.audit_logs where event='general_disposal_confirmed'")).rows.length,1);});
+ }finally{await db.close();}
+});

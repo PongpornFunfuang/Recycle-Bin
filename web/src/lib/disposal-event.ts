@@ -1,0 +1,2 @@
+export type DisposalEvent={eventId:string;disposedAt:string;itemId:string;ruleId:string;materialId:string|null;quantity:number;confirmed:true;predictionId:string|null;detectionId:string|null};
+export function captureDisposalEvent(input:Omit<DisposalEvent,'eventId'|'disposedAt'|'confirmed'>,eventId=crypto.randomUUID(),disposedAt=new Date().toISOString()):Readonly<DisposalEvent>{return Object.freeze({...input,eventId,disposedAt,confirmed:true as const});}
