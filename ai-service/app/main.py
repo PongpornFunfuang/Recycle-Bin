@@ -22,8 +22,12 @@ async def local_only(request: Request, call_next):
     origin = request.headers.get("origin")
     if origin and origin not in {"http://127.0.0.1:3000", "http://localhost:3000", "http://127.0.0.1:8000"}:
         return JSONResponse({"detail": "origin_rejected"}, status_code=403)
-    host = request.headers.get("host", "").split(":")[0]
-    if host not in {"localhost", "127.0.0.1", "testserver"}:
+    host = request.headers.get("host", "").split(":")[0].lower()
+    tunnel_host = os.environ.get("AI_TUNNEL_HOST", "").strip().lower()
+    allowed_hosts = {"localhost", "127.0.0.1", "testserver"}
+    if tunnel_host:
+        allowed_hosts.add(tunnel_host)
+    if host not in allowed_hosts:
         return JSONResponse({"detail": "host_rejected"}, status_code=403)
     length = request.headers.get("content-length")
     if request.method == "POST" and (not length or not length.isdigit() or int(length) > 9 * 1024 * 1024):
@@ -41,8 +45,10 @@ def ready():
 
 @app.post("/ai/detect")
 async def detect(request: Request, image: UploadFile = File(...), mode: str = Form("photo")):
-    secret = os.environ.get("AI_INTERNAL_TOKEN", "")
-    if secret and not hmac.compare_digest(request.headers.get("x-ai-token", ""), secret):
+    secret = os.environ.get("AI_INTERNAL_TOKEN", "").strip()
+    if not secret:
+        raise HTTPException(503, "internal_auth_not_configured")
+    if not hmac.compare_digest(request.headers.get("x-ai-token", ""), secret):
         raise HTTPException(403, "invalid_internal_token")
     if mode not in {"photo", "live_snapshot"}:
         raise HTTPException(422, "invalid_mode")

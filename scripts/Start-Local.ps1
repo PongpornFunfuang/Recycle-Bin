@@ -7,6 +7,14 @@ if (-not (Test-Path -LiteralPath $nodePath)) { throw 'Node.js not found. Install
 if (-not (Test-Path -LiteralPath $pythonPath)) { throw 'Project Python venv not found.' }
 $logDirectory = Join-Path $projectRoot '.local\logs'
 New-Item -ItemType Directory -Path $logDirectory -Force | Out-Null
+$aiSecretFile = Join-Path $projectRoot '.local\ai-preview.env'
+if (Test-Path -LiteralPath $aiSecretFile) {
+  Get-Content -LiteralPath $aiSecretFile | ForEach-Object {
+    if ($_ -match '^(AI_INTERNAL_TOKEN|AI_TUNNEL_HOST)=(.+)$') {
+      Set-Item -Path ("Env:" + $Matches[1]) -Value $Matches[2]
+    }
+  }
+}
 function Test-LocalHealth([string]$url) {
   try { $response = Invoke-RestMethod -Uri $url -TimeoutSec 3; return $response.status -eq 'alive' } catch { return $false }
 }
