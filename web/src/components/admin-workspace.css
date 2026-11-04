@@ -15,6 +15,7 @@
 [data-section="overview"] .grid-two>.panel>.detection>p{display:none}
 [data-section="overview"] .grid-two>.panel>.detection>dl{display:contents}
 [data-section="overview"] .grid-two>.panel>.detection>dl>div{border:1px solid #e0eef8;border-radius:13px;padding:15px;background:#f8fcff}
+[data-section="overview"] .grid-two>.panel>.detection>dl>div:first-child{display:none}
 [data-section="overview"] .grid-two>.panel>.detection dt{font-size:12px;color:#648097}
 [data-section="overview"] .grid-two>.panel>.detection dd{font-size:28px;line-height:1.2;font-weight:800;color:#087cc4;margin:5px 0 0}
 @media(max-width:700px){[data-section="overview"] .grid-two>.panel>.detection{grid-template-columns:repeat(2,minmax(0,1fr));padding:14px}}
