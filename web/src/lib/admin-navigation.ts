@@ -1,6 +1,6 @@
 export const adminGroups = [
   {id:"locations",label:"จัดการจุดถังขยะ",items:[["areas","พื้นที่"],["locations","จุดติดตั้งถัง"],["bin-types","ชนิดถัง"]]},
-  {id:"catalog",label:"จัดการข้อมูลขยะ",items:[["catalog","รายการขยะ"],["waste-knowledge","คำแนะนำรายชนิดขยะ"],["materials","วัสดุ"],["categories","หมวดขยะ"],["rules","กฎคัดแยก"],["sources","แหล่งอ้างอิง"]]},
+  {id:"catalog",label:"จัดการข้อมูลขยะ",items:[["waste-knowledge","รายการขยะ"],["categories","หมวดขยะ"],["sources","แหล่งอ้างอิง"]]},
   {id:"content",label:"บทความและแบบทดสอบ",items:[["knowledge","ความรู้"],["quiz","แบบทดสอบ"],["questions","คำถามและเฉลย"]]},
   {id:"more",label:"เพิ่มเติม",items:[["feedback","ข้อเสนอแนะและปัญหา"],["contact","ข้อความติดต่อ"],["audit","ประวัติการจัดการ"],["users","สมาชิก"],["relationships","เชื่อมโยงข้อมูล"]]},
 ] as const;
