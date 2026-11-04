@@ -20,6 +20,12 @@ export async function POST(req:NextRequest){
   const writer=evidenceWriter();if(!writer)return error('ระบบจัดเก็บหลักฐานยังไม่พร้อม',503);const id=crypto.randomUUID(),path=`${user.id}/${id}.${mime.split('/')[1]}`;
   const upload=await writer.storage.from('disposal-evidence').upload(path,bytes,{contentType:mime,upsert:false});if(upload.error)return error('อัปโหลดหลักฐานไม่สำเร็จ',503);
   const row=await writer.from('disposal_evidence').insert({id,user_id:user.id,item_id:itemId||null,prediction_id:predictionId||null,detection_id:detectionId||null,object_path:path,quantity,status:'pending'}).select('id').single();
-  if(row.error){await writer.storage.from('disposal-evidence').remove([path]);return error('บันทึกหลักฐานไม่สำเร็จ',503);}return NextResponse.json({id:row.data.id,status:'pending'},{status:201});
+  if(row.error){
+   await writer.storage.from('disposal-evidence').remove([path]);
+   // Keep the response free of database details, but expose the stable
+   // PostgREST code so a misconfigured Test schema can be diagnosed safely.
+   return error(`บันทึกหลักฐานไม่สำเร็จ (รหัส ${row.error.code??'DB'})`,503);
+  }
+  return NextResponse.json({id:row.data.id,status:'pending'},{status:201});
  }catch{return error('ข้อมูลหลักฐานไม่ถูกต้อง',422);}
 }
