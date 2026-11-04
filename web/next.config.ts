@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 
-// Keep local output isolation out of the Vercel Next.js adapter.
 const isVercel = process.env.VERCEL === "1";
 const requestedDistDir = process.env.RB_NEXT_DIST_DIR?.trim() || undefined;
 if (!isVercel && requestedDistDir && !/^\.next-[a-z0-9-]+$/i.test(requestedDistDir)) {

@@ -1,0 +1,54 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {PGlite} from '@electric-sql/pglite';
+
+test('candidate waste knowledge migration: isolated PGlite only, synthetic Storage metadata',async()=>{
+ const db=new PGlite();
+ const admin='00000000-0000-4000-8000-000000000011',member='00000000-0000-4000-8000-000000000012';
+ const role=async(name:'anon'|'authenticated'|'service_role',user='')=>{await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false),set_config('request.jwt.claim.role',$2,false)",[user,name]);await db.exec(`set role ${name}`);};
+ const doc=(id:string,name:string,alias:string)=>({id,name,english:'',icon:'♻',sourceUrl:'https://example.org/guide',checkedAt:'2026-11-04',scope:'general',aliases:[alias],cases:[{condition:'ยืนยันชนิดวัสดุ',material:'กระดาษ',category:'ขยะรีไซเคิล',steps:['พับให้แบน'],sorting:'ส่งจุดรับที่รองรับ',color:'yellow',caution:''}]});
+ try{
+  await db.exec("create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key,raw_user_meta_data jsonb default '{}');create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;create function auth.role() returns text language sql stable as $$select current_user::text$$;grant usage on schema public,auth to anon,authenticated,service_role;grant execute on function auth.uid(),auth.role() to anon,authenticated,service_role;create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);create table storage.objects(id uuid default gen_random_uuid(),bucket_id text,name text,metadata jsonb);alter table storage.objects enable row level security;grant usage on schema storage to anon,authenticated;grant select,insert,delete on storage.objects to anon,authenticated;");
+  await db.exec("create or replace function auth.role() returns text language sql stable as $$select current_setting('request.jwt.claim.role',true)$$;");
+  for(const name of ['0001_foundation','0002_admin_workflow','0003_member_workflow','0004_quiz_workflow','0005_product_hardening','0006_location_evidence','0007a_private_evidence','0007_self_pinning','0007b_pin_guards','0007c_server_evidence','0008_general_confirmation','0010_waste_knowledge_overrides','0011_waste_knowledge_storage','0012_waste_knowledge_service_cleanup'])await db.exec(readFileSync('../database/postgres/'+name+'.sql','utf8'));
+  await db.query('insert into auth.users(id) values($1),($2)',[admin,member]);
+  await db.query("insert into private.user_roles(user_id,role_code) values($1,'admin')",[admin]);
+  await role('authenticated',admin);
+  const first=await db.query<{admin_save_waste_knowledge:number}>('select public.admin_save_waste_knowledge($1,$2::jsonb,$3)', ['cardboard',JSON.stringify(doc('cardboard','กล่องกระดาษ','กล่องลัง')),0]);
+  assert.equal(first.rows[0].admin_save_waste_knowledge,1);
+  await role('anon');
+  assert.deepEqual((await db.query<{public_waste_knowledge:unknown[]}>('select public.public_waste_knowledge()')).rows[0].public_waste_knowledge,[]);
+  await role('authenticated',member);
+  await assert.rejects(db.query('select public.admin_save_waste_knowledge($1,$2::jsonb,$3)',['other',JSON.stringify(doc('other','อื่น','อื่น')),0]),/not_authorized/);
+  assert.equal((await db.query('select slug from public.waste_knowledge_items')).rows.length,0);
+  await assert.rejects(db.query("update public.waste_knowledge_items set visibility='published' where slug='cardboard'"));
+  await assert.rejects(db.query('select public.admin_reserve_waste_knowledge_image($1,$2,$3,$4)',[crypto.randomUUID(),'image/png',128,'a'.repeat(64)]),/not_authorized/);
+  await role('authenticated',admin);
+  await db.query('select public.admin_unpublish_waste_knowledge($1,$2)',['paper',0]);
+  assert.equal((await db.query<{visibility:string}>('select visibility from public.waste_knowledge_items where slug=$1',['paper'])).rows[0].visibility,'unpublished');
+  await assert.rejects(db.query('select public.admin_save_waste_knowledge($1,$2::jsonb,$3)',['other',JSON.stringify(doc('other','อีกชนิด','กล่องลัง')),0]));
+  await assert.rejects(db.query('select public.admin_save_waste_knowledge($1,$2::jsonb,$3)',['cardboard',JSON.stringify(doc('cardboard','กล่องกระดาษ','กล่องลัง')),0]),/version_conflict/);
+  const imageId=crypto.randomUUID(),sha='a'.repeat(64);
+  const reserved=await db.query<{admin_reserve_waste_knowledge_image:string}>('select public.admin_reserve_waste_knowledge_image($1,$2,$3,$4)',[imageId,'image/png',128,sha]);
+  const path=reserved.rows[0].admin_reserve_waste_knowledge_image;
+  assert.ok(path.startsWith('knowledge/'+admin+'/'));
+  await assert.rejects(db.query('select public.admin_finalize_waste_knowledge_image($1)',[imageId]));
+  await db.query("insert into storage.objects(bucket_id,name,metadata) values('waste-knowledge',$1,'{}')",[path]);
+  await role('service_role');
+  await db.query('select public.admin_finalize_waste_knowledge_image($1)',[imageId]);
+  assert.equal((await db.query('select slug from public.waste_knowledge_items')).rows.length,2);
+  await role('authenticated',admin);
+  assert.ok((await db.query<{verified_at:string}>('select verified_at from public.waste_knowledge_images where id=$1',[imageId])).rows[0].verified_at);
+  await db.query('select public.admin_publish_waste_knowledge($1,$2)',['cardboard',1]);
+  await role('anon');
+  const published=(await db.query<{public_waste_knowledge:{visibility:string;content:{name:string}}[]}>('select public.public_waste_knowledge()')).rows[0].public_waste_knowledge;
+  assert.equal(published[0].visibility,'published');assert.equal(published[0].content.name,'กล่องกระดาษ');
+  await role('authenticated',admin);
+  await db.query('select public.admin_unpublish_waste_knowledge($1,$2)',['cardboard',2]);
+  await role('anon');
+  const hidden=(await db.query<{public_waste_knowledge:{visibility:string;content:unknown}[]}>('select public.public_waste_knowledge()')).rows[0].public_waste_knowledge;
+  assert.equal(hidden[0].visibility,'unpublished');assert.equal(hidden[0].content,null);
+  await assert.rejects(db.query('select * from public.waste_knowledge_revisions'),/permission denied/);
+ }finally{await db.close();}
+});

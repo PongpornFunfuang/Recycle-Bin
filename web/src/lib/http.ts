@@ -3,7 +3,6 @@ export function localOrigin(request:NextRequest){
  const host=request.headers.get("host");
  if(!host)throw Error("Missing host");
  if(process.env.VERCEL==="1"){
-  // Trust platform-provided exact deployment names, never arbitrary forwarded hosts.
   const allowed=[process.env.VERCEL_URL,process.env.VERCEL_BRANCH_URL].filter((value):value is string=>Boolean(value));
   if(!allowed.includes(host)||!host.endsWith(".vercel.app")||!/^[a-z0-9.-]+$/i.test(host))throw Error("Untrusted deployment host");
   return `https://${host}`;

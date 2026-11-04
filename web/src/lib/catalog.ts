@@ -1,4 +1,5 @@
 export type WasteItem = {id:string;name:string;english:string;icon:string;material:string;keywords:string[];steps:string[];caution:string};
+import {knowledgeEntries} from './knowledge-catalog';
 export const items:WasteItem[] = [
  {id:"bottle",name:"ขวดเครื่องดื่ม",english:"bottle",icon:"🧴",material:"ต้องยืนยันชนิดวัสดุ",keywords:["ขวด","น้ำ","พลาสติก","แก้ว"],steps:["เทของเหลวที่เหลือออก","ตรวจชนิดวัสดุและสิ่งปนเปื้อน","ตรวจแนวทางรับวัสดุของจุดรวบรวมก่อนทิ้ง"],caution:"โมเดลแยกขวดแก้วกับขวดพลาสติกไม่ได้อย่างน่าเชื่อถือ"},
  {id:"cup",name:"แก้วหรือถ้วยเครื่องดื่ม",english:"cup",icon:"🥤",material:"อาจเป็นพลาสติก กระดาษ หรือวัสดุใช้ซ้ำ",keywords:["แก้ว","ถ้วย","กาแฟ"],steps:["เทเครื่องดื่มออก","แยกฝาและหลอดตามวัสดุ","ตรวจว่าจุดรวบรวมรับแก้วชนิดนี้หรือไม่"],caution:"แก้วเคลือบหรือแก้วเปื้อนอาจมีวิธีจัดการต่างกัน"},
@@ -6,7 +7,8 @@ export const items:WasteItem[] = [
  {id:"food",name:"เศษผักและผลไม้",english:"food",icon:"🍌",material:"อินทรีย์เมื่อเป็นเศษอาหาร",keywords:["กล้วย","แอปเปิล","ส้ม","อาหาร","ผัก","ผลไม้"],steps:["ยืนยันว่าเป็นเศษอาหารที่ต้องการทิ้ง","แยกบรรจุภัณฑ์และวัสดุอื่นออก","ตรวจว่าพื้นที่มีจุดรับเศษอาหารหรือไม่"],caution:"อาหารที่โมเดลตรวจพบอาจยังรับประทานได้"},
  {id:"paper",name:"กระดาษและกล่อง",english:"paper",icon:"📦",material:"กระดาษ",keywords:["กระดาษ","กล่อง","ลัง"],steps:["ตรวจความสะอาดและการเคลือบ","แยกวัสดุอื่นตามแนวทางจุดรับ","ตรวจเงื่อนไขรับกระดาษของพื้นที่"],caution:"โมเดล COCO รุ่นนี้ไม่รองรับกระดาษ/กล่องเป็น class โดยตรง"},
  {id:"battery",name:"แบตเตอรี่และถ่าน",english:"battery",icon:"🔋",material:"ของเสียที่ต้องจัดการเฉพาะ",keywords:["แบตเตอรี่","ถ่าน","อันตราย"],steps:["อย่าแกะ เจาะ หรือเผา","แยกจากขยะอื่น","ติดต่อจุดรับของเสียเฉพาะที่ตรวจสอบได้"],caution:"โมเดลรุ่นนี้ไม่รองรับแบตเตอรี่โดยตรง; อย่าใช้ Scanner รับรองความปลอดภัย"},
- {id:"metal",name:"กระป๋องโลหะ",english:"can",icon:"🥫",material:"โลหะ",keywords:["กระป๋อง","อลูมิเนียม","เหล็ก"],steps:["ตรวจว่าบรรจุสารอันตรายหรือไม่","เทสิ่งที่เหลือออกเมื่อทำได้อย่างปลอดภัย","ตรวจแนวทางจุดรับโลหะ"],caution:"โมเดลรุ่นนี้ไม่มี class กระป๋องโดยตรง"}
+ {id:"metal",name:"กระป๋องโลหะ",english:"can",icon:"🥫",material:"โลหะ",keywords:["กระป๋อง","อลูมิเนียม","เหล็ก"],steps:["ตรวจว่าบรรจุสารอันตรายหรือไม่","เทสิ่งที่เหลือออกเมื่อทำได้อย่างปลอดภัย","ตรวจแนวทางจุดรับโลหะ"],caution:"โมเดลรุ่นนี้ไม่มี class กระป๋องโดยตรง"},
+  ...knowledgeEntries.map(entry=>({id:entry.id,name:entry.name,english:entry.english,icon:entry.icon,material:entry.cases[0].material??'ตรวจวัสดุ',keywords:[entry.name,entry.english],steps:entry.cases[0].steps,caution:entry.cases[0].caution}))
 ];
 export const foodClasses = ["banana","apple","sandwich","orange","broccoli","carrot","hot dog","pizza","donut","cake"];
 export function itemForClass(label:string) { return items.find(i=>i.english===label) ?? (foodClasses.includes(label)?items.find(i=>i.id==="food"):undefined); }
