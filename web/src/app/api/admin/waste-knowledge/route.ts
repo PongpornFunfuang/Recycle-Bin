@@ -50,7 +50,13 @@ export async function POST(req:NextRequest){
   if(input.action==='publish'){
    const row=await auth.db.from('waste_knowledge_revisions').select('content').eq('slug',input.slug).order('version',{ascending:false}).limit(1).single();
    if(row.error)return error('ไม่พบฉบับร่าง',404);
-   try{validateKnowledgeForPublish(row.data.content);}catch{return error('ข้อมูลเผยแพร่ไม่ครบหรือไม่ถูกต้อง',422);}
+   try{validateKnowledgeForPublish(row.data.content);}catch(e){
+    if(e instanceof ZodError){
+     const details=e.issues.slice(0,4).map(issue=>`${issue.path.join('.')||'ข้อมูล'}: ${issue.message}`).join(' · ');
+     return error(`ข้อมูลเผยแพร่ไม่ครบหรือไม่ถูกต้อง${details?` — ${details}`:''}`,422);
+    }
+    return error('ข้อมูลเผยแพร่ไม่ครบหรือไม่ถูกต้อง',422);
+   }
   }
   if(input.action==='unpublish'&&input.expectedVersion===0&&!items.some(item=>item.id===input.slug))return error('ไม่พบรายการตั้งต้น',404);
   const result=input.action==='publish'
