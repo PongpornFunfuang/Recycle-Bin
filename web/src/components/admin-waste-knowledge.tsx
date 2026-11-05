@@ -6,6 +6,7 @@ import './admin-waste-knowledge.css';
 
 type Revision={version:number;content:KnowledgeEntry;editor_id:string;created_at:string};
 type Row={slug:string;visibility:string;rowVersion:number;latestVersion:number;publishedVersion:number|null;updatedAt:string|null;updatedBy:string|null;revisions:Revision[];entry?:KnowledgeEntry};
+type ReferenceSource={id:string;title:string;reference:string;verification_status?:string;archived_at?:string|null};
 const emptyCase=():KnowledgeCase=>({condition:'',material:'',category:'',steps:[],sorting:'',color:null,caution:''});
 const emptyEntry=():KnowledgeEntry=>({id:'',name:'',english:'',icon:'♻',aliases:[],sourceUrl:'',checkedAt:'',scope:'general',basis:'item',cases:[emptyCase()],imageId:null});
 const categories=['ขยะทั่วไป','ขยะรีไซเคิล','ขยะอินทรีย์ / เศษอาหาร','ขยะอันตราย','ยังระบุประเภทไม่ได้'];
@@ -14,9 +15,11 @@ export default function AdminWasteKnowledge(){
  const [rows,setRows]=useState<Row[]>([]),[total,setTotal]=useState(0),[page,setPage]=useState(1);
  const [query,setQuery]=useState(''),[status,setStatus]=useState('all'),[category,setCategory]=useState('all');
  const [selected,setSelected]=useState<Row|null>(null),[entry,setEntry]=useState<KnowledgeEntry>(emptyEntry());
+ const [sources,setSources]=useState<ReferenceSource[]>([]);
  const [message,setMessage]=useState(''),[busy,setBusy]=useState(false);
  const load=useCallback(async()=>{try{const p=new URLSearchParams({q:query,status,category,page:String(page)});const r=await fetch(`/api/admin/waste-knowledge?${p}`,{cache:'no-store'});const data=await r.json();if(!r.ok)throw Error(data.error?.message??'อ่านข้อมูลไม่ได้');setRows(data.items);setTotal(data.total);setMessage('');}catch(e){setRows([]);setMessage(e instanceof Error?e.message:'อ่านข้อมูลไม่ได้');}},[query,status,category,page]);
  useEffect(()=>{void load();},[load]);
+ useEffect(()=>{fetch('/api/admin?resource=sources',{cache:'no-store'}).then(r=>r.json()).then(d=>{const rows=(d.rows??[]).filter((s:ReferenceSource)=>s.reference&&!s.archived_at);if(!rows.some((s:ReferenceSource)=>s.reference==='https://greener.bangkok.go.th'))rows.unshift({id:'greener-bangkok-default',title:'Greener Bangkok (แหล่งอ้างอิงแนะนำ)',reference:'https://greener.bangkok.go.th',verification_status:'verified'});setSources(rows);}).catch(()=>setSources([{id:'greener-bangkok-default',title:'Greener Bangkok (แหล่งอ้างอิงแนะนำ)',reference:'https://greener.bangkok.go.th',verification_status:'verified'}]));},[]);
  function choose(row:Row|null){setSelected(row);setEntry(row?structuredClone(latest(row)):emptyEntry());}
  function patchCase(index:number,changes:Partial<KnowledgeCase>){setEntry(previous=>({...previous,cases:previous.cases.map((item,i)=>i===index?{...item,...changes}:item)}));}
  async function mutate(action:'save'|'publish'|'unpublish'){
@@ -40,7 +43,7 @@ export default function AdminWasteKnowledge(){
     <label>ชื่อขยะ<input value={entry.name} onChange={e=>setEntry({...entry,name:e.target.value})}/></label>
     <label>ชื่ออังกฤษหรือ AI Label<input value={entry.english} onChange={e=>setEntry({...entry,english:e.target.value})}/></label>
     <label>Alias (บรรทัดละชื่อ)<textarea value={(entry.aliases??[]).join('\n')} onChange={e=>setEntry({...entry,aliases:e.target.value.split('\n').map(v=>v.trim()).filter(Boolean)})}/></label>
-    <label>URL แหล่งอ้างอิง<input type="url" value={entry.sourceUrl} onChange={e=>setEntry({...entry,sourceUrl:e.target.value})}/></label>
+    <label>แหล่งอ้างอิง<select value={entry.sourceUrl} onChange={e=>setEntry({...entry,sourceUrl:e.target.value})}><option value="">เลือกแหล่งอ้างอิงที่บันทึกไว้</option>{sources.map(source=><option key={source.id} value={source.reference}>{source.title} · {source.reference}</option>)}</select>{!sources.length&&<small className="muted">ยังไม่มีแหล่งอ้างอิง กรุณาเพิ่มที่เมนู “แหล่งอ้างอิง” ก่อน</small>}</label>
     <label>วันที่ตรวจสอบแหล่งอ้างอิง<input type="date" value={entry.checkedAt} onChange={e=>setEntry({...entry,checkedAt:e.target.value})}/></label>
     <label>รูปภาพขยะ<input type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const file=e.target.files?.[0];if(file)void upload(file);}}/></label>
     {entry.imageId&&<div className="wk-image"><img src={`/api/waste-knowledge-image/${entry.imageId}`} alt={`ภาพประกอบ ${entry.name}`}/><button type="button" onClick={()=>setEntry({...entry,imageId:null})}>ยกเลิกการเชื่อมรูป</button></div>}</div>
