@@ -14,4 +14,4 @@ export function localOrigin(request:NextRequest){
  return parsed.origin;
 }
 export function sameOrigin(request:NextRequest){try{return request.headers.get("origin")===localOrigin(request);}catch{return false;}}
-export function error(message:string,status=400){return NextResponse.json({error:{code:status===503?"NOT_CONFIGURED":"REQUEST_FAILED",message},requestId:crypto.randomUUID()},{status,headers:{"Cache-Control":"no-store"});}
+export function error(message:string,status=400){return NextResponse.json({error:{code:status===503?"NOT_CONFIGURED":"REQUEST_FAILED",message},requestId:crypto.randomUUID()},{status,headers:{"Cache-Control":"no-store"}});}
