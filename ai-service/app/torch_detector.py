@@ -10,6 +10,7 @@ import torch
 from PIL import Image,ImageOps,UnidentifiedImageError
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2,FasterRCNN_ResNet50_FPN_V2_Weights
 from torchvision.transforms.functional import pil_to_tensor
+from .waste_classifier import WasteClassifier
 
 ROOT=Path(__file__).resolve().parents[2]
 MODEL_PATH=Path(os.environ.get('MODEL_PATH',str(ROOT/'ml/models/fasterrcnn_resnet50_fpn_v2_coco-dd69338a.pth')))
@@ -21,7 +22,7 @@ Image.MAX_IMAGE_PIXELS=16_000_000
 class Detector:
     version='fasterrcnn-resnet50-fpn-v2-coco-dd69338a'
     def __init__(self):
-        self.session=None;self.model_hash=None;self.failure=None
+        self.session=None;self.model_hash=None;self.failure=None;self.classifier=WasteClassifier()
         self.device='cuda' if torch.cuda.is_available() else 'cpu'
         self.provider='pytorch_cuda' if self.device=='cuda' else 'pytorch_cpu'
         self.classes=FasterRCNN_ResNet50_FPN_V2_Weights.COCO_V1.meta['categories']
@@ -35,6 +36,7 @@ class Detector:
             model=fasterrcnn_resnet50_fpn_v2(weights=None,weights_backbone=None,min_size=640,max_size=960)
             model.load_state_dict(torch.load(MODEL_PATH,map_location='cpu',weights_only=True))
             self.session=model.eval().to(self.device)
+            self.classifier.load()
         except Exception:
             self.session=None;self.failure='model_load_failed'
 
@@ -76,7 +78,9 @@ class Detector:
             index=int(label);name=self.classes[index]
             b=np.clip(box.numpy()/np.array([image.width,image.height,image.width,image.height]),0,1)
             if not np.isfinite(b).all() or b[0]>=b[2] or b[1]>=b[3]:continue
-            detections.append({'detectionId':str(uuid.uuid4()),'box':dict(zip(('xMin','yMin','xMax','yMax'),map(float,b))),'classId':str(index),'label':name,'confidence':score,'materialCategoryId':None,'decision':'unknown' if name not in MAPPED else 'accepted' if score>=.5 else 'low_confidence','recommendation':None})
+            normalized_box=dict(zip(('xMin','yMin','xMax','yMax'),map(float,b)))
+            detections.append({'detectionId':str(uuid.uuid4()),'box':normalized_box,'classId':str(index),'label':name,'confidence':score,'materialCategoryId':None,'decision':'unknown' if name not in MAPPED else 'accepted' if score>=.5 else 'low_confidence','recommendation':None,'classification':self.classifier.classify(image,normalized_box)})
             if len(detections)>=100:break
         scene='detected' if any(d['decision']=='accepted' for d in detections) else 'uncertain' if any(d['decision']=='low_confidence' for d in detections) else 'unknown'
         return {'schemaVersion':'1.1','requestId':str(uuid.uuid4()),'predictionId':str(uuid.uuid4()),'mode':mode,'inferenceLocation':'local_server','frameId':None,'sceneDecision':scene,'imageWidth':width,'imageHeight':height,'detections':detections,'modelVersion':self.version,'artifactSha256':self.model_hash,'classMapVersion':'torchvision-coco91-contextual-v1','policyVersion':'local-pending-rules-v1','historySaved':False,'latencyMs':round((time.perf_counter()-started)*1000,2),'quality':quality}
+
