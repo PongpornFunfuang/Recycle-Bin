@@ -41,7 +41,8 @@ def live():
 @app.get("/health/ready")
 def ready():
     available = detector.session is not None
-    return JSONResponse({"status": "ready" if available else "not_ready", "component": "ai", "milestone": "M1", "reason": None if available else detector.failure or "model_not_loaded", "aiScannerReady": available, "modelVersion": detector.version if available else None, "provider": detector.provider if available else None}, status_code=200 if available else 503)
+    classifier_available = detector.classifier.session is not None
+    return JSONResponse({"status": "ready" if available else "not_ready", "component": "ai", "milestone": "M1", "reason": None if available else detector.failure or "model_not_loaded", "aiScannerReady": available, "modelVersion": detector.version if available else None, "provider": detector.provider if available else None, "wasteClassifierReady": classifier_available, "wasteClassifierVersion": detector.classifier.version if classifier_available else None}, status_code=200 if available else 503)
 
 @app.post("/ai/detect")
 async def detect(request: Request, image: UploadFile = File(...), mode: str = Form("photo")):
@@ -71,3 +72,4 @@ async def detect(request: Request, image: UploadFile = File(...), mode: str = Fo
         raise HTTPException(422, str(exc)) from exc
     except RuntimeError as exc:
         raise HTTPException(503, "inference_unavailable") from exc
+
