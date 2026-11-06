@@ -30,4 +30,14 @@ export function binGuidanceForSlug(slug:string){
 }
 
 // Object detection names alone do not establish material or disposal category.
-export function binGuidanceForAiLabel(_label:string):BinGuidance|null{return null;}
+// General four-colour guidance. Object names do not establish contamination,
+// resin type, or whether an item is actually being discarded.
+// Sources checked 2026-11-07:
+// https://www.prd.go.th/th/content/category/detail/id/31/iid/27098
+// https://greener.bangkok.go.th/konggreengreen-x-bkk/
+export function binGuidanceForAiLabel(label:string):BinGuidance|null{
+ const food=['banana','apple','orange','broccoli','carrot','sandwich','pizza','donut','cake','hot dog'];
+ if(food.includes(label))return entries.food;
+ const supported:Record<string,string>={paper:'clean-paper',cardboard:'cardboard','used-tissue':'used-tissue','dirty-wrapper':'dirty-wrapper',battery:'used-battery','used-battery':'used-battery','used-light-bulb':'used-light-bulb'};
+ const slug=supported[label];return slug?binGuidanceForSlug(slug):null;
+}
