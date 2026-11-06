@@ -66,6 +66,9 @@ class Detector:
         gray=np.asarray(image.resize((128,128)).convert('L'),dtype=np.float32)
         gradients=np.abs(np.diff(gray,axis=0)).mean()+np.abs(np.diff(gray,axis=1)).mean()
         quality='dark' if gray.mean()<25 else 'possibly_blurry' if gradients<5 else 'ok'
+        if os.environ.get('DIRECT_CLASSIFICATION_ONLY','false').lower() in {'1','true','yes'}:
+            classification=self.classifier.classify_image(image)
+            return {'schemaVersion':'1.1','requestId':str(uuid.uuid4()),'predictionId':str(uuid.uuid4()),'mode':mode,'inferenceLocation':'local_server','frameId':None,'sceneDecision':'detected' if classification else 'unknown','imageWidth':width,'imageHeight':height,'detections':[],'classification':classification,'modelVersion':self.classifier.version if classification else self.version,'artifactSha256':self.classifier.model_hash or self.model_hash,'classMapVersion':'trashnet-6class-v1','policyVersion':'local-pending-rules-v1','historySaved':False,'latencyMs':round((time.perf_counter()-started)*1000,2),'quality':quality}
         image.thumbnail((1280,1280))
         tensor=pil_to_tensor(image).float().div(255).to(self.device)
         with torch.inference_mode():
