@@ -47,6 +47,24 @@ function entry(id:string,name:string,english:string,icon:string,group:keyof type
  const rule=groups[group];const profile=preparationById[id];return {id,name,english,icon,sourceUrl,checkedAt,scope:'general',cases:[{condition,material,category:rule.category,steps:profile?[...preparation[profile]]:rule.steps,sorting:rule.sorting,color:rule.color,caution:rule.caution}]};
 }
 export const knowledgeEntries:KnowledgeEntry[]=[
+ entry("drink-bottle","ขวดเครื่องดื่ม","drink bottle",'♻',"recycling","แก้วหรือพลาสติก","ขวดเครื่องดื่มสะอาด ไม่ปนสารเคมี และจุดรับรองรับ","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("paper-book","หนังสือและสมุด","book",'♻',"recycling","กระดาษ","แห้ง แยกปกพลาสติกและวัสดุอื่นตามเงื่อนไขผู้รับ","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("paper-envelope","ซองกระดาษ","paper envelope",'♻',"recycling","กระดาษ","แห้ง สะอาด แยกหน้าต่างพลาสติกเมื่อทำได้","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("paper-bag","ถุงกระดาษ","paper bag",'♻',"recycling","กระดาษ","ไม่เคลือบและไม่เปื้อนอาหาร","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("plastic-film","ฟิล์มหุ้มสินค้า","plastic film",'♻',"recycling","พลาสติกฟิล์ม","สะอาด แห้ง และส่งจุดรับพลาสติกยืดที่รองรับ","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("bubble-wrap","พลาสติกกันกระแทก","bubble wrap",'♻',"recycling","พลาสติก","สะอาด แห้ง และจุดรับรับชนิดนี้","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("plastic-mailer","ซองพัสดุพลาสติก","plastic mailer",'♻',"recycling","พลาสติก","แยกข้อมูลส่วนตัว เทป และวัสดุอื่นตามเงื่อนไขจุดรับ","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("food-foil","ฟอยล์เปื้อนอาหาร","dirty foil",'♻',"general","วัสดุปนเปื้อน","ไม่สามารถทำความสะอาดส่งจุดรับรีไซเคิลได้","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("snack-wrapper","ซองขนมวัสดุผสม","snack wrapper",'♻',"general","วัสดุผสม","ไม่มีจุดรับเฉพาะที่รองรับซองชนิดนี้","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("detergent-pouch","ถุงเติมผงซักฟอก","detergent pouch",'♻',"general","วัสดุผสม","ใช้หมด ไม่มีสารอันตราย และจุดรับไม่รับรีไซเคิล","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("cooked-rice","เศษข้าว","rice scraps",'♻',"organic","อินทรีย์","เป็นเศษอาหารที่ต้องการทิ้ง แยกถุงและช้อนออก","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("coffee-grounds","กากกาแฟ","coffee grounds",'♻',"organic","อินทรีย์","แยกแคปซูล ถุงกรองและบรรจุภัณฑ์ออก","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("fruit-scraps","เศษผลไม้","fruit scraps",'♻',"organic","อินทรีย์","แยกสติกเกอร์ ยางรัดและบรรจุภัณฑ์ออก","https://greener.bangkok.go.th/konggreengreen-x-bkk/"),
+ entry("printer-cartridge","ตลับหมึกพิมพ์ใช้แล้ว","printer cartridge",'♻',"hazardous","หมึกและชิ้นส่วน","ปิดบรรจุภัณฑ์ ป้องกันผงหมึกฟุ้ง ส่งจุดรับเฉพาะ","https://www.pcd.go.th/wp-content/uploads/2020/06/pcdnew-2020-06-10_04-45-50_214502.pdf"),
+ entry("paint-container","กระป๋องสีและภาชนะสี","paint container",'♻',"hazardous","สีและสารเคมี","ปิดฝา ไม่เทลงท่อ แยกส่งจุดรับของเสียอันตราย","https://www.pcd.go.th/wp-content/uploads/2020/06/pcdnew-2020-06-10_04-45-50_214502.pdf"),
+ entry("pesticide-container","ภาชนะยาฆ่าแมลง","pesticide container",'♻',"hazardous","สารเคมี","ไม่ใช้ซ้ำ ไม่เทหรือผสมสาร ส่งจุดรับของเสียอันตราย","https://www.pcd.go.th/wp-content/uploads/2020/06/pcdnew-2020-06-10_04-45-50_214502.pdf"),
+ entry("cleaning-chemical","ภาชนะน้ำยาทำความสะอาดอันตราย","hazardous cleaner",'♻',"hazardous","สารเคมี","มีฉลากอันตราย ปิดฝา เก็บแยก ไม่ผสมสาร","https://www.pcd.go.th/wp-content/uploads/2020/06/pcdnew-2020-06-10_04-45-50_214502.pdf"),
+
  entry('pet-bottle','ขวดพลาสติก PET','PET bottle','🧴','recycling','พลาสติก PET','ยืนยันชนิด PET และไม่มีสารอันตราย'),
  entry('hdpe-bottle','ขวดพลาสติก HDPE','HDPE bottle','🧴','recycling','พลาสติก HDPE','ยืนยันชนิดพลาสติกและจุดรับรับ'),
  entry('plastic-container','กล่องพลาสติกสะอาด','plastic container','🥡','recycling','พลาสติก','วัสดุสะอาดและจุดรับรับพลาสติกชนิดนี้'),
@@ -111,7 +129,10 @@ export function resolveWasteKnowledge(item:{slug:string;name:string;materials?:s
  return {level:'material',entry:{id:`material-${material}`,name:item.name,english:material,icon:'♻',sourceUrl:source,checkedAt,scope:'general',cases:[{condition:`ทราบเพียงว่าเป็นวัสดุ${material} ยังไม่ยืนยันชนิดและสภาพ`,material,category:'ต้องตรวจสอบเพิ่มเติม',steps,sorting:'ตรวจชนิดวัสดุและเงื่อนไขผู้รับก่อนเลือกวิธีทิ้ง',color:null,caution:'ข้อมูลวัสดุอย่างเดียวไม่พอระบุสีถังหรือจุดทิ้ง'}]}};
 }
 export function knowledgeForAiLabel(label:string):KnowledgeEntry|null{
- if(label==='bottle'||label==='cup')return ambiguousKnowledge[label];
+ if(label==='bottle')return knowledgeForSlug('drink-bottle');
+ if(label==='cup')return ambiguousKnowledge.cup;
+ if(label==='book')return knowledgeForSlug('paper-book');
+ if(['cell phone','laptop','keyboard','mouse','remote','tv'].includes(label))return knowledgeForSlug('broken-electronic');
  if(['banana','apple','orange','broccoli','carrot','sandwich','pizza'].includes(label))return knowledgeForSlug('food-scraps');
  return null;
 }
