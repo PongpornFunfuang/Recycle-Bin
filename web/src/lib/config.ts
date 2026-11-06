@@ -37,6 +37,10 @@ export function aiServiceConfig(){
  }
  const host=url.hostname.toLowerCase();
  if(url.protocol!=="https:"||url.port||isIP(host)!==0||!publicHostname.test(host)||host.endsWith(".localhost")||host.endsWith(".local")||host.endsWith(".internal"))throw Error("Remote AI must use a public HTTPS hostname");
+ if(process.env.VERCEL_ENV==="preview"&&host==="pongpornfunfuang--recycle-bin-ai-web.us-east.modal.run"){
+  if(!token)throw Error("Modal AI requires AI_INTERNAL_TOKEN");
+  return {url:url.origin,headers:{"X-AI-Token":token}};
+ }
  if(process.env.AI_TUNNEL_HOST?.trim().toLowerCase()!==host)throw Error("Remote AI hostname must match AI_TUNNEL_HOST");
  if(process.env.AI_TUNNEL_MODE?.trim()==="quick"){
   if(!host.endsWith(".trycloudflare.com")||!token)throw Error("Quick Tunnel requires a trycloudflare.com host and AI_INTERNAL_TOKEN");
