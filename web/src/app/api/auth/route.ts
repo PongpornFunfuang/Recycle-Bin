@@ -42,10 +42,31 @@ export async function POST(req: NextRequest) {
     const result = body.action === "login"
       ? await client.auth.signInWithPassword({ email, password })
       : await client.auth.signUp({ email, password, options: { data: { display_name: z.string().trim().min(1).max(80).parse(body.displayName) }, emailRedirectTo: `${localOrigin(req)}/auth/callback` } });
-    if (result.error) return error(body.action === "login" ? "อีเมล รหัสผ่าน หรือสถานะยืนยันบัญชีไม่ถูกต้อง" : "สมัครไม่สำเร็จ กรุณาตรวจการตั้งค่าบัญชีและอีเมล", 400);
+    if (result.error) {
+      if (body.action === "login") return error("อีเมล รหัสผ่าน หรือสถานะยืนยันบัญชีไม่ถูกต้อง", 400);
+      const code = result.error.code ?? "";
+      const authMessage = result.error.message.toLowerCase();
+      const message = result.error.status === 0
+        ? "เชื่อมต่อ Supabase ไม่ได้ กรุณาตรวจอินเทอร์เน็ตหรือสถานะบริการ แล้วลองใหม่"
+        : code === "user_already_exists" || code === "email_exists"
+        ? "อีเมลนี้มีบัญชีอยู่แล้ว กรุณาเข้าสู่ระบบหรือใช้ลืมรหัสผ่าน"
+        : code === "email_address_invalid"
+          ? "รูปแบบอีเมลไม่ถูกต้อง"
+          : code === "signup_disabled"
+            ? "ระบบปิดการสมัครสมาชิกชั่วคราว กรุณาติดต่อผู้ดูแล"
+            : code === "over_email_send_rate_limit"
+              ? "ส่งอีเมลยืนยันถี่เกินไป กรุณารอสักครู่แล้วลองใหม่"
+              : code === "redirect_to_not_allowed" || authMessage.includes("redirect")
+                ? "การตั้งค่าลิงก์ยืนยันอีเมลยังไม่อนุญาต localhost กรุณาเพิ่ม http://127.0.0.1:3000/auth/callback ใน Supabase Auth URL Configuration"
+                : authMessage.includes("email provider")
+                  ? "ผู้ให้บริการอีเมลของ Supabase ยังไม่พร้อมใช้งาน"
+              : `สมัครไม่สำเร็จ (รหัส ${code || `HTTP ${result.error.status ?? "ไม่ทราบ"}`}) กรุณาตรวจการตั้งค่าการสมัครสมาชิก`;
+      return error(message, 400);
+    }
     const signedIn = body.action === "register" && Boolean(result.data.session);
     return NextResponse.json({ message: body.action === "login" ? "เข้าสู่ระบบแล้ว" : signedIn ? "สมัครสมาชิกและเข้าสู่ระบบแล้ว" : "รับคำขอสมัครแล้ว กรุณาตรวจอีเมลเพื่อยืนยันตามการตั้งค่า", signedIn });
   } catch (e) {
     return error(e instanceof InputError ? e.message : "ข้อมูลหรือการตั้งค่าไม่ถูกต้อง", e instanceof InputError ? e.status : 400);
   }
 }
+
