@@ -129,7 +129,7 @@ export function resolveWasteKnowledge(item:{slug:string;name:string;materials?:s
  return {level:'material',entry:{id:`material-${material}`,name:item.name,english:material,icon:'♻',sourceUrl:source,checkedAt,scope:'general',cases:[{condition:`ทราบเพียงว่าเป็นวัสดุ${material} ยังไม่ยืนยันชนิดและสภาพ`,material,category:'ต้องตรวจสอบเพิ่มเติม',steps,sorting:'ตรวจชนิดวัสดุและเงื่อนไขผู้รับก่อนเลือกวิธีทิ้ง',color:null,caution:'ข้อมูลวัสดุอย่างเดียวไม่พอระบุสีถังหรือจุดทิ้ง'}]}};
 }
 export function knowledgeForAiLabel(label:string):KnowledgeEntry|null{
- if(label==='bottle')return knowledgeForSlug('drink-bottle');
+ if(label==='bottle')return null; // Shape alone cannot distinguish beverages from chemical containers.
  if(label==='cup')return ambiguousKnowledge.cup;
  if(label==='book')return knowledgeForSlug('paper-book');
  if(['cell phone','laptop','keyboard','mouse','remote','tv'].includes(label))return knowledgeForSlug('broken-electronic');
