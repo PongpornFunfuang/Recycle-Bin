@@ -9,6 +9,8 @@ import numpy as np
 import torch
 from PIL import Image,ImageOps,UnidentifiedImageError
 from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2,FasterRCNN_ResNet50_FPN_V2_Weights
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+from torchvision.ops import box_iou
 from torchvision.transforms.functional import pil_to_tensor
 from .waste_classifier import WasteClassifier
 
@@ -23,6 +25,7 @@ class Detector:
     version='fasterrcnn-resnet50-fpn-v2-coco-dd69338a'
     def __init__(self):
         self.session=None;self.model_hash=None;self.failure=None;self.classifier=WasteClassifier()
+        self.expert=None;self.expert_classes=None;self.expert_hash=None
         self.device='cuda' if torch.cuda.is_available() else 'cpu'
         self.provider='pytorch_cuda' if self.device=='cuda' else 'pytorch_cpu'
         self.classes=FasterRCNN_ResNet50_FPN_V2_Weights.COCO_V1.meta['categories']
@@ -37,8 +40,31 @@ class Detector:
             model.load_state_dict(torch.load(MODEL_PATH,map_location='cpu',weights_only=True))
             self.session=model.eval().to(self.device)
             self.classifier.load()
-        except Exception:
-            self.session=None;self.failure='model_load_failed'
+            expert_path=os.environ.get('WASTE_DETECTOR_MODEL','').strip()
+            if expert_path:
+                path=Path(expert_path)
+                expected=os.environ.get('WASTE_DETECTOR_SHA256','').strip()
+                self.expert_hash=hashlib.sha256(path.read_bytes()).hexdigest()
+                if len(expected)!=64 or self.expert_hash!=expected:raise ValueError('expert_integrity_mismatch')
+                checkpoint=torch.load(path,map_location='cpu',weights_only=True)
+                if checkpoint.get('initialServingSha256')!=EXPECTED_HASH:raise ValueError('expert_base_mismatch')
+                if checkpoint['classes'][:90]!=self.classes[1:]:raise ValueError('expert_class_mapping_mismatch')
+                # Verify that the serving feature extractor and original class rows
+                # were preserved; this adapter must not replace original scores.
+                for key,value in model.state_dict().items():
+                    trained=checkpoint['state_dict'][key]
+                    if key.startswith('roi_heads.box_predictor.'):trained=trained[:value.shape[0]]
+                    if not torch.equal(value.cpu(),trained.cpu()):raise ValueError('expert_changed_original_parameters')
+                expert=fasterrcnn_resnet50_fpn_v2(weights=None,weights_backbone=None,min_size=640,max_size=960)
+                self.expert_classes=['background']+checkpoint['classes']
+                expert.roi_heads.box_predictor=FastRCNNPredictor(expert.roi_heads.box_predictor.cls_score.in_features,len(self.expert_classes))
+                expert.load_state_dict(checkpoint['state_dict']);self.expert=expert.eval().to(self.device)
+                self.version='fasterrcnn-coco-plus-real-waste-preserved-v1'
+        except Exception as exc:
+            self.session=None
+            # Keep a concise diagnostic for hosted health checks; never include
+            # credentials or request data in this message.
+            self.failure=f'model_load_failed:{type(exc).__name__}:{exc}'[:240]
 
     def detect(self,content:bytes,mode:str):
         if self.session is None:raise RuntimeError('model_not_loaded')
@@ -73,16 +99,26 @@ class Detector:
         tensor=pil_to_tensor(image).float().div(255).to(self.device)
         with torch.inference_mode():
             output=self.session([tensor])[0]
+            if self.expert is not None:
+                extra=self.expert([tensor])[0]
+                # Material-only logits competed with bottle recognition during
+                # evaluation. Use only explicit new object classes at this stage.
+                accepted=torch.tensor([self.expert_classes[int(i)] in {'battery','light_bulb','pcb'} for i in extra['labels']],device=self.device,dtype=torch.bool)&(extra['scores']>=.8)
+                boxes=extra['boxes'][accepted];scores=extra['scores'][accepted];labels=extra['labels'][accepted]
+                if len(boxes):
+                    keep=box_iou(output['boxes'],boxes).amax(1)<.5
+                    output={key:value[keep] for key,value in output.items()}
+                    output={key:torch.cat([output[key],value]) for key,value in [('boxes',boxes),('scores',scores),('labels',labels)]}
         if self.device=='cuda':torch.cuda.synchronize()
         detections=[]
         for label,score,box in zip(output['labels'].cpu(),output['scores'].cpu(),output['boxes'].cpu()):
             score=float(score)
             if score<.25:continue
-            index=int(label);name=self.classes[index]
+            index=int(label);name=self.classes[index] if index<len(self.classes) else self.expert_classes[index]
             b=np.clip(box.numpy()/np.array([image.width,image.height,image.width,image.height]),0,1)
             if not np.isfinite(b).all() or b[0]>=b[2] or b[1]>=b[3]:continue
             normalized_box=dict(zip(('xMin','yMin','xMax','yMax'),map(float,b)))
-            detections.append({'detectionId':str(uuid.uuid4()),'box':normalized_box,'classId':str(index),'label':name,'confidence':score,'materialCategoryId':None,'decision':'unknown' if name not in MAPPED else 'accepted' if score>=.5 else 'low_confidence','recommendation':None,'classification':self.classifier.classify(image,normalized_box)})
+            detections.append({'detectionId':str(uuid.uuid4()),'box':normalized_box,'classId':str(index),'label':name,'confidence':score,'materialCategoryId':None,'decision':'unknown' if name not in MAPPED|{'battery','light_bulb','pcb'} else 'accepted' if score>=.5 else 'low_confidence','recommendation':None,'classification':self.classifier.classify(image,normalized_box)})
             if len(detections)>=100:break
         scene='detected' if any(d['decision']=='accepted' for d in detections) else 'uncertain' if any(d['decision']=='low_confidence' for d in detections) else 'unknown'
         return {'schemaVersion':'1.1','requestId':str(uuid.uuid4()),'predictionId':str(uuid.uuid4()),'mode':mode,'inferenceLocation':'local_server','frameId':None,'sceneDecision':scene,'imageWidth':width,'imageHeight':height,'detections':detections,'modelVersion':self.version,'artifactSha256':self.model_hash,'classMapVersion':'torchvision-coco91-contextual-v1','policyVersion':'local-pending-rules-v1','historySaved':False,'latencyMs':round((time.perf_counter()-started)*1000,2),'quality':quality}
