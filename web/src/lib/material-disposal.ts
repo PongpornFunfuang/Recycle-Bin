@@ -9,7 +9,7 @@ type C={label:string;confidence:number;modelVersion:string;itemPrediction?:ItemP
 // Guidance remains useful below a model's calibrated acceptance threshold, but
 // conditions are explicit: an image cannot establish contents or contamination.
 export function conditionalDisposal(label:string,confidence:number){
- if(confidence<.85)return null;
+ if(confidence<.8)return null;
  const bottle=['bottle','plastic-bottle','plastic-bottles'].includes(label);
  const food=['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label);
  if(!bottle&&!food)return null;
