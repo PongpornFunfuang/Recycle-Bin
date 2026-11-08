@@ -6,6 +6,16 @@ const ewaste=new Set(['pcb','electrical-cables','keyboard','small-appliances']);
 export function aiWasteName(label:string){return label==='battery'?'ถ่านและแบตเตอรี่':label==='light_bulb'?'หลอดไฟ':label==='pcb'?'แผงวงจรอิเล็กทรอนิกส์':null;}
 type ItemPrediction={label:string;confidence:number;modelVersion:string;status:string;threshold?:number};
 type C={label:string;confidence:number;modelVersion:string;itemPrediction?:ItemPrediction}|null|undefined;
+// Guidance remains useful below a model's calibrated acceptance threshold, but
+// conditions are explicit: an image cannot establish contents or contamination.
+export function conditionalDisposal(label:string,confidence:number){
+ if(confidence<.85)return null;
+ const bottle=['bottle','plastic-bottle','plastic-bottles'].includes(label);
+ const food=['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label);
+ if(!bottle&&!food)return null;
+ const color=bottle?'yellow':'green';
+ return {name:bottle?(label==='bottle'?'ขวด / ภาชนะทรงขวด':'ขวดพลาสติก'):'อาหาร / เศษอาหาร',condition:bottle?'ใช้กรณีเป็นขวดเครื่องดื่มหรืออาหารที่หมดแล้ว สะอาด และจุดรับรองรับเท่านั้น':'ใช้กรณีสิ่งนี้เป็นเศษอาหารที่ต้องการทิ้ง และจุดรับรองรับเท่านั้น',steps:bottle?['อ่านฉลากยืนยันสิ่งที่เคยบรรจุก่อน หากเป็นสารเคมี ยาฆ่าแมลง หรือสเปรย์ ห้ามทำตามแนวทางขวดอาหาร','สำหรับขวดเครื่องดื่มหรืออาหาร: เทของที่เหลือ ล้างคราบและผึ่งแห้ง','ขวดแก้วไม่ทุบแตก แยกฝาตามข้อกำหนดของจุดรับ','ส่งจุดรับรีไซเคิลหรือถังสีเหลืองที่รับขวดชนิดนี้']:['แยกถุง บรรจุภัณฑ์ ช้อน และของมีคมออก','สะเด็ดน้ำ รวบรวมเศษอาหารในภาชนะปิด','ส่งจุดรับเศษอาหารหรือถังสีเขียวตามป้ายพื้นที่'],bin:{color,wasteType:bottle?'ขยะรีไซเคิล — เมื่อเข้าเงื่อนไขข้างต้น':'ขยะอินทรีย์ / เศษอาหาร — เมื่อเข้าเงื่อนไขข้างต้น',binColorName:bottle?'เหลือง':'เขียว',asset:'/images/bins/'+color+'.svg',note:'คำแนะนำตามเงื่อนไข ไม่ใช่การยืนยันสิ่งที่บรรจุหรือสภาพจากภาพ'} as BinGuidance};
+}
 const itemNames:Record<string,string>={'beverage-carton':'กล่องเครื่องดื่ม','cigarette-butt':'ก้นบุหรี่','drink-can':'กระป๋องเครื่องดื่ม','electrical-cables':'สายไฟและสายเคเบิล',gloves:'ถุงมือ',keyboard:'แป้นพิมพ์',masks:'หน้ากาก',medicines:'ยาและบรรจุภัณฑ์ยา','metal-containers':'ภาชนะโลหะ','paper-cup':'แก้วกระดาษ','plastic-bottles':'ขวดพลาสติก','plastic-cups':'แก้วพลาสติก','small-appliances':'เครื่องใช้ไฟฟ้าขนาดเล็ก','spray-can':'กระป๋องสเปรย์',syringe:'กระบอกฉีดยาหรือเข็มฉีดยา'};
 Object.assign(itemNames,{'plastic-bottle':'ขวดพลาสติก','plastic-cup':'แก้วพลาสติก','plastic-containers':'ภาชนะพลาสติก',pcb:'แผงวงจรอิเล็กทรอนิกส์',laptops:'คอมพิวเตอร์โน้ตบุ๊ก',smartphones:'โทรศัพท์มือถือ',newspaper:'หนังสือพิมพ์'});
 export function disposalIdentity(label:string,confidence:number,c:C){
@@ -51,3 +61,4 @@ export function materialDisposal(label:string,c:C):{bin:BinGuidance|null;steps:s
  const steps=organic?['แยกถุง ช้อน พลาสติกและของมีคมออก','สะเด็ดน้ำ รวบรวมเฉพาะเศษอาหารหรือเศษพืชที่ต้องการทิ้ง','ส่งระบบอินทรีย์หรือถังสีเขียวที่รับชนิดนี้']:bottle?['เทเครื่องดื่มที่เหลือออก ล้างคราบและผึ่งแห้ง','ขวดแก้วไม่ทุบแตก ขวดพลาสติกบีบลดพื้นที่เมื่อปลอดภัย','แยกฝาตามข้อกำหนดจุดรับ ส่งถังรีไซเคิลสีเหลือง']:['แยกอาหารและสิ่งปนเปื้อนเมื่อปลอดภัย','กระดาษและกล่องเก็บให้แห้ง ภาชนะล้างคราบและผึ่งแห้ง','แยกกระป๋องสเปรย์ ภาชนะสารเคมีและแบตเตอรี่ออกส่งจุดรับอันตราย','ส่งถังรีไซเคิลสีเหลืองเฉพาะวัสดุที่จุดรับรองรับ'];
  return {bin:{color,wasteType:organic?'ขยะอินทรีย์ / เศษอาหาร':'ขยะรีไซเคิล',binColorName:name,asset:'/images/bins/'+color+'.svg',note:'แนวทางทั่วไป: ตรวจความสะอาดและป้ายจุดรับ ไม่ใช้ผลภาพยืนยันสารอันตราย'},steps};
 }
+
