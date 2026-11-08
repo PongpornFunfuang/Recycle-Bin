@@ -9,7 +9,7 @@ type C={label:string;confidence:number;modelVersion:string;itemPrediction?:ItemP
 // Guidance remains useful below a model's calibrated acceptance threshold, but
 // conditions are explicit: an image cannot establish contents or contamination.
 export function conditionalDisposal(label:string,confidence:number){
- if(confidence<.8)return null;
+ if(!Number.isFinite(confidence))return null;
  const bottle=['bottle','plastic-bottle','plastic-bottles'].includes(label);
  const food=['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label);
  if(!bottle&&!food)return null;
@@ -21,7 +21,7 @@ Object.assign(itemNames,{'plastic-bottle':'ขวดพลาสติก','plas
 export function disposalIdentity(label:string,confidence:number,c:C){
  if(['battery','light_bulb','pcb'].includes(label)&&confidence>=.8)return {label,confidence,name:aiWasteName(label)!,supported:true};
  const p=c?.itemPrediction;
- if(p?.modelVersion==='resnet18-object-names-v1'&&p.threshold!==undefined&&p.threshold>=.8&&p.confidence>=.8&&itemNames[p.label])return {label:p.label,confidence:p.confidence,name:itemNames[p.label],supported:p.status==='supported'&&p.confidence>=p.threshold};
+ if(p?.modelVersion==='resnet18-object-names-v1'&&p.threshold!==undefined&&p.threshold>=.8&&p.confidence>=p.threshold&&p.status==='supported'&&itemNames[p.label])return {label:p.label,confidence:p.confidence,name:itemNames[p.label],supported:p.status==='supported'&&p.confidence>=p.threshold};
  return null;
 }
 export function conditionalItemSteps(label:string):string[]{
