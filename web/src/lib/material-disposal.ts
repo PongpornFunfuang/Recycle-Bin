@@ -4,6 +4,16 @@ import {knowledgeForSlug} from './knowledge-catalog';
 const specificGuides:Record<string,string>={battery:'used-battery',light_bulb:'used-light-bulb',pcb:'broken-electronic'};
 export function aiWasteName(label:string){return label==='battery'?'ถ่านและแบตเตอรี่':label==='light_bulb'?'หลอดไฟ':label==='pcb'?'แผงวงจรอิเล็กทรอนิกส์':null;}
 type C={label:string;confidence:number;modelVersion:string}|null|undefined;
+export function canRecommendDisposal(label:string,c:C,confidence:number){
+ if(!Number.isFinite(confidence)||confidence<(specificGuides[label]?0.8:0.85))return false;
+ if(specificGuides[label])return true;
+ if(!c||c.confidence<0.8)return false;
+ if(label==='bottle')return ['glass','plastic'].includes(c.label);
+ if(['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label))return ['food_organics','vegetation'].includes(c.label);
+ // Generic material predictions do not establish the disposal of an arbitrary
+ // COCO object (e.g. a battery predicted as a TV must not become cardboard).
+ return false;
+}
 export function materialDisposal(label:string,c:C):{bin:BinGuidance|null;steps:string[]}|null{
  const slug=specificGuides[label];
  if(slug){
