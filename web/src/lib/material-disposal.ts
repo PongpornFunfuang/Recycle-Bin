@@ -1,14 +1,16 @@
 import {binGuidanceForSlug,type BinGuidance} from './bin-guidance';
 import {knowledgeForSlug} from './knowledge-catalog';
 
-const specificGuides:Record<string,string>={battery:'used-battery',light_bulb:'used-light-bulb',pcb:'broken-electronic'};
+const specificGuides:Record<string,string>={battery:'used-battery',light_bulb:'used-light-bulb',pcb:'broken-electronic',aerosol:'spray-can','spray-can':'spray-can',insecticide:'spray-can'};
 export function aiWasteName(label:string){return label==='battery'?'ถ่านและแบตเตอรี่':label==='light_bulb'?'หลอดไฟ':label==='pcb'?'แผงวงจรอิเล็กทรอนิกส์':null;}
 type C={label:string;confidence:number;modelVersion:string}|null|undefined;
 export function canRecommendDisposal(label:string,c:C,confidence:number){
  if(!Number.isFinite(confidence)||confidence<(specificGuides[label]?0.8:0.85))return false;
  if(specificGuides[label])return true;
  if(!c||c.confidence<0.8)return false;
- if(label==='bottle')return ['glass','plastic'].includes(c.label);
+ // A bottle-shaped container may contain pesticides or cleaning chemicals.
+ // Material and object confidence cannot establish its contents or safe disposal.
+ if(label==='bottle')return false;
  if(['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label))return ['food_organics','vegetation'].includes(c.label);
  // Generic material predictions do not establish the disposal of an arbitrary
  // COCO object (e.g. a battery predicted as a TV must not become cardboard).
@@ -21,6 +23,7 @@ export function materialDisposal(label:string,c:C):{bin:BinGuidance|null;steps:s
   const steps=entry?.cases[0]?.steps;
   if(steps)return {bin:label==='pcb'?null:binGuidanceForSlug(slug),steps:label==='pcb'?[...steps,'ส่งจุดรับขยะอิเล็กทรอนิกส์ที่รองรับ ไม่ใส่ถังรีไซเคิลรวม']:steps};
  }
+ if(label==='bottle')return {bin:null,steps:['อ่านฉลากเพื่อยืนยันสิ่งที่เคยบรรจุ ก่อนเท ล้าง บีบ หรือแยกชิ้นส่วน','หากเป็นยาฆ่าแมลง สเปรย์ หรือภาชนะสารเคมี ให้แยกส่งจุดรับขยะอันตรายตามฉลากและเงื่อนไขของพื้นที่','ยังไม่เลือกสีถังจากรูปทรงขวดหรือวัสดุเพียงอย่างเดียว']};
  const material=c&&c.confidence>=0.8?c.label:null;
  const bottle=label==='bottle';
  const organic=['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label)||['food_organics','vegetation'].includes(material??'');
