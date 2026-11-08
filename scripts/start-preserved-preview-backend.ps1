@@ -20,8 +20,12 @@ $hasher = [System.Security.Cryptography.SHA256]::Create()
 $weightsStream = [System.IO.File]::OpenRead($env:WASTE_DETECTOR_MODEL)
 try { $env:WASTE_DETECTOR_SHA256 = [BitConverter]::ToString($hasher.ComputeHash($weightsStream)).Replace('-','').ToLowerInvariant() }
 finally { $weightsStream.Dispose(); $hasher.Dispose() }
+$env:WASTE_NAME_HEAD_MODEL = Join-Path $projectRoot 'runs/object-name-resnet18-refined/approved-head.pth'
+$hasher = [System.Security.Cryptography.SHA256]::Create()
+$weightsStream = [System.IO.File]::OpenRead($env:WASTE_NAME_HEAD_MODEL)
+try { $env:WASTE_NAME_HEAD_SHA256 = [BitConverter]::ToString($hasher.ComputeHash($weightsStream)).Replace('-','').ToLowerInvariant() }
+finally { $weightsStream.Dispose(); $hasher.Dispose() }
 Set-Location -LiteralPath (Join-Path $projectRoot 'ai-service')
 # Single foreground instance; no service, permanent auto-start, or tunnel restart.
 & $python -m uvicorn app.main:app --host 127.0.0.1 --port 18010
 exit $LASTEXITCODE
-
