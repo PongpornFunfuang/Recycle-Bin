@@ -40,6 +40,7 @@ class Detector:
             model.load_state_dict(torch.load(MODEL_PATH,map_location='cpu',weights_only=True))
             self.session=model.eval().to(self.device)
             self.classifier.load()
+            if os.environ.get('WASTE_NAME_HEAD_MODEL') and self.classifier.name_head is None:raise ValueError('name_head_not_loaded')
             expert_path=os.environ.get('WASTE_DETECTOR_MODEL','').strip()
             if expert_path:
                 path=Path(expert_path)
@@ -122,4 +123,3 @@ class Detector:
             if len(detections)>=100:break
         scene='detected' if any(d['decision']=='accepted' for d in detections) else 'uncertain' if any(d['decision']=='low_confidence' for d in detections) else 'unknown'
         return {'schemaVersion':'1.1','requestId':str(uuid.uuid4()),'predictionId':str(uuid.uuid4()),'mode':mode,'inferenceLocation':'local_server','frameId':None,'sceneDecision':scene,'imageWidth':width,'imageHeight':height,'detections':detections,'modelVersion':self.version,'artifactSha256':self.model_hash,'classMapVersion':'torchvision-coco91-contextual-v1','policyVersion':'local-pending-rules-v1','historySaved':False,'latencyMs':round((time.perf_counter()-started)*1000,2),'quality':quality}
-
