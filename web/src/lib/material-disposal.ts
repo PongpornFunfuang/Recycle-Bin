@@ -1,6 +1,16 @@
-import {binGuidanceForAiLabel,type BinGuidance} from './bin-guidance';
+import {binGuidanceForSlug,type BinGuidance} from './bin-guidance';
+import {knowledgeForSlug} from './knowledge-catalog';
+
+const specificGuides:Record<string,string>={battery:'used-battery',light_bulb:'used-light-bulb',pcb:'broken-electronic'};
+export function aiWasteName(label:string){return label==='battery'?'ถ่านและแบตเตอรี่':label==='light_bulb'?'หลอดไฟ':label==='pcb'?'แผงวงจรอิเล็กทรอนิกส์':null;}
 type C={label:string;confidence:number;modelVersion:string}|null|undefined;
 export function materialDisposal(label:string,c:C):{bin:BinGuidance|null;steps:string[]}|null{
+ const slug=specificGuides[label];
+ if(slug){
+  const entry=knowledgeForSlug(slug);
+  const steps=entry?.cases[0]?.steps;
+  if(steps)return {bin:label==='pcb'?null:binGuidanceForSlug(slug),steps:label==='pcb'?[...steps,'ส่งจุดรับขยะอิเล็กทรอนิกส์ที่รองรับ ไม่ใส่ถังรีไซเคิลรวม']:steps};
+ }
  const material=c&&c.confidence>=0.8?c.label:null;
  const bottle=label==='bottle';
  const organic=['banana','apple','orange','broccoli','carrot','sandwich','pizza','cake','donut','hot dog'].includes(label)||['food_organics','vegetation'].includes(material??'');
